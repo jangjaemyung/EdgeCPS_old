@@ -16,7 +16,7 @@
 	<meta name="msapplication-config" content="images/browserconfig.xml">
     <meta name="mobile-web-app-capable" content="yes">
 	<meta name="theme-color" content="#d89000">
-	<script type="text/javascript">
+	<script type="text/javascript" defer>
 		/**
 		 * URL Parameters and protocol description are here:
 		 *
@@ -421,7 +421,7 @@
 	</style>
 	<!-- Workaround for binary XHR in IE 9/10, see App.loadUrl -->
 	<!--[if (IE 9)|(IE 10)]><!-->
-		<script type="text/vbscript">
+		<script type="text/vbscript" defer >
 			Function mxUtilsBinaryToArray(Binary)
 				Dim i
 				ReDim byteArray(LenB(Binary))
@@ -447,7 +447,7 @@
 		</p>
 	</div>
 </div>
-<script type="text/javascript">
+<script type="text/javascript" defer>
 /**
  * Main
  */
