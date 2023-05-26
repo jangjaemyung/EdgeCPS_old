@@ -1,8 +1,6 @@
-About
+민수님!
 -----
-draw.io, this project, is a configurable diagramming/whiteboarding visualization application. draw.io is jointly owned and developed by JGraph Ltd and draw.io AG.
-
-As well as running this project, we run a production-grade deployment of the diagramming interface at https://app.diagrams.net.
+상단 메뉴바, 상단 툴바 없앨거 없애고 우측 사이드바도 다 날려버렸습니다 근데 다이어그램 노드 클릭하면 우측 사이드바에 뭔가 변화가 생기는데 그 부분을 못 찾았습니다..!!
 
 License
 -----------------
