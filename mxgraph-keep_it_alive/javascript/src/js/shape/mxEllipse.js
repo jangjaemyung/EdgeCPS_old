@@ -41,7 +41,7 @@ mxUtils.extend(mxEllipse, mxShape);
  * 
  * Paints the ellipse shape.
  */
-mxEllipse.prototype.paintVertexShape = function(c, x, y, w, h) // 찾았다..모양 입력 민수
+mxEllipse.prototype.paintVertexShape = function(c, x, y, w, h) // 찾았다..모양 입력 호출 함수 민수
 {
 	c.ellipse(x, y, w, h);
 	c.fillAndStroke();

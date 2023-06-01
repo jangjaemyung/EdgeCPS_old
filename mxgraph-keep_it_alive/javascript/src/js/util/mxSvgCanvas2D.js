@@ -677,7 +677,8 @@ mxSvgCanvas2D.prototype.addNode = function(filled, stroked)
 			(node.getAttribute('fill') != 'none' && node.getAttribute('fill') != 'transparent') ||
 			node.getAttribute('stroke') != 'none' || node.getAttribute('pointer-events') != 'none')
 		{
-			// LATER: Update existing DOM for performance		
+			// LATER: Update existing DOM for performance
+			this.root.classList.add('minsooClassName');
 			this.root.appendChild(node); // 민수 끝!!!! 여기에서 다이그램 그린다. 노드에 요소를 추가만 하면된다
 		}
 		
@@ -1945,5 +1946,5 @@ mxSvgCanvas2D.prototype.fill = function()
  */
 mxSvgCanvas2D.prototype.fillAndStroke = function()
 {
-	this.addNode(true, true);
+	this.addNode(true, true); // 여기서 다이어그램 노드 추가 함수 호출
 };

@@ -983,7 +983,7 @@ mxShape.prototype.paint = function(c)
 		}
 		else
 		{
-			// Paints vertex shape 민수 여기에 생성 되고 있다.
+			// Paints vertex shape 민수 여기에 생성함수 호출 과정.
 			this.paintVertexShape(c, x, y, w, h);
 		}
 	}

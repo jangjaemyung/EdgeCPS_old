@@ -2580,13 +2580,13 @@ Sidebar.prototype.createThumb = function(cells, width, height, parent, title, sh
 Sidebar.prototype.createItem = function(cells, title, showLabel, showTitle, width, height, allowCellsInserted)
 {
 	var elt = document.createElement('a');
-	elt.className = 'geItem minsooSidebarPrototypeCreateItem'; //사이드바 메뉴 생성 되는 곳
 	elt.style.overflow = 'hidden';
 	var border = (mxClient.IS_QUIRKS) ? 8 + 2 * this.thumbPadding : 2 * this.thumbBorder;
 	elt.style.width = (this.thumbWidth + border) + 'px';
 	elt.style.height = (this.thumbHeight + border) + 'px';
 	elt.style.padding = this.thumbPadding + 'px';
-	
+	elt.className = 'geItem minsooDiShape  '+title; //사이드바 메뉴 생성 되는 곳
+
 	if (mxClient.IS_IE6)
 	{
 		elt.style.border = 'none';
