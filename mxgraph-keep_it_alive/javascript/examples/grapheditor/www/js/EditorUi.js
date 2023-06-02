@@ -74,8 +74,9 @@ EditorUi = function(editor, container, lightbox)
 		// Disables text selection while not editing and no dialog visible
 		if (this.container == document.body)
 		{
-			this.menubarContainer.onselectstart = textEditing;
-			this.menubarContainer.onmousedown = textEditing;
+			// 순우 상단 메뉴바 삭제
+			// this.menubarContainer.onselectstart = textEditing;
+			// this.menubarContainer.onmousedown = textEditing;
 			this.toolbarContainer.onselectstart = textEditing;
 			this.toolbarContainer.onmousedown = textEditing;
 			this.diagramContainer.onselectstart = textEditing;
@@ -1261,7 +1262,7 @@ EditorUi.prototype.showShapePicker = function(x, y, source, callback, direction)
 		
 		// Do not place entry under pointer for touch devices
 		div.className = 'geToolbarContainer geSidebarContainer geSidebar';
-		div.style.cssText = 'position:absolute;left:' + x + 'px;top:' + y +
+		div.style.cssText = 'position:absolute;left:' + x + 'px;top:' + y + 
 			'px;width:140px;border-radius:10px;padding:4px;text-align:center;' +
 			'box-shadow:0px 0px 3px 1px #d1d1d1;padding: 6px 0 8px 0;';
 		mxUtils.setPrefixedStyle(div.style, 'transform', 'translate(-22px,-22px)');
@@ -2907,25 +2908,26 @@ EditorUi.prototype.open = function()
  */
 EditorUi.prototype.showPopupMenu = function(fn, x, y, evt)
 {
-	this.editor.graph.popupMenuHandler.hideMenu();
+	// 순우 상단 메뉴바 삭제
+	// this.editor.graph.popupMenuHandler.hideMenu();
 	
-	var menu = new mxPopupMenu(fn);
-	menu.div.className += ' geMenubarMenu';
-	menu.smartSeparators = true;
-	menu.showDisabled = true;
-	menu.autoExpand = true;
+	// var menu = new mxPopupMenu(fn);
+	// menu.div.className += ' geMenubarMenu';
+	// menu.smartSeparators = true;
+	// menu.showDisabled = true;
+	// menu.autoExpand = true;
 	
-	// Disables autoexpand and destroys menu when hidden
-	menu.hideMenu = mxUtils.bind(this, function()
-	{
-		mxPopupMenu.prototype.hideMenu.apply(menu, arguments);
-		menu.destroy();
-	});
+	// // Disables autoexpand and destroys menu when hidden
+	// menu.hideMenu = mxUtils.bind(this, function()
+	// {
+	// 	mxPopupMenu.prototype.hideMenu.apply(menu, arguments);
+	// 	menu.destroy();
+	// });
 
-	menu.popup(x, y, null, evt);
+	// menu.popup(x, y, null, evt);
 	
-	// Allows hiding by clicking on document
-	this.setCurrentMenu(menu);	
+	// // Allows hiding by clicking on document
+	// this.setCurrentMenu(menu);	
 };
 
 /**
@@ -3612,15 +3614,16 @@ EditorUi.prototype.refresh = function(sizeDidChange)
 	var effHsplitPosition = Math.max(0, Math.min(this.hsplitPosition, w - this.splitSize - 20));
 	var tmp = 0;
 	
-	if (this.menubar != null)
-	{
-		this.menubarContainer.style.height = this.menubarHeight + 'px';
-		tmp += this.menubarHeight;
-	}
+	// 순우 상단 메뉴바 삭제
+	// if (this.menubar != null)
+	// {
+	// 	this.menubarContainer.style.height = this.menubarHeight + 'px';
+	// 	tmp += this.menubarHeight;
+	// }
 	
 	if (this.toolbar != null)
 	{
-		this.toolbarContainer.style.top = this.menubarHeight + 'px';
+		this.toolbarContainer.style.top = this.menubarHeight + +100+'px';
 		this.toolbarContainer.style.height = this.toolbarHeight + 'px';
 		tmp += this.toolbarHeight;
 	}
@@ -3642,16 +3645,16 @@ EditorUi.prototype.refresh = function(sizeDidChange)
 	}
 	// 민수 우측 사이드 바 생성 조건
 	var fw = (this.format != null) ? this.formatWidth : 0;
-	this.sidebarContainer.style.top = tmp + 'px';
+	this.sidebarContainer.style.top = tmp + 130+'px'; // 순우 좌측 사이드 바 130px 만큼 내림
 	this.sidebarContainer.style.width = effHsplitPosition + 'px';
-	this.formatContainer.style.top = tmp + 'px';
+	this.formatContainer.style.top = tmp +130+ 'px'; // 순우 우측 사이드 바 130px 만큼 내림
 	this.formatContainer.style.width = fw + 'px';
 	this.formatContainer.style.display = (this.format != null) ? '' : 'none';
 	// 순우 하단 푸터 생성 조건 
 	var diagContOffset = this.getDiagramContainerOffset();
 	var contLeft = (this.hsplit.parentNode != null) ? (effHsplitPosition + this.splitSize) : 0;
 	this.diagramContainer.style.left =  (contLeft + diagContOffset.x) + 'px';
-	this.diagramContainer.style.top = (tmp + diagContOffset.y) + 'px';
+	this.diagramContainer.style.top = (tmp + diagContOffset.y) +130+ 'px'; // 순우 가운데 다이어그램 그리는 곳 130px 만큼 내림
 	this.footerContainer.style.height = this.footerHeight + 'px';
 	this.hsplit.style.top = this.sidebarContainer.style.top;
 	this.hsplit.style.bottom = (this.footerHeight + off) + 'px';
@@ -3725,19 +3728,21 @@ EditorUi.prototype.createTabContainer = function()
  */
 EditorUi.prototype.createDivs = function()
 {
-	this.menubarContainer = this.createDiv('geMenubarContainer');
+	// 순우 상단 메뉴바 삭제
+	// this.menubarContainer = this.createDiv('geMenubarContainer');
 	this.toolbarContainer = this.createDiv('geToolbarContainer');
 	this.sidebarContainer = this.createDiv('geSidebarContainer');
 	this.formatContainer = this.createDiv('geSidebarContainer geFormatContainer');
 	this.diagramContainer = this.createDiv('geDiagramContainer');
 	this.footerContainer = this.createDiv('geFooterContainer');
 	this.hsplit = this.createDiv('geHsplit');
-	this.hsplit.setAttribute('title', mxResources.get('collapseExpand'));
+	// this.hsplit.setAttribute('title', mxResources.get('collapseExpand'));
 
 	// Sets static style for containers
-	this.menubarContainer.style.top = '0px';
-	this.menubarContainer.style.left = '0px';
-	this.menubarContainer.style.right = '0px';
+	// 순우 상단 메뉴바 삭제
+	// this.menubarContainer.style.top = '0px';
+	// this.menubarContainer.style.left = '0px';
+	// this.menubarContainer.style.right = '0px';
 	this.toolbarContainer.style.left = '0px';
 	this.toolbarContainer.style.right = '0px';
 	this.sidebarContainer.style.left = '0px';
@@ -3748,7 +3753,8 @@ EditorUi.prototype.createDivs = function()
 	this.footerContainer.style.right = '0px';
 	this.footerContainer.style.bottom = '0px';
 	this.footerContainer.style.zIndex = mxPopupMenu.prototype.zIndex - 2;
-	this.hsplit.style.width = this.splitSize + 'px';
+	// 순우 좌측 사이드바에 있는 스크롤바 삭제
+	// this.hsplit.style.width = this.splitSize + 'px';
 	this.sidebarFooterContainer = this.createSidebarFooterContainer();
 	
 	if (this.sidebarFooterContainer)
@@ -3779,31 +3785,32 @@ EditorUi.prototype.createSidebarFooterContainer = function()
  */
 EditorUi.prototype.createUi = function() //민수 요청된 ui생성하는 곳
 {
-	// Creates menubar
-	this.menubar = (this.editor.chromeless) ? null : this.menus.createMenubar(this.createDiv('geMenubar'));
+	// 순우 상단 메뉴 바 삭제
+	// // Creates menubar
+	// this.menubar = (this.editor.chromeless) ? null : this.menus.createMenubar(this.createDiv('geMenubar'));
 	
-	if (this.menubar != null)
-	{
-		this.menubarContainer.appendChild(this.menubar.container);
-	}
+	// if (this.menubar != null)
+	// {
+	// 	this.menubarContainer.appendChild(this.menubar.container);
+	// }
 	
-	// Adds status bar in menubar
-	if (this.menubar != null)
-	{
-		this.statusContainer = this.createStatusContainer();
+	// // Adds status bar in menubar
+	// if (this.menubar != null)
+	// {
+	// 	this.statusContainer = this.createStatusContainer();
 	
-		// Connects the status bar to the editor status
-		this.editor.addListener('statusChanged', mxUtils.bind(this, function()
-		{
-			this.setStatusText(this.editor.getStatus());
-		}));
+	// 	// Connects the status bar to the editor status
+	// 	this.editor.addListener('statusChanged', mxUtils.bind(this, function()
+	// 	{
+	// 		this.setStatusText(this.editor.getStatus());
+	// 	}));
 	
-		this.setStatusText(this.editor.getStatus());
-		this.menubar.container.appendChild(this.statusContainer);
+	// 	this.setStatusText(this.editor.getStatus());
+	// 	this.menubar.container.appendChild(this.statusContainer);
 		
-		// Inserts into DOM
-		this.container.appendChild(this.menubarContainer);
-	}
+	// 	// Inserts into DOM
+	// 	this.container.appendChild(this.menubarContainer);
+	// }
 
 	// Creates the sidebar 민수 우측 사이드바 생성되는 곳ㄷ
 	this.sidebar = (this.editor.chromeless) ? null : this.createSidebar(this.sidebarContainer);
@@ -4998,12 +5005,12 @@ EditorUi.prototype.destroy = function()
 		this.editor.destroy();
 		this.editor = null;
 	}
-	
-	if (this.menubar != null)
-	{
-		this.menubar.destroy();
-		this.menubar = null;
-	}
+	// 순우 상단 메뉴바 삭제
+	// if (this.menubar != null)
+	// {
+	// 	this.menubar.destroy();
+	// 	this.menubar = null;
+	// }
 	
 	if (this.toolbar != null)
 	{
@@ -5069,7 +5076,7 @@ EditorUi.prototype.destroy = function()
 		this.destroyFunctions = null;
 	}
 	
-	var c = [this.menubarContainer, this.toolbarContainer, this.sidebarContainer,
+	var c = [/*순우 상단 메뉴바 삭제this.menubarContainer,*/ this.toolbarContainer, this.sidebarContainer,
 	         this.formatContainer, this.diagramContainer, this.footerContainer,
 	         this.chromelessToolbar, this.hsplit, this.sidebarFooterContainer,
 	         this.layersDialog];

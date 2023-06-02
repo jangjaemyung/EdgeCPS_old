@@ -359,6 +359,7 @@ Format.prototype.clear = function()
 /**
  * Adds the label menu items to the given menu and parent.
  */
+// 순우 우측 판넬 
 Format.prototype.refresh = function()
 {
 	// Performance tweak: No refresh needed if not visible
