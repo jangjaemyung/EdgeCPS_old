@@ -133,6 +133,8 @@ Menus.prototype.init = function()
 		addItem('', 'pre').firstChild.nextSibling.innerHTML = '<pre style="margin:0px;">' + mxResources.get('formatted') + '</pre>';
 		addItem('', 'blockquote').firstChild.nextSibling.innerHTML = '<blockquote style="margin-top:0px;margin-bottom:0px;">' + mxResources.get('blockquote') + '</blockquote>';
 	})));
+	
+
 	this.put('fontSize', new Menu(mxUtils.bind(this, function(menu, parent)
 	{
 		var sizes = [6, 8, 9, 10, 11, 12, 14, 18, 24, 36, 48, 72];
@@ -1105,6 +1107,8 @@ Menus.prototype.createPopupMenu = function(menu, cell, evt)
 	this.addPopupMenuCellItems(menu, cell, evt);
 	this.addPopupMenuSelectionItems(menu, cell, evt);
 };
+
+
 
 /**
  * Creates the keyboard event handler for the current graph and history.

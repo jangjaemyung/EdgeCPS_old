@@ -207,7 +207,7 @@ var mxUtils =
 		{
 			try
 			{
-				if (scope.currentElt.className &&  scope.currentElt.className == 'geItem minsooSidebarPrototypeCreateItem'){
+				if (scope.currentElt.className &&  scope.currentElt.className == 'geItem minsooDiShape  Rounded Rectangle'){
 					console.log('df');
 				}
 			}
