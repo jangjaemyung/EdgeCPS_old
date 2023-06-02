@@ -2585,7 +2585,7 @@ Sidebar.prototype.createItem = function(cells, title, showLabel, showTitle, widt
 	elt.style.width = (this.thumbWidth + border) + 'px';
 	elt.style.height = (this.thumbHeight + border) + 'px';
 	elt.style.padding = this.thumbPadding + 'px';
-	elt.className = 'geItem minsooDiShape  '+title; //사이드바 메뉴 생성 되는 곳
+	elt.className = 'geItem DiShape  '+title; //사이드바 메뉴 생성 되는 곳 클래스 이름 정의 민수 
 
 	if (mxClient.IS_IE6)
 	{

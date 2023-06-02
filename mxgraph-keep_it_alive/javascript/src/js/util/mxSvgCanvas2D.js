@@ -342,6 +342,7 @@ mxSvgCanvas2D.prototype.createStyle = function(x)
  */
 mxSvgCanvas2D.prototype.createElement = function(tagName, namespace)
 {
+	// console.log('도형 이벤트 확인 31');
 	if (this.root.ownerDocument.createElementNS != null)
 	{
 		return this.root.ownerDocument.createElementNS(namespace || mxConstants.NS_SVG, tagName);
@@ -444,6 +445,7 @@ mxSvgCanvas2D.prototype.createAlternateContent = function(fo, x, y, w, h, str, a
  */
 mxSvgCanvas2D.prototype.createGradientId = function(start, end, alpha1, alpha2, direction)
 {
+	// console.log('도형 이벤트 확인 32');
 	// Removes illegal characters from gradient ID
 	if (start.charAt(0) == '#')
 	{
@@ -497,6 +499,7 @@ mxSvgCanvas2D.prototype.createGradientId = function(start, end, alpha1, alpha2, 
  */
 mxSvgCanvas2D.prototype.getSvgGradient = function(start, end, alpha1, alpha2, direction)
 {
+	// console.log('도형 이벤트 확인 33');
 	var id = this.createGradientId(start, end, alpha1, alpha2, direction);
 	var gradient = this.gradients[id];
 	
@@ -598,6 +601,7 @@ mxSvgCanvas2D.prototype.createSvgGradient = function(start, end, alpha1, alpha2,
  */
 mxSvgCanvas2D.prototype.addNode = function(filled, stroked)
 {
+	// console.log('도형 이벤트 확인 34');
 	var node = this.node;
 	var s = this.state;
 
@@ -678,8 +682,14 @@ mxSvgCanvas2D.prototype.addNode = function(filled, stroked)
 			node.getAttribute('stroke') != 'none' || node.getAttribute('pointer-events') != 'none')
 		{
 			// LATER: Update existing DOM for performance
-			this.root.classList.add('minsooClassName');
-			this.root.appendChild(node); // 민수 끝!!!! 여기에서 다이그램 그린다. 노드에 요소를 추가만 하면된다
+			// this.root.classList.add('AddNodeMinsooClassName');
+			if (createDiagramSape != ''){
+				newIndex = getLastIndexOfShape(createDiagramSape);
+
+				this.root.classList.add(createDiagramSape, createDiagramSape+newIndex.toString()); //민수 다이어그램 클래스 입력
+			}
+
+			this.root.appendChild(node); // 민수 끝! 여기에서 다이그램 그린다. 노드에 요소를 추가만 하면된다
 		}
 		
 		this.node = null;
@@ -990,6 +1000,7 @@ mxSvgCanvas2D.prototype.begin = function()
  */
 mxSvgCanvas2D.prototype.rect = function(x, y, w, h)
 {
+	// console.log('도형 이벤트 확인 36');
 	var s = this.state;
 	var n = this.createElement('rect');
 	n.setAttribute('x', this.format((x + s.dx) * s.scale));
@@ -1007,6 +1018,7 @@ mxSvgCanvas2D.prototype.rect = function(x, y, w, h)
  */
 mxSvgCanvas2D.prototype.roundrect = function(x, y, w, h, dx, dy)
 {
+	// console.log('도형 이벤트 확인 37');
 	this.rect(x, y, w, h);
 	
 	if (dx > 0)
@@ -1027,6 +1039,7 @@ mxSvgCanvas2D.prototype.roundrect = function(x, y, w, h, dx, dy)
  */
 mxSvgCanvas2D.prototype.ellipse = function(x, y, w, h)
 {
+	// console.log('도형 이벤트 확인 38');
 	var s = this.state;
 	var n = this.createElement('ellipse');
 	// No rounding for consistent output with 1.x
@@ -1044,6 +1057,7 @@ mxSvgCanvas2D.prototype.ellipse = function(x, y, w, h)
  */
 mxSvgCanvas2D.prototype.image = function(x, y, w, h, src, aspect, flipH, flipV)
 {
+	// console.log('도형 이벤트 확인 38');
 	src = this.converter.convert(src);
 	
 	// LATER: Add option for embedding images as base64.
@@ -1192,6 +1206,7 @@ mxSvgCanvas2D.prototype.convertHtml = function(val)
  */
 mxSvgCanvas2D.prototype.createDiv = function(str)
 {
+	// console.log('도형 이벤트 확인 39');
 	var val = str;
 	
 	if (!mxUtils.isNode(val))
@@ -1472,6 +1487,7 @@ mxSvgCanvas2D.createCss = function(w, h, align, valign, wrap, overflow, clip, bg
  */
 mxSvgCanvas2D.prototype.getTextCss = function()
 {
+	// console.log('도형 이벤트 확인 310');
 	var s = this.state;
 	var lh = (mxConstants.ABSOLUTE_LINE_HEIGHT) ? (s.fontSize * mxConstants.LINE_HEIGHT) + 'px' :
 		(mxConstants.LINE_HEIGHT * this.lineHeightCorrection);

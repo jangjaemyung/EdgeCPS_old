@@ -65,6 +65,14 @@ mxRectangleShape.prototype.paintBackground = function(c, x, y, w, h)
 	
 	if (this.style != null)
 	{
+		// console.log('도형 생성 민수')
+		// console.log(c )
+		// console.log(x)
+		// console.log(y)
+		// console.log(h)
+		// if (x == 427 && y == 1212){
+		// 	console.log('도형 생성 디버그 민수')
+		// }
 		events = mxUtils.getValue(this.style, mxConstants.STYLE_POINTER_EVENTS, '1') == '1';
 	}
 	

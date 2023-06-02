@@ -2,6 +2,51 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<script> 
+		var createDiagramSape = ""; // 다이어그램 변수를 넣는 곳 민수
+
+		function convertToCamelCase(input) { // 단어를 클래스로 변경하기 위한 함수 민수
+			var keyword = "DiShape";
+			var keywordIndex = input.indexOf(keyword);
+
+			if (keywordIndex !== -1) {
+				var remainingText = input.slice(keywordIndex + keyword.length).trim();
+				
+			}
+			var words = remainingText.split(' ');
+			for (var i = 0; i < words.length; i++) {
+				var word = words[i];
+				if (word !== '') {
+				words[i] = word.charAt(0).toUpperCase() + word.slice(1);
+				}
+			}
+			
+			return 'Di'+ words.join('');
+			}
+	</script> 
+	<script>
+		function getLastIndexOfShape(shapeName){ //민수 마지막숫자를 가져와서 거기에서 +1 추가하는 방식
+			lastIndex = 0
+			var number = 0
+			var ele = document.getElementsByClassName(shapeName);
+			for (let index = 0; index < ele.length; index++) {
+				
+				const regex = /[^0-9]/g;
+				const result = ele[index].className.baseVal.replace(regex, "");
+				const number = parseInt(result);
+
+				if (lastIndex == 0 || lastIndex < number ){
+					lastIndex = number
+				}
+				
+			}
+
+			return lastIndex +1;
+		};
+
+
+	</script>
+	 
     <title>Grapheditor</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">

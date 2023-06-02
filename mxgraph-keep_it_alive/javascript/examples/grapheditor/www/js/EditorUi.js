@@ -58,10 +58,10 @@ EditorUi = function(editor, container, lightbox)
 	{
 		this.createDivs();
 		this.createUi();
-		this.refresh(); // 위에서 좌측 사이드바, 상단메뉴바가 생성 되고 리프레시 되면서 화면의 그리드가 잡힌다.
+		this.refresh(); // 위에서 좌측 사이드바, 상단메뉴바가 생성 되고 리프레시 되면서 화면의 그리드가 잡힌다. 민수
 
 		// Disables HTML and text selection
-		var textEditing =  mxUtils.bind(this, function(evt)
+		var textEditing =  mxUtils.bind(this, function(evt) //민수 여기에서 evt.path 안에 내가 클릭한 도형이 들어간다.
 		{
 			if (evt == null)
 			{
@@ -1277,7 +1277,7 @@ EditorUi.prototype.showShapePicker = function(x, y, source, callback, direction)
 		{
 			// Wrapper needed to catch events
 			var node = document.createElement('a');
-			node.className = 'geItem minsoonodeclassName';
+			node.className = 'geItem';
 			node.style.cssText = 'position:relative;display:inline-block;position:relative;' +
 				'width:30px;height:30px;cursor:pointer;overflow:hidden;padding:3px 0 0 3px;';
 			div.appendChild(node);

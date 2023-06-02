@@ -205,16 +205,26 @@ var mxUtils =
 	{
 		return function()
 		{
+			
 			try
 			{
-				if (scope.currentElt.className &&  scope.currentElt.className == 'geItem minsooSidebarPrototypeCreateItem'){
-					console.log('df');
+				if (scope.currentElt.className &&  scope.currentElt.className.includes('geItem DiShape') && arguments[0].type == 'pointerdown'){
+					// console.log(scope );
+					// console.log(arguments);
+					diagramClsName  = scope.currentElt.className;
+					
+					createDiagramSape = convertToCamelCase(diagramClsName);
+					console.log(diagramClsName);
+					return funct.apply(scope, arguments); //민수 이벤트 바인디 하는 곳
+					
 				}
+				//
 			}
 			catch (e)
 			{
+				
 			}
-
+			
 			return funct.apply(scope, arguments); //민수 이벤트 바인디 하는 곳
 		};
 	},

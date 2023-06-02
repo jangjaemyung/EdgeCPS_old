@@ -677,7 +677,7 @@ function mxGraph(container, model, renderHint, stylesheet)
 	// Adds a graph model listener to update the view
 	this.graphModelChangeListener = mxUtils.bind(this, function(sender, evt)
 	{
-		this.graphModelChanged(evt.getProperty('edit').changes); // 민수 그리는 곳 최종에서 여기로 이동 ? 뷰를 업데이트 하는 곳
+		this.graphModelChanged(evt.getProperty('edit').changes); // 민수 다이어그램 생성,삭제 진입로 ? 
 	});
 	
 	this.model.addListener(mxEvent.CHANGE, this.graphModelChangeListener);

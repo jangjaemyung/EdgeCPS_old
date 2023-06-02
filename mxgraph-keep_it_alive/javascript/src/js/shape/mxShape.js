@@ -1082,7 +1082,9 @@ mxShape.prototype.updateTransform = function(c, x, y, w, h)
 mxShape.prototype.paintVertexShape = function(c, x, y, w, h)
 {
 	this.paintBackground(c, x, y, w, h);
-	
+	if (x == 427 && y == 1212){
+		console.log('도형 생성 디버그 민수2')
+	}
 	if (!this.outline || this.style == null || mxUtils.getValue(
 		this.style, mxConstants.STYLE_BACKGROUND_OUTLINE, 0) == 0)
 	{

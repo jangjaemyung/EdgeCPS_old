@@ -711,6 +711,7 @@ mxText.prototype.updateVmlContainer = function()
 mxText.prototype.getHtmlValue = function()
 {
 	var val = this.value;
+	// console.log('도형 이벤트 확인 21');
 	
 	if (this.dialect != mxConstants.DIALECT_STRICTHTML)
 	{
@@ -731,6 +732,7 @@ mxText.prototype.getHtmlValue = function()
  */
 mxText.prototype.getTextCss = function()
 {
+	// console.log('도형 이벤트 확인 22');
 	var lh = (mxConstants.ABSOLUTE_LINE_HEIGHT) ? (this.size * mxConstants.LINE_HEIGHT) + 'px' :
 		mxConstants.LINE_HEIGHT;
 
