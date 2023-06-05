@@ -1572,7 +1572,7 @@ ArrangePanel.prototype.init = function()
 	
 	if (ss.vertices.length > 1)
 	{
-		this.container.appendChild(this.addAlign(this.createPanel()));
+		this.container.appendChild(this.addAlign(this.createPanel())); // 순우 정렬요소 삽입부분
 		this.container.appendChild(this.addDistribute(this.createPanel()));
 	}
 	
@@ -1900,6 +1900,7 @@ ArrangePanel.prototype.addGroupOps = function(div)
 /**
  * 
  */
+//순우 우측 사이드바 정렬 부분
 ArrangePanel.prototype.addAlign = function(div)
 {
 	var graph = this.editorUi.editor.graph;
@@ -1911,7 +1912,7 @@ ArrangePanel.prototype.addAlign = function(div)
 	stylePanel.style.position = 'relative';
 	stylePanel.style.paddingLeft = '0px';
 	stylePanel.style.borderWidth = '0px';
-	stylePanel.className = 'geToolbarContainer';
+	stylePanel.className = 'geToolthis.editorUi.toolbar.addButtonbarContainer';
 	
 	if (mxClient.IS_QUIRKS)
 	{

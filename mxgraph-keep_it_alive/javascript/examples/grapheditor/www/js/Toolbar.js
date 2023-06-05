@@ -23,6 +23,12 @@ function Toolbar(editorUi, container)
 	mxEvent.addGestureListeners(document, this.gestureHandler);
 };
 
+// 순우 툴바에 editorui, container 추가
+Toolbar1 = function(editorUi, container){
+	this.editorUi = editorUi;
+	this.container = container;
+}
+
 /**
  * Image for the dropdown arrow.
  */
@@ -48,6 +54,84 @@ Toolbar.prototype.unselectedBackground = 'none';
  * Array that contains the DOM nodes that should never be removed.
  */
 Toolbar.prototype.staticElements = null;
+
+
+
+// 순우 정렬 판넬 생성 함수 
+Toolbar1.prototype.createPanel = function()
+{
+	var div = document.createElement('div');
+	div.className = 'geFormatSection';
+	div.style.padding = '12px 0px 12px 18px';
+	
+	return div;
+};
+
+// 순우 정렬
+Toolbar1.prototype.addAlign = function(div)
+{
+	var graph = this.editorUi.editor.graph;
+	div.style.paddingTop = '6px';
+	div.style.paddingBottom = '12px';
+	div.appendChild(this.createTitle(mxResources.get('align')));
+	
+	var stylePanel = document.createElement('div');
+	stylePanel.style.position = 'relative';
+	stylePanel.style.paddingLeft = '0px';
+	stylePanel.style.borderWidth = '0px';
+	stylePanel.className = 'geToolbarContainer1';
+	
+	if (mxClient.IS_QUIRKS)
+	{
+		div.style.height = '60px';
+	}
+	
+	var left = this.editorUi.toolbar.addButton('geSprite-alignleft', mxResources.get('left'),
+		function() { graph.alignCells(mxConstants.ALIGN_LEFT); }, stylePanel);
+	var center = this.editorUi.toolbar.addButton('geSprite-aligncenter', mxResources.get('center'),
+		function() { graph.alignCells(mxConstants.ALIGN_CENTER); }, stylePanel);
+	var right = this.editorUi.toolbar.addButton('geSprite-alignright', mxResources.get('right'),
+		function() { graph.alignCells(mxConstants.ALIGN_RIGHT); }, stylePanel);
+
+	var top = this.editorUi.toolbar.addButton('geSprite-aligntop', mxResources.get('top'),
+		function() { graph.alignCells(mxConstants.ALIGN_TOP); }, stylePanel);
+	var middle = this.editorUi.toolbar.addButton('geSprite-alignmiddle', mxResources.get('middle'),
+		function() { graph.alignCells(mxConstants.ALIGN_MIDDLE); }, stylePanel);
+	var bottom = this.editorUi.toolbar.addButton('geSprite-alignbottom', mxResources.get('bottom'),
+		function() { graph.alignCells(mxConstants.ALIGN_BOTTOM); }, stylePanel);
+	
+	this.styleButtons([left, center, right, top, middle, bottom]);
+	right.style.marginRight = '6px';
+	div.appendChild(stylePanel);
+	
+	return div;
+};
+
+
+Toolbar1.prototype.createTitle = function(title)
+{
+	var div = document.createElement('div');
+	div.style.padding = '0px 0px 6px 0px';
+	div.style.whiteSpace = 'nowrap';
+	div.style.overflow = 'hidden';
+	div.style.width = '200px';
+	div.style.fontWeight = 'bold';
+	mxUtils.write(div, title);
+	
+	return div;
+};
+//순우 toobar1 init
+Toolbar1.prototype.init = function(){
+	this.appendChild(this.addAlign(this.createPanel()));//순우 정렬
+
+	var span = document.createElement('div');
+	span.style.width = '100%';
+	span.style.marginTop = '0px';
+	span.style.fontWeight = 'bold';
+	span.style.padding = '10px 0 0 18px';
+	mxUtils.write(span, mxResources.get('style'));
+	this.container.appendChild(span);
+}
 
 /**
  * Adds the toolbar elements.
@@ -133,11 +217,13 @@ Toolbar.prototype.init = function()
 				this.addItems(['shadow']);
 			}
 		}
+		this.addItems(['-', 'align']);
 	}
 	
 	if (sw >= 400)
 	{
 		this.addSeparator();
+		
 		
 		if (sw >= 440)
 		{
@@ -795,6 +881,23 @@ Toolbar.prototype.createTextToolbar = function()
 		elt.getElementsByTagName('img')[0].style.left = '22px';
 		elt.getElementsByTagName('img')[0].style.top = '5px';
 	}
+
+
+	// 순우 툴바에 정렬기능 추가
+	this.addSeparator();
+
+	this.addButton('geIcon geSprite geSprite-code', 'Align', function()
+	{
+		this.appendChild(this.addAlign(this.createPanel()));//순우 정렬
+
+		var span = document.createElement('div');
+		span.style.width = '100%';
+		span.style.marginTop = '0px';
+		span.style.fontWeight = 'bold';
+		span.style.padding = '10px 0 0 18px';
+		mxUtils.write(span, mxResources.get('style'));
+		this.container.appendChild(span);
+	});
 };
 
 /**
