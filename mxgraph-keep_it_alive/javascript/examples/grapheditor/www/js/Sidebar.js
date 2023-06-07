@@ -4012,10 +4012,16 @@ Sidebar.prototype.addClickHandler = function(elt, ds, cells)
 		{
 			if (!mxEvent.isPopupTrigger(evt) && this.currentGraph == null &&
 				this.dragElement != null && this.dragElement.style.display == 'none')
+				{
+					console.log('sidebar_item_clicked')
+					createDigramClicked = true;
+					sb.itemClicked(cells, ds, evt, elt);
+					createDigramClicked = false;
+				}
 			{
 				sb.itemClicked(cells, ds, evt, elt);
 			}
-	
+
 			oldMouseUp.apply(ds, arguments);
 			mxUtils.setOpacity(elt, 100);
 			first = null;

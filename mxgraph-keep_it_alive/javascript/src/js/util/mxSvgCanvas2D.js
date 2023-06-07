@@ -59,12 +59,19 @@ function mxSvgCanvas2D(root, styleEnabled)
 	mxAbstractCanvas2D.call(this);
 
 	/**
+	 * Variable: this 의 속성값에 다이어그램인지 확인하는 값
+	 * 
+	 * 생성 중인 다이어그램과 생성된 다이어그램을 분리 민수 추가
+	 */
+	this.diagramProp = '';
+
+	/**
 	 * Variable: root
 	 * 
 	 * Reference to the container for the SVG content.
 	 */
 	this.root = root;
-
+	
 	/**
 	 * Variable: gradients
 	 * 
@@ -604,7 +611,7 @@ mxSvgCanvas2D.prototype.addNode = function(filled, stroked)
 	// console.log('도형 이벤트 확인 34');
 	var node = this.node;
 	var s = this.state;
-
+	// console.log(filled, stroked)
 	if (node != null)
 	{
 		if (node.nodeName == 'path')
@@ -676,19 +683,31 @@ mxSvgCanvas2D.prototype.addNode = function(filled, stroked)
 			node.setAttribute('pointer-events', 'none');
 		}
 		
-		// Removes invisible nodes from output if they don't handle events
+		// Removes invisible nodes from output if they don't handle events // 
 		if ((node.nodeName != 'rect' && node.nodeName != 'path' && node.nodeName != 'ellipse') ||
 			(node.getAttribute('fill') != 'none' && node.getAttribute('fill') != 'transparent') ||
 			node.getAttribute('stroke') != 'none' || node.getAttribute('pointer-events') != 'none')
 		{
 			// LATER: Update existing DOM for performance
-			// this.root.classList.add('AddNodeMinsooClassName');
+
+			// 다이어그램 이름이 비어있다면 생성
 			if (createDiagramSape != ''){
-				newIndex = getLastIndexOfShape(createDiagramSape);
+				// if (this.root.getAttribute("name") != "diagram"){
 
-				this.root.classList.add(createDiagramSape, createDiagramSape+newIndex.toString()); //민수 다이어그램 클래스 입력
+				// 최초 생성이라면 
+				if (createDigramClicked == true){
+					this.diagramProp == 'diagram'
+					newIndex = getLastIndexOfShape(createDiagramSape);
+					var idxName = createDiagramSape+newIndex.toString();
+					this.root.classList.add(createDiagramSape, idxName); //민수 다이어그램 클래스 입력
+					this.root.setAttribute("name", "diagram");
+					console.log('created',createDiagramSape,idxName)
+
+					
+				}
+				
 			}
-
+			
 			this.root.appendChild(node); // 민수 끝! 여기에서 다이그램 그린다. 노드에 요소를 추가만 하면된다
 		}
 		
@@ -1962,5 +1981,5 @@ mxSvgCanvas2D.prototype.fill = function()
  */
 mxSvgCanvas2D.prototype.fillAndStroke = function()
 {
-	this.addNode(true, true); // 여기서 다이어그램 노드 추가 함수 호출
+	this.addNode(true, true); // 여기서 다이어그램 노드 추가 함수 호출 민수 
 };
