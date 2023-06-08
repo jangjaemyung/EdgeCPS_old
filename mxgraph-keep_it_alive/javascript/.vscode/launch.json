@@ -10,7 +10,7 @@
             "name": "Launch Chrome against localhost",
             "url": "http://localhost:8080",
             "webRoot": "${workspaceFolder}",
-            "file": "/home/minsoo/Downloads/EdgeCPS_git/mxgraph-keep_it_alive/javascript/examples/grapheditor/www/index.html",
+            "file": "/home/minsoo/Downloads/EdgeCPS_git/mxgraph-keep_it_alive/javascript/examples/grapheditor/businessprocess/index.html",
             "runtimeArgs": [
                 "--disable-web-security"
               ],

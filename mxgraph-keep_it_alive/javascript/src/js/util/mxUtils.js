@@ -215,7 +215,7 @@ var mxUtils =
 					
 					createDiagramSape = convertToCamelCase(diagramClsName);
 					console.log(diagramClsName);
-					return funct.apply(scope, arguments); //민수 이벤트 바인디 하는 곳
+					return funct.apply(scope, arguments); //민수 이벤트 바인딩 하는 곳
 					
 				}
 				//
