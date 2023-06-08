@@ -40528,6 +40528,7 @@ mxGraphModel.prototype.cellAdded = function(cell)
  *
  * cell - <mxCell> to create the Id for.
  */
+ // 순우 cell 고유 id값 생성
 mxGraphModel.prototype.createId = function(cell)
 {
 	var id = this.nextId;

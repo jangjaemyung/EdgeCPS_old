@@ -538,7 +538,7 @@ var mxEvent =
 	{
 		return (evt.pointerType != null) ? (evt.pointerType == 'mouse' || evt.pointerType ===
 			evt.MSPOINTER_TYPE_MOUSE) : ((evt.mozInputSource != null) ?
-				evt.mozInputSource == 1 : evt.type.indexOf('mouse') == 0);
+				evt.mozInputSource == 1 : evt.type.indexOf('mouse') == 0);0
 	},
 	
 	/**
@@ -663,7 +663,7 @@ var mxEvent =
 	 * 
 	 * Returns the touch or mouse event that contains the mouse coordinates.
 	 */
-	// 순우 마우스 좌표..
+	
 	getMainEvent: function(e)
 	{
 		if ((e.type == 'touchstart' || e.type == 'touchmove') && e.touches != null && e.touches[0] != null)
@@ -683,6 +683,12 @@ var mxEvent =
 	 * 
 	 * Returns true if the meta key is pressed for the given event.
 	 */
+	// 순우 마우스 포인터 좌표 관련 주석
+	// e에서 getClientX 함수를 호출하면, 해당 마우스 이벤트가 발생한 위치의 x 좌표 반환.
+	// e는 마우스포인터 이벤트 객체
+	// 즉 마우스 포인터가 좌측 상단을 기준으로 x축으로 얼마나 이동했는지?
+	// 마우스로 화살표 생성해서 드래그 하는 경우 쓰이는거 같습니다.
+	// geClientY는 Y축으로 똑같이 ㅇㅇ
 	getClientX: function(e)
 	{
 		return mxEvent.getMainEvent(e).clientX;

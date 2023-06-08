@@ -686,10 +686,11 @@ mxSvgCanvas2D.prototype.addNode = function(filled, stroked)
 			if (createDiagramSape != ''){
 				newIndex = getLastIndexOfShape(createDiagramSape);
 
-				this.root.classList.add(createDiagramSape, createDiagramSape+newIndex.toString()); //민수 다이어그램 클래스 입력
+				this.root.classList.add(createDiagramSape, 'workFlow'); //민수 다이어그램 클래스 입력
 			}
 
 			this.root.appendChild(node); // 민수 끝! 여기에서 다이그램 그린다. 노드에 요소를 추가만 하면된다
+			console.log('화살표')
 		}
 		
 		this.node = null;
