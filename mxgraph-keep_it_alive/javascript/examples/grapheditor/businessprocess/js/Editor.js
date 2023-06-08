@@ -848,7 +848,7 @@ function Dialog(editorUi, elt, w, h, modal, closable, onClose, noScroll, transpa
 
 	if (modal)
 	{
-		document.body.appendChild(this.bg);
+		document.body.appendChild(this.bg); //민수property 창 생성 이벤트
 	}
 	
 	var div = editorUi.createDiv(transparent? 'geTransDialog' : 'geDialog');
@@ -863,7 +863,7 @@ function Dialog(editorUi, elt, w, h, modal, closable, onClose, noScroll, transpa
 	div.style.zIndex = this.zIndex;
 	
 	div.appendChild(elt);
-	document.body.appendChild(div);
+	document.body.appendChild(div); // 민수 property 생성된 창에 내용을 더하는 함수
 	
 	// Adds vertical scrollbars if needed
 	if (!noScroll && elt.clientHeight > div.clientHeight - 64)

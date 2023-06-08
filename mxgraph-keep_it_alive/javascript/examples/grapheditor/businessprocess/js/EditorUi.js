@@ -4466,7 +4466,7 @@ EditorUi.prototype.showDataDialog = function(cell)
 	if (cell != null)
 	{
 		var dlg = new EditDataDialog(this, cell);
-		this.showDialog(dlg.container, 480, 420, true, false, null, false);
+		this.showDialog(dlg.container, 480, 420, true, false, null, false); // property 여기에 작성된 정보가 저장 된다. 민수
 		dlg.init();
 	}
 };

@@ -49,7 +49,7 @@ Format.prototype.init = function()
 	var editor = ui.editor;
 	var graph = editor.graph;
 	
-	this.update = mxUtils.bind(this, function(sender, evt)
+	this.update = mxUtils.bind(this, function(sender, evt) //민수 우측 사이드바 클릭시 evt안에 id와 mxobjectId가 고유한것같은데 확인 필요
 	{
 		this.clearSelectionState();
 		this.refresh();
@@ -1551,7 +1551,7 @@ mxUtils.extend(ArrangePanel, BaseFormatPanel);
 ArrangePanel.prototype.init = function()
 {
 	var graph = this.editorUi.editor.graph;
-	var ss = this.format.getSelectionState();
+	var ss = this.format.getSelectionState(); //민수 우측 판넬에서 클리된 요소 호ㅑㅏㄱ인 view canvas안에
 
 	this.container.appendChild(this.addLayerOps(this.createPanel()));
 	// Special case that adds two panels
