@@ -4599,10 +4599,15 @@ mxGraph.prototype.createVertex = function(parent, id, value,
  * target - <mxCell> that defines the target of the edge.
  * style - Optional string that defines the cell style.
  */
+
+// 순우 화살표(edge) 생성 함수
+// parent:부모노드, id:edge id, value: edge 값, source: 시작점, target:끝점
+// 화살표 생성되고 도착지 노드에 화살표 갖다 붙이고 마우스 떼면 그때 호출됨
 mxGraph.prototype.insertEdge = function(parent, id, value, source, target, style)
 {
 	var edge = this.createEdge(parent, id, value, source, target, style);
-	
+	console.log(source);	// 화살표 시작점 출력
+	console.log(target);	// 화살표 끝점 출력
 	return this.addEdge(edge, parent, source, target);
 };
 
@@ -4614,6 +4619,7 @@ mxGraph.prototype.insertEdge = function(parent, id, value, source, target, style
  * are set when the edge is added to the model.
  * 
  */
+// 순우 연결 선 화살표 (edge) 생성
 mxGraph.prototype.createEdge = function(parent, id, value, source, target, style)
 {
 	// Creates the edge
@@ -4641,6 +4647,7 @@ mxGraph.prototype.createEdge = function(parent, id, value, source, target, style
  * target - Optional <mxCell> that represents the target terminal.
  * index - Optional index to insert the cells at. Default is to append.
  */
+// 순우 화살표 추가 부분
 mxGraph.prototype.addEdge = function(edge, parent, source, target, index)
 {
 	return this.addCell(edge, parent, index, source, target);
@@ -4662,6 +4669,7 @@ mxGraph.prototype.addEdge = function(edge, parent, source, target, index)
  * source - Optional <mxCell> that represents the source terminal.
  * target - Optional <mxCell> that represents the target terminal.
  */
+// 순우 cell 추가
 mxGraph.prototype.addCell = function(cell, parent, index, source, target)
 {
 	return this.addCells([cell], parent, index, source, target)[0];

@@ -4263,7 +4263,9 @@ HoverIcons.prototype.createArrow = function(img, tooltip)
 	
 	arrow.style.position = 'absolute';
 	arrow.style.cursor = this.cssCursor;
-
+	
+	// 순우 화살표 클릭 했을 때 이벤트 처리 함수
+	// 현재 상태와 이벤트 종류 확인 후 드래그 작업 수행, 화살표 숨김, 이벤트 실행
 	mxEvent.addGestureListeners(arrow, mxUtils.bind(this, function(evt)
 	{
 		if (this.currentState != null && !this.isResetEvent(evt))

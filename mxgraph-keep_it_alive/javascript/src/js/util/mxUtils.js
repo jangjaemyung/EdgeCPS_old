@@ -2817,6 +2817,7 @@ var mxUtils =
 	 * included. Default is true.
 	 */
 	// 순우 viewrect의 왼쪽 코너를 mxPoint로 바꾼다는게 왜 바꾸는건지 찾는중
+	// 순우 스크롤된 영역 시작점 계산
 	getScrollOrigin: function(node, includeAncestors, includeDocument)
 	{
 		includeAncestors = (includeAncestors != null) ? includeAncestors : false;
