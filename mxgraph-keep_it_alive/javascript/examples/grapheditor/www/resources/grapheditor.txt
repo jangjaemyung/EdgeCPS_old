@@ -1,4 +1,4 @@
-# Resources from graph.properties
+# Resources from graph.properties 
 alreadyConnected=Nodes already connected
 cancel=Cancel
 close=Close
@@ -27,6 +27,7 @@ angle=Angle
 apply=Apply
 arc=Arc
 arrange=Arrange
+inputProperty=input property
 arrow=Arrow
 arrows=Arrows
 automatic=Automatic

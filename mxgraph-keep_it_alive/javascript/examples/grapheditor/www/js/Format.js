@@ -584,8 +584,9 @@ Format.prototype.refresh = function()
 		this.panels.push(new TextFormatPanel(this, ui, textPanel));
 		this.container.appendChild(textPanel);
 		
-		// Arrange
-		mxUtils.write(label3, mxResources.get('arrange'));
+		// Arrange 민수 여기서 우측 메뉴바 property 값 입력 예정 
+		// mxUtils.write(label3, mxResources.get('arrange')); 원본 addProperty=Add Property
+		mxUtils.write(label3, mxResources.get('input'));
 		div.appendChild(label3);
 
 		var arrangePanel = div.cloneNode(false);
