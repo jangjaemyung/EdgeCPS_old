@@ -4051,6 +4051,7 @@ HoverIcons.prototype.tolerance = (mxClient.IS_TOUCH) ? 6 : 0;
 /**
  * 
  */
+// 순우 노드 호버 아이콘(화살표)
 HoverIcons.prototype.init = function()
 {
 	this.arrowUp = this.createArrow(this.triangleUp, mxResources.get('plusTooltip'));
@@ -4223,6 +4224,7 @@ HoverIcons.prototype.isResetEvent = function(evt, allowShift)
 /**
  * 
  */
+// 순우 화살표 생성 함수
 HoverIcons.prototype.createArrow = function(img, tooltip)
 {
 	var arrow = null;
@@ -4264,6 +4266,8 @@ HoverIcons.prototype.createArrow = function(img, tooltip)
 	arrow.style.position = 'absolute';
 	arrow.style.cursor = this.cssCursor;
 
+	// 순우 화살표 클릭 했을 때 이벤트 처리 함수
+	// 현재 상태와 이벤트 종류 확인 후 드래그 작업 수행, 화살표 숨김, 이벤트 실행
 	mxEvent.addGestureListeners(arrow, mxUtils.bind(this, function(evt)
 	{
 		if (this.currentState != null && !this.isResetEvent(evt))

@@ -209,8 +209,8 @@ var mxUtils =
 			try
 			{
 				if (scope.currentElt.className &&  scope.currentElt.className.includes('geItem DiShape') && arguments[0].type == 'pointerdown'){
-					// console.log(scope );
-					// console.log(arguments);
+					console.log(scope );
+					console.log(arguments);
 					diagramClsName  = scope.currentElt.className;
 					
 					createDiagramSape = convertToCamelCase(diagramClsName);
@@ -2738,6 +2738,7 @@ var mxUtils =
 	 * scollOffset - Optional boolean to add the scroll offset of the document.
 	 * Default is false.
 	 */
+	// 순우
 	getOffset: function(container, scrollOffset)
 	{
 		var offsetLeft = 0;
@@ -2815,6 +2816,7 @@ var mxUtils =
 	 * includeDocument - Whether the scroll origin of the document should be
 	 * included. Default is true.
 	 */
+	// 순우 viewrect의 왼쪽 코너를 mxPoint로 바꾼다는게 왜 바꾸는건지 찾는중
 	getScrollOrigin: function(node, includeAncestors, includeDocument)
 	{
 		includeAncestors = (includeAncestors != null) ? includeAncestors : false;

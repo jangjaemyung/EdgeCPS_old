@@ -663,6 +663,7 @@ var mxEvent =
 	 * 
 	 * Returns the touch or mouse event that contains the mouse coordinates.
 	 */
+	// 순우 마우스 좌표..
 	getMainEvent: function(e)
 	{
 		if ((e.type == 'touchstart' || e.type == 'touchmove') && e.touches != null && e.touches[0] != null)
@@ -710,6 +711,7 @@ var mxEvent =
 	 * stopPropagation - Option boolean to stop event propagation. Default is
 	 * true.
 	 */
+	//  순우 이벤트 소비
 	consume: function(evt, preventDefault, stopPropagation) // 민수 이벤트 소모 되는 곳
 	{
 		preventDefault = (preventDefault != null) ? preventDefault : true;

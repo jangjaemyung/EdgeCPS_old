@@ -375,7 +375,7 @@ var mxResources =
 		// Replaces the placeholders with the values in the array
 		if (value != null && params != null)
 		{
-			value = mxResources.replacePlaceholders(value, params);
+			value = mxResourgetces.replacePlaceholders(value, params);
 		}
 		
 		return value;

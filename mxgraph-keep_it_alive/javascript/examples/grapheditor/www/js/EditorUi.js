@@ -3911,7 +3911,7 @@ EditorUi.prototype.createSidebar = function(container)
 /**
  * Creates a new sidebar for the given container.
  */
-// 순우 우측 사이드바 생성 부분
+// 순우 우측 사이드바
 EditorUi.prototype.createFormat = function(container)
 {
 	return new Format(this, container);
