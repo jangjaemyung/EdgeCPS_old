@@ -1548,42 +1548,42 @@ mxUtils.extend(ArrangePanel, BaseFormatPanel);
 /**
  * Adds the label menu items to the given menu and parent.
  */
-ArrangePanel.prototype.init = function()
+ArrangePanel.prototype.init = function() // 민수  우측 메뉴Arrange 에서 보여줄 리스트 정리
 {
 	var graph = this.editorUi.editor.graph;
-	var ss = this.format.getSelectionState(); //민수 우측 판넬에서 클리된 요소 호ㅑㅏㄱ인 view canvas안에
+	var ss = this.format.getSelectionState(); 
 
-	this.container.appendChild(this.addLayerOps(this.createPanel()));
+	// this.container.appendChild(this.addLayerOps(this.createPanel()));
 	// Special case that adds two panels
-	this.addGeometry(this.container);
-	this.addEdgeGeometry(this.container);
+	// this.addGeometry(this.container);
+	// this.addEdgeGeometry(this.container);
 
-	if (!ss.containsLabel || ss.edges.length == 0)
-	{
-		this.container.appendChild(this.addAngle(this.createPanel()));
-	}
+	// if (!ss.containsLabel || ss.edges.length == 0)
+	// {
+	// 	this.container.appendChild(this.addAngle(this.createPanel()));
+	// }
 	
-	if (!ss.containsLabel && ss.edges.length == 0 &&
-		ss.style.shape != 'rectangle' &&
-		ss.style.shape != 'label')
-	{
-		this.container.appendChild(this.addFlip(this.createPanel()));
-	}
+	// if (!ss.containsLabel && ss.edges.length == 0 &&
+	// 	ss.style.shape != 'rectangle' &&
+	// 	ss.style.shape != 'label')
+	// {
+	// 	this.container.appendChild(this.addFlip(this.createPanel()));
+	// }
 	
-	if (ss.vertices.length > 1)
-	{
-		this.container.appendChild(this.addAlign(this.createPanel()));
-		this.container.appendChild(this.addDistribute(this.createPanel()));
-	}
+	// if (ss.vertices.length > 1)
+	// {
+		// this.container.appendChild(this.addAlign(this.createPanel()));
+	// 	this.container.appendChild(this.addDistribute(this.createPanel()));
+	// }
 	
-	if (graph.isTable(ss.vertices[0]) ||
-		graph.isTableRow(ss.vertices[0]) ||
-		graph.isTableCell(ss.vertices[0]))
-	{
-		this.container.appendChild(this.addTable(this.createPanel()));
-	}
+	// if (graph.isTable(ss.vertices[0]) ||
+	// 	graph.isTableRow(ss.vertices[0]) ||
+	// 	graph.isTableCell(ss.vertices[0]))
+	// {
+	// 	this.container.appendChild(this.addTable(this.createPanel()));
+	// }
 	
-	this.container.appendChild(this.addGroupOps(this.createPanel()));
+	this.container.appendChild(this.addGroupOps(this.createPanel())); 
 	
 	if (ss.containsLabel)
 	{
@@ -1786,17 +1786,17 @@ ArrangePanel.prototype.addGroupOps = function(div)
 			count = 0;
 		}
 		
-		var btn = mxUtils.button(mxResources.get('copySize'), function(evt)
-		{
-			ui.actions.get('copySize').funct();
-		});
+		// var btn = mxUtils.button(mxResources.get('copySize'), function(evt)
+		// {
+		// 	ui.actions.get('copySize').funct();
+		// });
 		
-		btn.setAttribute('title', mxResources.get('copySize') + ' (' +
-			this.editorUi.actions.get('copySize').shortcut + ')');
-		btn.style.width = '202px';
-		btn.style.marginBottom = '2px';
+		// btn.setAttribute('title', mxResources.get('copySize') + ' (' +
+		// 	this.editorUi.actions.get('copySize').shortcut + ')');
+		// btn.style.width = '202px';
+		// btn.style.marginBottom = '2px';
 
-		div.appendChild(btn);
+		// div.appendChild(btn);
 		count++;
 		
 		if (ui.copiedSize != null)
@@ -1840,20 +1840,20 @@ ArrangePanel.prototype.addGroupOps = function(div)
 	}
 	else if (graph.getSelectionCount() > 0)
 	{
-		if (count > 0)
-		{
-			mxUtils.br(div);
-		}
+		// if (count > 0)
+		// {
+		// 	mxUtils.br(div);
+		// }
 		
-		btn = mxUtils.button(mxResources.get('clearWaypoints'), mxUtils.bind(this, function(evt)
-		{
-			this.editorUi.actions.get('clearWaypoints').funct();
-		}));
+		// btn = mxUtils.button(mxResources.get('clearWaypoints'), mxUtils.bind(this, function(evt)
+		// {
+		// 	this.editorUi.actions.get('clearWaypoints').funct();
+		// }));
 		
-		btn.setAttribute('title', mxResources.get('clearWaypoints') + ' (' + this.editorUi.actions.get('clearWaypoints').shortcut + ')');
-		btn.style.width = '202px';
-		btn.style.marginBottom = '2px';
-		div.appendChild(btn);
+		// btn.setAttribute('title', mxResources.get('clearWaypoints') + ' (' + this.editorUi.actions.get('clearWaypoints').shortcut + ')');
+		// btn.style.width = '202px';
+		// btn.style.marginBottom = '2px';
+		// div.appendChild(btn);
 
 		count++;
 	}
@@ -1871,10 +1871,19 @@ ArrangePanel.prototype.addGroupOps = function(div)
 		}));
 		
 		btn.setAttribute('title', mxResources.get('editData') + ' (' + this.editorUi.actions.get('editData').shortcut + ')');
-		btn.style.width = '100px';
+		// btn.style.width = '100px';
+		// btn.style.marginBottom = '2px';
+		btn.style.width = '202px';
 		btn.style.marginBottom = '2px';
 		div.appendChild(btn);
 		count++;
+
+
+		if (count > 0)// 민수 줄 버튼 띄어 쓰기
+		{
+			mxUtils.br(div);
+		}
+		
 
 		btn = mxUtils.button(mxResources.get('editLink'), mxUtils.bind(this, function(evt)
 		{
@@ -1882,8 +1891,27 @@ ArrangePanel.prototype.addGroupOps = function(div)
 		}));
 		
 		btn.setAttribute('title', mxResources.get('editLink'));
-		btn.style.width = '100px';
-		btn.style.marginLeft = '2px';
+		// btn.style.width = '100px';
+		// btn.style.marginLeft = '2px';
+		btn.style.width = '202px';
+		btn.style.marginBottom = '2px';
+		btn.style.marginBottom = '2px';
+		div.appendChild(btn);
+		count++;
+
+		if (count > 0)// 민수 줄 버튼 띄어 쓰기
+		{
+			mxUtils.br(div);
+		}
+		
+
+		btn = mxUtils.button(mxResources.get('runWorkFlow')); //민수 아르고런 버튼 
+		btn.className = 'argoRun'
+		btn.setAttribute('title', mxResources.get('runWorkFlow'));
+		// btn.style.width = '100px';
+		// btn.style.marginLeft = '2px';
+		btn.style.width = '202px';
+		btn.style.marginBottom = '2px';
 		btn.style.marginBottom = '2px';
 		div.appendChild(btn);
 		count++;
@@ -2037,71 +2065,71 @@ ArrangePanel.prototype.addAngle = function(div)
 	var update = null;
 	var btn = null;
 	
-	if (ss.rotatable && !ss.table && !ss.row && !ss.cell)
-	{
-		mxUtils.write(span, mxResources.get('angle'));
-		div.appendChild(span);
+	// if (ss.rotatable && !ss.table && !ss.row && !ss.cell)
+	// {
+	// 	mxUtils.write(span, mxResources.get('angle'));
+	// 	div.appendChild(span);
 		
-		input = this.addUnitInput(div, '°', 20, 44, function()
-		{
-			update.apply(this, arguments);
-		});
+	// 	input = this.addUnitInput(div, '°', 20, 44, function()
+	// 	{
+	// 		update.apply(this, arguments);
+	// 	});
 		
-		mxUtils.br(div);
-		div.style.paddingTop = '10px';
-	}
-	else
-	{
-		div.style.paddingTop = '8px';
-	}
+	// 	mxUtils.br(div);
+	// 	div.style.paddingTop = '10px';
+	// }
+	// else
+	// {
+	// 	div.style.paddingTop = '8px';
+	// }
 
-	if (!ss.containsLabel)
-	{
-		var label = mxResources.get('reverse');
+	// if (!ss.containsLabel)
+	// {
+	// 	var label = mxResources.get('reverse');
 		
-		if (ss.vertices.length > 0 && ss.edges.length > 0)
-		{
-			label = mxResources.get('turn') + ' / ' + label;
-		}
-		else if (ss.vertices.length > 0)
-		{
-			label = mxResources.get('turn');
-		}
+	// 	if (ss.vertices.length > 0 && ss.edges.length > 0)
+	// 	{
+	// 		label = mxResources.get('turn') + ' / ' + label;
+	// 	}
+	// 	else if (ss.vertices.length > 0)
+	// 	{
+	// 		label = mxResources.get('turn');
+	// 	}
 
-		btn = mxUtils.button(label, function(evt)
-		{
-			ui.actions.get('turn').funct(evt);
-		})
+	// 	btn = mxUtils.button(label, function(evt)
+	// 	{
+	// 		ui.actions.get('turn').funct(evt);
+	// 	})
 		
-		btn.setAttribute('title', label + ' (' + this.editorUi.actions.get('turn').shortcut + ')');
-		btn.style.width = '202px';
-		div.appendChild(btn);
+	// 	btn.setAttribute('title', label + ' (' + this.editorUi.actions.get('turn').shortcut + ')');
+	// 	btn.style.width = '202px';
+	// 	div.appendChild(btn);
 		
-		if (input != null)
-		{
-			btn.style.marginTop = '8px';
-		}
-	}
+	// 	if (input != null)
+	// 	{
+	// 		btn.style.marginTop = '8px';
+	// 	}
+	// }
 	
-	if (input != null)
-	{
-		var listener = mxUtils.bind(this, function(sender, evt, force)
-		{
-			if (force || document.activeElement != input)
-			{
-				ss = this.format.getSelectionState();
-				var tmp = parseFloat(mxUtils.getValue(ss.style, mxConstants.STYLE_ROTATION, 0));
-				input.value = (isNaN(tmp)) ? '' : tmp  + '°';
-			}
-		});
+	// if (input != null)
+	// {
+	// 	var listener = mxUtils.bind(this, function(sender, evt, force)
+	// 	{
+	// 		if (force || document.activeElement != input)
+	// 		{
+	// 			ss = this.format.getSelectionState();
+	// 			var tmp = parseFloat(mxUtils.getValue(ss.style, mxConstants.STYLE_ROTATION, 0));
+	// 			input.value = (isNaN(tmp)) ? '' : tmp  + '°';
+	// 		}
+	// 	});
 	
-		update = this.installInputHandler(input, mxConstants.STYLE_ROTATION, 0, 0, 360, '°', null, true);
-		this.addKeyHandler(input, listener);
+	// 	update = this.installInputHandler(input, mxConstants.STYLE_ROTATION, 0, 0, 360, '°', null, true);
+	// 	this.addKeyHandler(input, listener);
 	
-		graph.getModel().addListener(mxEvent.CHANGE, listener);
-		this.listeners.push({destroy: function() { graph.getModel().removeListener(listener); }});
-		listener();
-	}
+	// 	graph.getModel().addListener(mxEvent.CHANGE, listener);
+	// 	this.listeners.push({destroy: function() { graph.getModel().removeListener(listener); }});
+	// 	listener();
+	// }
 
 	return div;
 };

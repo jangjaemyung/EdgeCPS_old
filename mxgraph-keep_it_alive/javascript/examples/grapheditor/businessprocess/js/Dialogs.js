@@ -1306,7 +1306,7 @@ var EditDataDialog = function(ui, cell)
 	var count = 0;
 
 	var id = (EditDataDialog.getDisplayIdForCell != null) ?
-		EditDataDialog.getDisplayIdForCell(ui, cell) : null;
+		EditDataDialog.getDisplayIdForCell(ui, cell) : null; // 민수 고유한 인덱스 아이디 찾는 곳
 	
 	var addRemoveButton = function(text, name)
 	{
@@ -1420,7 +1420,9 @@ var EditDataDialog = function(ui, cell)
 		text.style.textAlign = 'center';
 		mxUtils.write(text, id);
 		
+		// form.addField('EdgeCps Name' + ':', 'EdgeCps Porperty');
 		form.addField(mxResources.get('id') + ':', text);
+		console.log('민수 아이디 입력')
 	}
 	
 	for (var i = 0; i < temp.length; i++)

@@ -862,7 +862,7 @@ function Dialog(editorUi, elt, w, h, modal, closable, onClose, noScroll, transpa
 	div.style.top = top + 'px';
 	div.style.zIndex = this.zIndex;
 	
-	div.appendChild(elt);
+	div.appendChild(elt); //민수 property elt.innerText  저장
 	document.body.appendChild(div); // 민수 property 생성된 창에 내용을 더하는 함수
 	
 	// Adds vertical scrollbars if needed
