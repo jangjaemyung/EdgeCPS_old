@@ -1643,7 +1643,7 @@ var PageSetupDialog = function(editorUi)
 			graph.model.execute(change);
 		}
 	});
-	applyBtn.className = 'geBtn gePrimaryBtn';
+	applyBtn.className = 'geBtn gePrimaryBtn'; 
 	td.appendChild(applyBtn);
 
 	if (!editorUi.editor.cancelFirst)

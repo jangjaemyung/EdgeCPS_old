@@ -1537,6 +1537,8 @@ var EditDataDialog = function(ui, cell)
 	{
 		try
 		{
+
+
 			ui.hideDialog.apply(ui, arguments);
 			
 			// Clones and updates the value
@@ -1565,14 +1567,16 @@ var EditDataDialog = function(ui, cell)
 			
 			// Updates the value of the cell (undoable)
 			graph.getModel().setValue(cell, value);
+			getObjectPropertyValue(value,cell.id,cell.mxObjectId) // 민수 property 값을 바인딩 하는 곳
+
 		}
 		catch (e)
 		{
 			mxUtils.alert(e);
 		}
 	});
-	applyBtn.className = 'geBtn gePrimaryBtn';
-	
+	applyBtn.className = 'geBtn gePrimaryBtn minsoo'; // 민수 property입력 버튼 
+
 	function updateAddBtn()
 	{
 		if (nameInput.value.length > 0)

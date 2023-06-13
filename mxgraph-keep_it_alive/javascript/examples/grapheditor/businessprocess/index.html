@@ -21,6 +21,27 @@
 		
 		var flowDict = {}
 		var objValueDict = {}
+
+		function getObjectPropertyValue(input,id, mxObjId) {
+			let htmlTag = input.outerHTML;
+
+			let tempElement = document.createElement('div');
+			tempElement.innerHTML = htmlTag;
+
+			let attributes = tempElement.firstChild.attributes;
+
+			let desiredAttributes = [];
+			for (let i = 0; i < attributes.length; i++) {
+			let attribute = attributes[i];
+			if (attribute.name !== 'label') {
+				desiredAttributes.push(attribute.name + '="' + attribute.value + '"');
+			}
+			}
+			objValueDict[id +'_'+ mxObjId] = desiredAttributes
+			console.log(desiredAttributes); // 민수 property값 출력
+			console.log(objValueDict)
+			// return desiredAttributes
+		}
 	</script>
 
 	<script> 

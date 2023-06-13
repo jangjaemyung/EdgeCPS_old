@@ -219,13 +219,26 @@ var mxUtils =
 					return funct.apply(scope, arguments); //민수 이벤트 바인딩 하는 곳
 					
 				}
+
+
 				//
 			}
 			catch (e)
 			{
 				
 			}
-			
+			try
+			{			
+				if (arguments[0].relatedTarget.classList[1] ==	'gePrimaryBtn'){
+					console.log('버튼 클릭')
+					console.log(arguments[0].type)
+				}
+			}
+			catch (e)
+			{
+				// console.log('찾는거 없음')
+			}
+
 			return funct.apply(scope, arguments); //민수 이벤트 바인디 하는 곳
 		};
 	},
@@ -1304,7 +1317,7 @@ var mxUtils =
 	{
 		doc = (doc != null) ? doc : document;
 		
-		var button = doc.createElement('button');
+		var button = doc.createElement('button'); //민수 Edit property apply 버튼 이벤트 발생 
 		mxUtils.write(button, label);
 
 		mxEvent.addListener(button, 'click', function(evt)
