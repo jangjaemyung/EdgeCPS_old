@@ -633,6 +633,14 @@
  * performance. Default is mxConstants.DIALECT_MIXEDHTML (for IE).
  * stylesheet - Optional <mxStylesheet> to be used in the graph.
  */
+class Edgepoint{
+	constructor(startpoint,endpoint){
+		this.startpoint = startpoint;
+		this.endpoint = endpoint;
+	}
+
+}
+
 function mxGraph(container, model, renderHint, stylesheet)
 {
 	// Initializes the variable in case the prototype has been
@@ -1985,7 +1993,7 @@ mxGraph.prototype.graphModelChanged = function(changes)
 	}
 
 	this.updateSelection();
-	this.view.validate(); // 민수 다이어 그램 생성 계속 찾는중
+	this.view.validate(); // 민수 다이어 그램 생성 계속 찾는 중 //순우
 	this.sizeDidChange();
 };
 
@@ -4603,13 +4611,40 @@ mxGraph.prototype.createVertex = function(parent, id, value,
 // 순우 화살표(edge) 생성 함수
 // parent:부모노드, id:edge id, value: edge 값, source: 시작점, target:끝점
 // 화살표 생성되고 도착지 노드에 화살표 갖다 붙이고 마우스 떼면 그때 호출됨
-mxGraph.prototype.insertEdge = function(parent, id, value, source, target, style)
-{
+// mxGraph.prototype.insertEdge = function(parent, id, value, source, target, style)
+// {
+// 	var edge = this.createEdge(parent, id, value, source, target, style);
+
+// 	var sourceNode=this.getModel().getTerminal(edge, true);
+// 	var targetNode=this.getModel().getTerminal(edge, false);
+
+// 	var sourceClassName = sourceNode.getValue();
+// 	var targetClassNabe = targetNode.getValue();
+
+// 	console.log(sourceClassName);	// 화살표 시작점 출력
+// 	console.log(targetClassNabe);	// 화살표 끝점 출력
+	
+	
+	
+// 	return this.addEdge(edge, parent, source, target);
+// };
+
+mxGraph.prototype.insertEdge = function(parent, id, value, source, target, style) {
 	var edge = this.createEdge(parent, id, value, source, target, style);
-	console.log(source);	// 화살표 시작점 출력
-	console.log(target);	// 화살표 끝점 출력
-	return this.addEdge(edge, parent, source, target);
-};
+
+	console.log("Source 노드 클래스 id:", source.id);
+	console.log("Target 노드 클래스 id:", target.id);
+	// id1 = (EditDataDialog.getDisplayIdForCell != null) ? EditDataDialog.getDisplayIdForCell(ui, cell) : null;
+	
+  
+	// 나머지 로직 실행
+	var insertedEdge = this.addEdge(edge, parent, source, target);
+	// 순우 flowDict 추가
+	flowDict[edge.id] = [source.id, target.id];
+	return insertedEdge;
+  };
+  
+
 
 /**
  * Function: createEdge
@@ -4647,7 +4682,6 @@ mxGraph.prototype.createEdge = function(parent, id, value, source, target, style
  * target - Optional <mxCell> that represents the target terminal.
  * index - Optional index to insert the cells at. Default is to append.
  */
-// 순우 화살표 추가 부분
 mxGraph.prototype.addEdge = function(edge, parent, source, target, index)
 {
 	return this.addCell(edge, parent, index, source, target);
@@ -4669,7 +4703,6 @@ mxGraph.prototype.addEdge = function(edge, parent, source, target, index)
  * source - Optional <mxCell> that represents the source terminal.
  * target - Optional <mxCell> that represents the target terminal.
  */
-// 순우 cell 추가
 mxGraph.prototype.addCell = function(cell, parent, index, source, target)
 {
 	return this.addCells([cell], parent, index, source, target)[0];
@@ -6736,7 +6769,6 @@ mxGraph.prototype.getOutlineConstraint = function(point, terminalState, me)
 		
 		var x = (bounds.width == 0) ? 0 : Math.round((point.x - bounds.x) * 1000 / bounds.width) / 1000;
 		var y = (bounds.height == 0) ? 0 : Math.round((point.y - bounds.y) * 1000 / bounds.height) / 1000;
-		
 		return new mxConnectionConstraint(new mxPoint(x, y), false);
 	}
 	
@@ -6826,8 +6858,9 @@ mxGraph.prototype.getConnectionConstraint = function(edge, terminal, source)
  * constraint - Optional <mxConnectionConstraint> to be used for this
  * connection.
  */
-mxGraph.prototype.setConnectionConstraint = function(edge, terminal, source, constraint)
-{
+// 순우 edge가 특정 노드에 고정되도록 설정하는 함수..
+mxGraph.prototype.setConnectionConstraint = function(edge, terminal, source, constraint) // terminal: 연결하려는 노드
+{																	// source가 trie이면 시작점, false이면 도착점 노드에 대한 설정
 	if (constraint != null)
 	{
 		this.model.beginUpdate();
@@ -6859,6 +6892,7 @@ mxGraph.prototype.setConnectionConstraint = function(edge, terminal, source, con
 					mxConstants.STYLE_ENTRY_DY, constraint.dy, [edge]);
 				
 				// Only writes 0 since 1 is default
+				// 순우 perimeter
 				if (!constraint.perimeter)
 				{
 					this.setCellStyles((source) ? mxConstants.STYLE_EXIT_PERIMETER :

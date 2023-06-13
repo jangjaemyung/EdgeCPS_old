@@ -2,6 +2,7 @@
  * Copyright (c) 2006-2015, JGraph Ltd
  * Copyright (c) 2006-2015, Gaudenz Alder
  */
+// import mxGraph from "../view/mxGraph.js";
 var mxUtils =
 {
 	/**
@@ -215,7 +216,7 @@ var mxUtils =
 					diagramClsName  = scope.element.className
 					
 					createDiagramSape = convertToCamelCase(diagramClsName);
-					console.log(diagramClsName);
+					// console.log(diagramClsName);
 					return funct.apply(scope, arguments); //민수 이벤트 바인딩 하는 곳
 					
 				}
