@@ -19008,7 +19008,6 @@ mxSvgCanvas2D.prototype.createStyle = function(x)
  */
 mxSvgCanvas2D.prototype.createElement = function(tagName, namespace)
 {
-	// console.log('도형 이벤트 확인 1');
 
 	if (this.root.ownerDocument.createElementNS != null)
 	{
@@ -19112,7 +19111,6 @@ mxSvgCanvas2D.prototype.createAlternateContent = function(fo, x, y, w, h, str, a
  */
 mxSvgCanvas2D.prototype.createGradientId = function(start, end, alpha1, alpha2, direction)
 {
-	// console.log('도형 이벤트 확인 2');
 	// Removes illegal characters from gradient ID
 	if (start.charAt(0) == '#')
 	{
@@ -19166,7 +19164,6 @@ mxSvgCanvas2D.prototype.createGradientId = function(start, end, alpha1, alpha2, 
  */
 mxSvgCanvas2D.prototype.getSvgGradient = function(start, end, alpha1, alpha2, direction)
 {
-	// console.log('도형 이벤트 확인 3');
 	var id = this.createGradientId(start, end, alpha1, alpha2, direction);
 	var gradient = this.gradients[id];
 	
@@ -19268,7 +19265,6 @@ mxSvgCanvas2D.prototype.createSvgGradient = function(start, end, alpha1, alpha2,
  */
 mxSvgCanvas2D.prototype.addNode = function(filled, stroked)
 {
-	// console.log('도형 이벤트 확인 4');
 	var node = this.node;
 	var s = this.state;
 
@@ -19660,7 +19656,6 @@ mxSvgCanvas2D.prototype.begin = function()
  */
 mxSvgCanvas2D.prototype.rect = function(x, y, w, h)
 {
-	// console.log('도형 이벤트 확인 5');
 	var s = this.state;
 	var n = this.createElement('rect');
 	n.setAttribute('x', this.format((x + s.dx) * s.scale));
@@ -19679,7 +19674,6 @@ mxSvgCanvas2D.prototype.rect = function(x, y, w, h)
 mxSvgCanvas2D.prototype.roundrect = function(x, y, w, h, dx, dy)
 {
 	this.rect(x, y, w, h);
-	// console.log('도형 이벤트 확인 6')
 	if (dx > 0)
 	{
 		this.node.setAttribute('rx', this.format(dx * this.state.scale));
@@ -19698,7 +19692,6 @@ mxSvgCanvas2D.prototype.roundrect = function(x, y, w, h, dx, dy)
  */
 mxSvgCanvas2D.prototype.ellipse = function(x, y, w, h)
 {
-	// console.log('도형 이벤트 확인 7');
 	var s = this.state;
 	var n = this.createElement('ellipse');
 	// No rounding for consistent output with 1.x
@@ -19716,7 +19709,6 @@ mxSvgCanvas2D.prototype.ellipse = function(x, y, w, h)
  */
 mxSvgCanvas2D.prototype.image = function(x, y, w, h, src, aspect, flipH, flipV)
 {
-	// console.log('도형 이벤트 확인 8');
 	src = this.converter.convert(src);
 	
 	// LATER: Add option for embedding images as base64.
@@ -19865,7 +19857,6 @@ mxSvgCanvas2D.prototype.convertHtml = function(val)
  */
 mxSvgCanvas2D.prototype.createDiv = function(str)
 {
-	// console.log('도형 이벤트 확인 9');
 	var val = str;
 	
 	if (!mxUtils.isNode(val))
@@ -20146,7 +20137,6 @@ mxSvgCanvas2D.createCss = function(w, h, align, valign, wrap, overflow, clip, bg
  */
 mxSvgCanvas2D.prototype.getTextCss = function()
 {
-	// console.log('도형 이벤트 확인 10');
 	var s = this.state;
 	var lh = (mxConstants.ABSOLUTE_LINE_HEIGHT) ? (s.fontSize * mxConstants.LINE_HEIGHT) + 'px' :
 		(mxConstants.LINE_HEIGHT * this.lineHeightCorrection);
@@ -26921,7 +26911,6 @@ mxText.prototype.updateVmlContainer = function()
  */
 mxText.prototype.getHtmlValue = function()
 {
-	// console.log('도형 이벤트 확인 11');
 	var val = this.value;
 	
 	if (this.dialect != mxConstants.DIALECT_STRICTHTML)
@@ -26943,7 +26932,6 @@ mxText.prototype.getHtmlValue = function()
  */
 mxText.prototype.getTextCss = function()
 {
-	// console.log('도형 이벤트 확인 12');
 	var lh = (mxConstants.ABSOLUTE_LINE_HEIGHT) ? (this.size * mxConstants.LINE_HEIGHT) + 'px' :
 		mxConstants.LINE_HEIGHT;
 
