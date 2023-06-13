@@ -10,7 +10,7 @@
             "name": "Launch Chrome against localhost",
             "url": "http://localhost:8080",
             "webRoot": "${workspaceFolder}",
-            "file": "/home/kpst/Desktop/cps/web_base_tool/mins/drawio/src/main/webapp/index.html",
+            "file": "/home/kpst/Desktop/cps/web_base_tool/mins/drawio/mxgraph-keep_it_alive/javascript/examples/grapheditor/businessprocess/index.html",
             "runtimeArgs": [
                 "--disable-web-security"
               ],
