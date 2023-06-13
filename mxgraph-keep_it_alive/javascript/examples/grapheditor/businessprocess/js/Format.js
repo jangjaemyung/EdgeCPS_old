@@ -1570,18 +1570,18 @@ ArrangePanel.prototype.init = function() // 민수  우측 메뉴Arrange 에서 
 	// 	this.container.appendChild(this.addFlip(this.createPanel()));
 	// }
 	
-	// if (ss.vertices.length > 1)
-	// {
-		// this.container.appendChild(this.addAlign(this.createPanel()));
-	// 	this.container.appendChild(this.addDistribute(this.createPanel()));
-	// }
+	if (ss.vertices.length > 1)
+	{
+		this.container.appendChild(this.addAlign(this.createPanel()));
+		// this.container.appendChild(this.addDistribute(this.createPanel()));
+	}
 	
-	// if (graph.isTable(ss.vertices[0]) ||
-	// 	graph.isTableRow(ss.vertices[0]) ||
-	// 	graph.isTableCell(ss.vertices[0]))
-	// {
-	// 	this.container.appendChild(this.addTable(this.createPanel()));
-	// }
+	if (graph.isTable(ss.vertices[0]) ||
+		graph.isTableRow(ss.vertices[0]) ||
+		graph.isTableCell(ss.vertices[0]))
+	{
+		this.container.appendChild(this.addTable(this.createPanel()));
+	}
 	
 	this.container.appendChild(this.addGroupOps(this.createPanel())); 
 	

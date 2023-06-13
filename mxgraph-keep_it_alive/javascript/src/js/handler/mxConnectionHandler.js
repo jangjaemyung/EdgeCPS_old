@@ -1892,6 +1892,8 @@ mxConnectionHandler.prototype.getEdgeWidth = function(valid)
  * dropTarget - <mxCell> that represents the cell under the mouse when it was
  * released.
  */
+
+// 순우 edge g태그 생성(?)
 mxConnectionHandler.prototype.connect = function(source, target, evt, dropTarget)
 {
 	if (target != null || this.isCreateTarget(evt) || this.graph.allowDanglingEdges)
@@ -2044,6 +2046,7 @@ mxConnectionHandler.prototype.connect = function(source, target, evt, dropTarget
 		}
 		finally
 		{
+			// 순우 여기를 지날 때 생성
 			model.endUpdate();
 		}
 		

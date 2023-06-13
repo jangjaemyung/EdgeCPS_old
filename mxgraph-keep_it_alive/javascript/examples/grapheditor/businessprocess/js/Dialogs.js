@@ -1307,7 +1307,7 @@ var EditDataDialog = function(ui, cell)
 
 	var id = (EditDataDialog.getDisplayIdForCell != null) ?
 		EditDataDialog.getDisplayIdForCell(ui, cell) : null; // 민수 고유한 인덱스 아이디 찾는 곳
-	
+	// flowDict[id]=NULL;
 	var addRemoveButton = function(text, name)
 	{
 		var wrapper = document.createElement('div');
@@ -1422,6 +1422,9 @@ var EditDataDialog = function(ui, cell)
 		
 		// form.addField('EdgeCps Name' + ':', 'EdgeCps Porperty');
 		form.addField(mxResources.get('id') + ':', text);
+		// 순우 전역변수 추가 테스트
+		// console.log(text.innerText)
+		// flowDict[text.innerText]=[1,2]
 		console.log('민수 아이디 입력')
 	}
 	

@@ -110,6 +110,7 @@
 	<script type="text/javascript" src="js/Menus.js"></script>
 	<script type="text/javascript" src="js/Toolbar.js"></script>
 	<script type="text/javascript" src="js/Dialogs.js"></script>
+	<script type="'module" src="js/view/mxGraph.js"></script>
 </head>
 <body class="geEditor">
 	<script type="text/javascript">
@@ -163,7 +164,25 @@
 		})();
 	</script>
 	
-	
+	<script> // 민수 자료 담는 곳
+        // 자바스트립티 Dict를 써서 생성되는 화살표의 방향과 생성되는 오브젝트의 값을 저장한다.
+        // 자료 추가하는 방법 dictObject['banana'] = '바나나';
+        // 자료 조회 하는 방법 dictObject['elephant'] = '코끼리';
+        // 자료 삭제 방법 delete dictObject['elephant'];
+        // key를 체크하는 방법 "moneky" in dictObject // true
+        // key의 마지막 값 가져오는 방법 var lastKey = Object.keys(dictObject)[Object.keys(dictObject).length - 1]
+
+        /**  추후 더 복잡한 구조로 생성 가능하다.
+         * 
+         *  화살표 정보 입력 포멧 flowDict['화살표 Cell Index'] = [화살표 시작 Cell, 화살표 끝 Cell];
+         * 
+         *  오브젝트 값 insert 방법 flowDict['오브젝트 Cell Index'] = {'propIndex' : value, 'propIndex' : value};
+         * 
+        */
+        
+        var flowDict = {}
+        var objValueDict = {}
+    </script>
 
 	<div id = "title" class="title" style="height: 70px; margin-top:1%">
 		<h2>MDD4EdgeCPS</h2>

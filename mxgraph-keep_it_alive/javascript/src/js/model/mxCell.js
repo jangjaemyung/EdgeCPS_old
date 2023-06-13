@@ -203,7 +203,6 @@ mxCell.prototype.getId = function()
  *
  * Sets the Id of the cell to the given string.
  */
-// 순우 cell의 고유한 id값 설정
 mxCell.prototype.setId = function(id)
 {
 	this.id = id;

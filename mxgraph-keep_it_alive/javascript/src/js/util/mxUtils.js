@@ -2,6 +2,7 @@
  * Copyright (c) 2006-2015, JGraph Ltd
  * Copyright (c) 2006-2015, Gaudenz Alder
  */
+// import mxGraph from "../view/mxGraph.js";
 var mxUtils =
 {
 	/**
@@ -210,12 +211,12 @@ var mxUtils =
 			{
 				// if (scope.currentElt.className &&  scope.currentElt.className.includes('geItem DiShape') && arguments[0].type == 'pointerdown'){
 				if (scope.element.className &&  scope.element.className.includes('geItem DiShape') && arguments[0].type != 'mousemove'){
-					console.log(scope );
-					console.log(arguments);
+					// console.log(scope );
+					// console.log(arguments);
 					diagramClsName  = scope.element.className
 					
 					createDiagramSape = convertToCamelCase(diagramClsName);
-					console.log(diagramClsName);
+					// console.log(diagramClsName);
 					return funct.apply(scope, arguments); //민수 이벤트 바인딩 하는 곳
 					
 				}

@@ -173,9 +173,8 @@ mxEventSource.prototype.fireEvent = function(evt, sender)
 		{
 			sender = this;
 		}
-
+		// 순우 seder안에 cell들 있고 그 중 마지막 세개가 각각 source, target, edge
 		var args = [sender, evt];
-		
 		for (var i = 0; i < this.eventListeners.length; i += 2) //민수 구체적으로 다이어그램을 생성 되는 소스 내부
 		{
 			var listen = this.eventListeners[i];
