@@ -210,8 +210,8 @@ var mxUtils =
 			{
 				// if (scope.currentElt.className &&  scope.currentElt.className.includes('geItem DiShape') && arguments[0].type == 'pointerdown'){
 				if (scope.element.className &&  scope.element.className.includes('geItem DiShape') && arguments[0].type != 'mousemove'){
-					console.log(scope );
-					console.log(arguments);
+					// console.log(scope );
+					// console.log(arguments);
 					diagramClsName  = scope.element.className
 					
 					createDiagramSape = convertToCamelCase(diagramClsName);
