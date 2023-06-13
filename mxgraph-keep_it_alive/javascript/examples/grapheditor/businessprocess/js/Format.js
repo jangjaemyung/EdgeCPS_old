@@ -1907,6 +1907,7 @@ ArrangePanel.prototype.addGroupOps = function(div)
 
 		btn = mxUtils.button(mxResources.get('runWorkFlow')); //민수 아르고런 버튼 
 		btn.className = 'argoRun'
+		// btn.addEventListener("click", argoRunEvent());
 		btn.setAttribute('title', mxResources.get('runWorkFlow'));
 		// btn.style.width = '100px';
 		// btn.style.marginLeft = '2px';

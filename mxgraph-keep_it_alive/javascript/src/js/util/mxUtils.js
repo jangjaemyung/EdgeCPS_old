@@ -1323,7 +1323,13 @@ var mxUtils =
 
 		mxEvent.addListener(button, 'click', function(evt)
 		{
-			funct(evt);
+			try {
+				// ArgoRun 실행 에러 뜨는곳 민수
+				funct(evt);
+			}
+			catch (e){
+				
+			}
 		});
 		
 		return button;
