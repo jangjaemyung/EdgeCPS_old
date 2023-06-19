@@ -2,7 +2,27 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<script>
+		// function argoRunEvent(){
+		// 	console.log('hello');
+		// 	var argoYaml  = {"apiVersion":"argoproj.io/v1alpha1","kind":"Workflow","metadata":{"generateName":"steps-"},"spec":{"entrypoint":"hello-hello-hello","templates":[{"name":"hello-hello-hello","steps":[[{"name":"hello1","template":"whalesay","arguments":{"parameters":[{"name":"message","value":"hello1"}]}}],[{"name":"hello2a","template":"whalesay","arguments":{"parameters":[{"name":"message","value":"hello2a"}]}},{"name":"hello2b","template":"whalesay","arguments":{"parameters":[{"name":"message","value":"hello2b"}]}}],[{"name":"hello32b","template":"whalesay","arguments":{"parameters":[{"name":"message","value":"hello32b"}]}}]]},{"name":"whalesay","inputs":{"parameters":[{"name":"message"}]},"container":{"image":"docker/whalesay","command":["cowsay"],"args":["{{inputs.parameters.message}}"]}},{"name":"whalesay1","inputs":{"parameters":[{"name":"message"}]},"container":{"image":"ubuntu","restartPolicy":"OnFailure","command":["/bin/sh","-c","exit 1"]}}]}};
+		// }
+		// console.log(argoYaml)
+		// console.log('end')
 
+		//또 다른 방식으로 진행 
+		// // Find the button element with class name "argoRun"
+		// const button = document.querySelector('.argoRun');
+
+		// // Define the event handler function
+		// function argoRunEvent() {
+		// console.log('Button with class "argoRun" clicked');
+		// // Additional code to execute when the button is clicked
+		// }
+
+		// // Attach the event listener to the button
+		// button.addEventListener('click', argoRunEvent);
+	</script>
 	<script> // 민수 자료 담는 곳
 		// 자바스트립티 Dict를 써서 생성되는 화살표의 방향과 생성되는 오브젝트의 값을 저장한다.
 		// 자료 추가하는 방법 dictObject['banana'] = '바나나';
@@ -25,7 +45,7 @@
 		// id , mxobj 로 받을 수 있는지 확인 
 		function getWorkflowElement(input, start, end) {
 			flowDict[input] = [start, end];
-			console.log(input, start, end)
+			// console.log(input, start, end)
 		}
 
 		function getObjectPropertyValue(input,id, mxObjId) {
@@ -44,8 +64,8 @@
 			}
 			}
 			objValueDict[id +'_'+ mxObjId] = desiredAttributes
-			console.log(desiredAttributes); // 민수 property값 출력
-			console.log(objValueDict)
+			// console.log(desiredAttributes); // 민수 property값 출력
+			// console.log(objValueDict)
 			// return desiredAttributes
 		}
 	</script>
