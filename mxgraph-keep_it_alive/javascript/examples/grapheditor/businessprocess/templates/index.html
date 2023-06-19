@@ -142,22 +142,22 @@
 		// Default resources are included in grapheditor resources
 		mxLoadResources = false;
 	</script>
-	<script type="text/javascript" src="js/Init.js"></script>
-	<script type="text/javascript" src="deflate/pako.min.js"></script>
-	<script type="text/javascript" src="deflate/base64.js"></script>
-	<script type="text/javascript" src="jscolor/jscolor.js"></script>
-	<script type="text/javascript" src="sanitizer/sanitizer.min.js"></script>
-	<script type="text/javascript" src="../../../src/js/mxClient.js"></script>
-	<script type="text/javascript" src="js/EditorUi.js"></script>
-	<script type="text/javascript" src="js/Editor.js"></script>
-	<script type="text/javascript" src="js/Sidebar.js"></script>
-	<script type="text/javascript" src="js/Graph.js"></script>
-	<script type="text/javascript" src="js/Format.js"></script>
-	<script type="text/javascript" src="js/Shapes.js"></script>
-	<script type="text/javascript" src="js/Actions.js"></script>
-	<script type="text/javascript" src="js/Menus.js"></script>
-	<script type="text/javascript" src="js/Toolbar.js"></script>
-	<script type="text/javascript" src="js/Dialogs.js"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='../js/Init.js')}}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='deflate/pako.min.js')}}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='deflate/base64.js')}}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='jscolor/jscolor.js')}}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='sanitizer/sanitizer.min.js')}}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='src/js/mxClient.js')}}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/EditorUi.js')}}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/Editor.js')}}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/Sidebar.js')}}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/Graph.js')}}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/Format.js')}}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/Shapes.js')}}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/Actions.js')}}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/Menus.js')}}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/Toolbar.js')}}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/Dialogs.js')}}"></script>
 	<!-- <script type="'module" src="js/view/mxGraph.js"></script> -->
 </head>
 <body class="geEditor">
