@@ -1,0 +1,31 @@
+apiVersion: argoproj.io/v1alpha1   
+kind: Workflow       
+metadata:                          
+  name: wf-artifact3         
+spec:                              
+  entrypoint: dag-template         
+  arguments:                       
+    parameters:                    
+    - name: message1               
+      value: Task 1 is executed    
+      
+  templates:                       
+  - name: dag-template             
+    inputs:                                
+      parameters:                  
+      - name: message1                      
+    dag:                           
+      tasks:                       
+      - name: task1                
+        arguments:                 
+          parameters: [{name: text, value: "{{inputs.parameters.message1}}"}] 
+        template: task-template    
+
+  - name: task-template
+    inputs:
+      parameters:
+      - name: text
+    container:
+      image: python:3.8-slim
+      command: [python]
+      args: ["-c", "param = '{{inputs.parameters.text}}'; print(param)"]
