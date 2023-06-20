@@ -2,7 +2,7 @@ import glob
 import os
 import shutil
 
-file_dir = glob.glob('/Volumes/One/2023_Drone/etri-sar/real/images/cloudy/*')
+file_dir = glob.glob('/Volumes/One/2023_Drone/etri-sar/real/images/summer/*')
 
 
 
@@ -15,7 +15,7 @@ for img in file_dir:
     dic_img[name] = img
 
 
-new_file_dir = glob.glob('/Volumes/One/blur_img/cloudy/*')
+new_file_dir = glob.glob('/Volumes/One/blur_img/summer/*')
 
 t_cnt = 0
 blur_dic_img = {}
@@ -37,20 +37,22 @@ for k,v in dic_img.items():
 
         value = blur_dic_img.get(k + '_blur' )
         if value == None:
-            shutil.copy(v, '/Volumes/One/temp/' +os.path.basename(v))
+            shutil.copy(v, '/Volumes/One/temp/' + os.path.basename(v))
             lost_li.append(v)
+            t_cnt += 1
+            print(t_cnt)
             continue
         else:
-            season = os.path.dirname(v).split('/')[-1]
-            blur = '_blur'
-            org_name = os.path.splitext(os.path.basename(v))[0]
-            name = org_name + blur
-            ext = os.path.splitext(img)[-1]
+            # season = os.path.dirname(v).split('/')[-1]
+            # blur = '_blur'
+            # org_name = os.path.splitext(os.path.basename(v))[0]
+            # name = org_name + blur
+            # ext = os.path.splitext(img)[-1]
             # shutil.copy(value,'/Volumes/One/blur_img/'+ season + '/' +name+ext)
             t_cnt += 1
             print(t_cnt)
-print(len(lost_li))
-print(lost_li)
+# print(len(lost_li))
+# print(lost_li)
 
 
 
