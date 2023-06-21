@@ -4642,7 +4642,8 @@ mxGraph.prototype.insertEdge = function(parent, id, value, source, target, style
 	// 순우 flowDict 추가
 	getWorkflowElement(edge.id,source.id, target.id)
 	// flowDict[edge.id] = [source.id, target.id];
-	return insertedEdge;
+	// return insertedEdge;
+	send_data()
   };
   
 

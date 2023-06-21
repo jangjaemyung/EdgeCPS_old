@@ -21,11 +21,31 @@
 		
 		var flowDict = {}
 		var objValueDict = {}
+		var imagename  = {'imagename':'yolov5'}
+
+		function send_data(){
+			fetch('http://127.0.0.1:5000/search', {
+				method:'POST',
+				mode:'cors',
+				headers:{
+					'Content-TYPE':'application/json',
+
+				},
+				body: JSON.stringify(imagename),
+			})
+			.then(function(response){return response.json();})
+			.then(function(data){
+				console.log(data);
+				if (data.req =='1'){get_pod_data();}
+				if (data.req == '0') { console.log("no data list"); }
+			})
+		}
 
 		// id , mxobj 로 받을 수 있는지 확인 
 		function getWorkflowElement(input, start, end) {
 			flowDict[input] = [start, end];
-			console.log(input, start, end)
+			console.log(input, start, end);
+			
 		}
 
 		function getObjectPropertyValue(input,id, mxObjId) {
