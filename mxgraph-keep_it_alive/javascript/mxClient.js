@@ -52370,7 +52370,7 @@ mxGraphView.prototype.validate = function(cell)
 		document.body.appendChild(this.textDiv);
 	}
 	
-	var graphBounds = this.getBoundingBox(this.validateCellState( // 민수 다이어그램 생생 되는 부분 계속 찾는중
+	var graphBounds = this.getBoundingBox(this.validateCellState( // ? 민수  다이어그램 생성중 validate
 		this.validateCell(cell || ((this.currentRoot != null) ?
 			this.currentRoot : this.graph.getModel().getRoot()))));
 	this.setGraphBounds((graphBounds != null) ? graphBounds : this.getEmptyBounds());

@@ -1,0 +1,9 @@
+{
+  "spec" : {
+    "templates" : {
+      "container" : {
+        "args" : "['-c', 'param = '{{inputs.parameters.text}}'; print(param)']"
+      }
+    }
+  }
+}

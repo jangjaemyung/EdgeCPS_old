@@ -23,7 +23,7 @@
 		// Attach the event listener to the button
 		button.addEventListener('click', argoRunEvent);
 	</script>
-	<script> // 민수 자료 담는 곳
+	<script> // 민수 edit property 자료 담는 곳
 		// 자바스트립티 Dict를 써서 생성되는 화살표의 방향과 생성되는 오브젝트의 값을 저장한다.
 		// 자료 추가하는 방법 dictObject['banana'] = '바나나';
 		// 자료 조회 하는 방법 dictObject['elephant'] = '코끼리';
@@ -64,15 +64,15 @@
 			}
 			}
 			objValueDict[id +'_'+ mxObjId] = desiredAttributes
-			// console.log(desiredAttributes); // 민수 property값 출력
+			// console.log(desiredAttributes); // 민수 edit property값 출력
 			// console.log(objValueDict)
 			// return desiredAttributes
 		}
 	</script>
 
 	<script> 
-		let createDigramClicked = false ;// 요소 생성인지 확인하는 플래그
-		var createDiagramSape = ""; // 다이어그램 변수를 넣는 곳 민수
+		let createDigramClicked = false ;// 민수 다이그램 성성 확인하는 플래그
+		var createDiagramSape = ""; // 민수 다이어그램 변수를 넣는 곳 민수
 
 		function convertToCamelCase(input) { // 단어를 클래스로 변경하기 위한 함수 민수
 			var keyword = "DiShape";
