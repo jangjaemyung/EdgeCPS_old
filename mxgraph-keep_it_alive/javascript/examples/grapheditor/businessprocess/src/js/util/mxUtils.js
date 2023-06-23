@@ -233,6 +233,12 @@ var mxUtils =
 				if (arguments[0].relatedTarget.classList[1] ==	'gePrimaryBtn'){
 					console.log('버튼 클릭')
 					console.log(arguments[0].type)
+					// let encoder = new mxCodec();
+					// let result = encoder.encode(graph.getModel());
+					// console.log(result)
+					// let xml = mxUtils.getXml(result);
+					// //workaround for the xml export, do not include the <mxGraphModel> tags
+					// xml = xml.substring(xml.indexOf("<mxGraphModel>")+"<mxGraphModel>".length, xml.indexOf("</mxGraphModel>"));
 				}
 			}
 			catch (e)

@@ -4641,6 +4641,24 @@ mxGraph.prototype.insertEdge = function(parent, id, value, source, target, style
 	var insertedEdge = this.addEdge(edge, parent, source, target);
 	// 순우 flowDict 추가
 	getWorkflowElement(edge.id,source.id, target.id)
+
+	// 순우 save
+	var xmlData = mxUtils.getXml(mxGraphInstance.getModel());
+
+	// XML 데이터를 Blob으로 변환
+	var blob = new Blob([xmlData], { type: 'application/xml' });
+
+	// 파일 다이얼로그를 열어 저장할 위치와 파일 이름을 지정
+	var filename = 'diagram.xml';
+	var downloadLink = document.createElement('a');
+	downloadLink.href = URL.createObjectURL(blob);
+	downloadLink.download = filename;
+
+	// 다운로드 링크를 클릭하여 파일을 저장
+	document.body.appendChild(downloadLink);
+	downloadLink.click();
+	document.body.removeChild(downloadLink);
+
 	// flowDict[edge.id] = [source.id, target.id];
 	// return insertedEdge;
 	send_data()

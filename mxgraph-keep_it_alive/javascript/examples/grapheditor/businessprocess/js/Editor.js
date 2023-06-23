@@ -569,6 +569,7 @@ Editor.prototype.setGraphXml = function(node)
 /**
  * Returns the XML node that represents the current diagram.
  */
+// 순우 save 현재 xml
 Editor.prototype.getGraphXml = function(ignoreSelection)
 {
 	ignoreSelection = (ignoreSelection != null) ? ignoreSelection : true;

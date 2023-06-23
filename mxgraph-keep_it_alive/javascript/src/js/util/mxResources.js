@@ -375,7 +375,11 @@ var mxResources =
 		// Replaces the placeholders with the values in the array
 		if (value != null && params != null)
 		{
-			value = mxResourgetces.replacePlaceholders(value, params);
+			// 순우 save 기능 
+			// value = mxResourgetces.replacePlaceholders(value, params);
+			// value는 파일 이름
+			value = mxResources.replacePlaceholders(value, params);
+
 		}
 		
 		return value;

@@ -375,7 +375,10 @@ var mxResources =
 		// Replaces the placeholders with the values in the array
 		if (value != null && params != null)
 		{
-			value = mxResourgetces.replacePlaceholders(value, params);
+			// 순우 save 하는데 오타인지 뭔지 밑에거로 함수 이름 바꾸니까 오류 없어짐
+			// value = mxResourgetces.replacePlaceholders(value, params); 
+			value = mxResources.replacePlaceholders(value, params);
+
 		}
 		
 		return value;

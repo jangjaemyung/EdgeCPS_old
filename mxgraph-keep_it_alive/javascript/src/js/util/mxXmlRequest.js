@@ -85,6 +85,8 @@
  * username - String specifying the username to be used for the request.
  * password - String specifying the password to be used for the request.
  */
+
+// 순우 save xml 만든거 
 function mxXmlRequest(url, params, method, async, username, password)
 {
 	this.url = url;
@@ -390,6 +392,7 @@ mxXmlRequest.prototype.setRequestHeaders = function(request, params)
  * docs - Document that contains the form element.
  * target - Target to send the form result to.
  */
+//순우 save post req
 mxXmlRequest.prototype.simulate = function(doc, target)
 {
 	doc = doc || document;
