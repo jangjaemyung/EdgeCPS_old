@@ -75,8 +75,9 @@ EditorUi = function(editor, container, lightbox)
 		if (this.container == document.body)
 		{
 			// 순우 상단 메뉴바 삭제
-			// this.menubarContainer.onselectstart = textEditing;
-			// this.menubarContainer.onmousedown = textEditing;
+			this.menubarContainer.onselectstart = textEditing;
+			this.menubarContainer.onmousedown = textEditing;
+
 			this.toolbarContainer.onselectstart = textEditing;
 			this.toolbarContainer.onmousedown = textEditing;
 			this.diagramContainer.onselectstart = textEditing;
@@ -2865,6 +2866,7 @@ EditorUi.prototype.open = function()
 	{
 		if (window.opener != null && window.opener.openFile != null)
 		{
+			// 순우 open
 			window.opener.openFile.setConsumer(mxUtils.bind(this, function(xml, filename)
 			{
 				try
@@ -2909,25 +2911,25 @@ EditorUi.prototype.open = function()
 EditorUi.prototype.showPopupMenu = function(fn, x, y, evt)
 {
 	// 순우 상단 메뉴바 삭제
-	// this.editor.graph.popupMenuHandler.hideMenu();
+	this.editor.graph.popupMenuHandler.hideMenu();
 	
-	// var menu = new mxPopupMenu(fn);
-	// menu.div.className += ' geMenubarMenu';
-	// menu.smartSeparators = true;
-	// menu.showDisabled = true;
-	// menu.autoExpand = true;
+	var menu = new mxPopupMenu(fn);
+	menu.div.className += ' geMenubarMenu';
+	menu.smartSeparators = true;
+	menu.showDisabled = true;
+	menu.autoExpand = true;
 	
-	// // Disables autoexpand and destroys menu when hidden
-	// menu.hideMenu = mxUtils.bind(this, function()
-	// {
-	// 	mxPopupMenu.prototype.hideMenu.apply(menu, arguments);
-	// 	menu.destroy();
-	// });
+	// Disables autoexpand and destroys menu when hidden
+	menu.hideMenu = mxUtils.bind(this, function()
+	{
+		mxPopupMenu.prototype.hideMenu.apply(menu, arguments);
+		menu.destroy();
+	});
 
-	// menu.popup(x, y, null, evt);
+	menu.popup(x, y, null, evt);
 	
-	// // Allows hiding by clicking on document
-	// this.setCurrentMenu(menu);	
+	// Allows hiding by clicking on document
+	this.setCurrentMenu(menu);	
 };
 
 /**
@@ -3615,11 +3617,11 @@ EditorUi.prototype.refresh = function(sizeDidChange)
 	var tmp = 0;
 	
 	// 순우 상단 메뉴바 삭제
-	// if (this.menubar != null)
-	// {
-	// 	this.menubarContainer.style.height = this.menubarHeight + 'px';
-	// 	tmp += this.menubarHeight;
-	// }
+	if (this.menubar != null)
+	{
+		this.menubarContainer.style.height = this.menubarHeight + 'px';
+		tmp += this.menubarHeight;
+	}
 	
 	if (this.toolbar != null)
 	{
@@ -3729,7 +3731,8 @@ EditorUi.prototype.createTabContainer = function()
 EditorUi.prototype.createDivs = function()
 {
 	// 순우 상단 메뉴바 삭제
-	// this.menubarContainer = this.createDiv('geMenubarContainer');
+	this.menubarContainer = this.createDiv('geMenubarContainer');
+
 	this.toolbarContainer = this.createDiv('geToolbarContainer');
 	this.sidebarContainer = this.createDiv('geSidebarContainer');
 	this.formatContainer = this.createDiv('geSidebarContainer geFormatContainer');
@@ -3740,9 +3743,9 @@ EditorUi.prototype.createDivs = function()
 
 	// Sets static style for containers
 	// 순우 상단 메뉴바 삭제
-	// this.menubarContainer.style.top = '0px';
-	// this.menubarContainer.style.left = '0px';
-	// this.menubarContainer.style.right = '0px';
+	this.menubarContainer.style.top = '0px';
+	this.menubarContainer.style.left = '0px';
+	this.menubarContainer.style.right = '0px';
 	this.toolbarContainer.style.left = '0px';
 	this.toolbarContainer.style.right = '0px';
 	this.sidebarContainer.style.left = '0px';
@@ -3786,31 +3789,31 @@ EditorUi.prototype.createSidebarFooterContainer = function()
 EditorUi.prototype.createUi = function() //민수 요청된 ui생성하는 곳
 {
 	// 순우 상단 메뉴 바 삭제
-	// // Creates menubar
-	// this.menubar = (this.editor.chromeless) ? null : this.menus.createMenubar(this.createDiv('geMenubar'));
+	// Creates menubar
+	this.menubar = (this.editor.chromeless) ? null : this.menus.createMenubar(this.createDiv('geMenubar'));
 	
-	// if (this.menubar != null)
-	// {
-	// 	this.menubarContainer.appendChild(this.menubar.container);
-	// }
+	if (this.menubar != null)
+	{
+		this.menubarContainer.appendChild(this.menubar.container);
+	}
 	
-	// // Adds status bar in menubar
-	// if (this.menubar != null)
-	// {
-	// 	this.statusContainer = this.createStatusContainer();
+	// Adds status bar in menubar
+	if (this.menubar != null)
+	{
+		this.statusContainer = this.createStatusContainer();
 	
-	// 	// Connects the status bar to the editor status
-	// 	this.editor.addListener('statusChanged', mxUtils.bind(this, function()
-	// 	{
-	// 		this.setStatusText(this.editor.getStatus());
-	// 	}));
+		// Connects the status bar to the editor status
+		this.editor.addListener('statusChanged', mxUtils.bind(this, function()
+		{
+			this.setStatusText(this.editor.getStatus());
+		}));
 	
-	// 	this.setStatusText(this.editor.getStatus());
-	// 	this.menubar.container.appendChild(this.statusContainer);
+		this.setStatusText(this.editor.getStatus());
+		this.menubar.container.appendChild(this.statusContainer);
 		
-	// 	// Inserts into DOM
-	// 	this.container.appendChild(this.menubarContainer);
-	// }
+		// Inserts into DOM
+		this.container.appendChild(this.menubarContainer);
+	}
 
 	// Creates the sidebar 민수 우측 사이드바 생성되는 곳ㄷ
 	this.sidebar = (this.editor.chromeless) ? null : this.createSidebar(this.sidebarContainer);
@@ -4174,6 +4177,7 @@ EditorUi.prototype.pickColor = function(color, apply)
 /**
  * Adds the label menu items to the given menu and parent.
  */
+// 순우 open
 EditorUi.prototype.openFile = function()
 {
 	// Closes dialog after open
@@ -5009,11 +5013,11 @@ EditorUi.prototype.destroy = function()
 		this.editor = null;
 	}
 	// 순우 상단 메뉴바 삭제
-	// if (this.menubar != null)
-	// {
-	// 	this.menubar.destroy();
-	// 	this.menubar = null;
-	// }
+	if (this.menubar != null)
+	{
+		this.menubar.destroy();
+		this.menubar = null;
+	}
 	
 	if (this.toolbar != null)
 	{
@@ -5079,7 +5083,7 @@ EditorUi.prototype.destroy = function()
 		this.destroyFunctions = null;
 	}
 	
-	var c = [/*순우 상단 메뉴바 삭제this.menubarContainer,*/ this.toolbarContainer, this.sidebarContainer,
+	var c = [/*순우 상단 메뉴바 삭제*/this.menubarContainer, this.toolbarContainer, this.sidebarContainer,
 	         this.formatContainer, this.diagramContainer, this.footerContainer,
 	         this.chromelessToolbar, this.hsplit, this.sidebarFooterContainer,
 	         this.layersDialog];

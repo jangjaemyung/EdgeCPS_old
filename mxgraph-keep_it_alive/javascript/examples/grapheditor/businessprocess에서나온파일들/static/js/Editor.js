@@ -609,29 +609,21 @@ Editor.prototype.getGraphXml = function(ignoreSelection)
 	}
 	
 	// return node;
-	// 순우 save xml변수에 저장
+	// Create a new XML document to store the graph XML
 	var xmlDoc = mxUtils.createXmlDocument();
 	var root = xmlDoc.createElement('graph');
-
+	
+	// Append the serialized graph XML as a child of the root element
 	root.appendChild(node);
+	
+	// Set the root element as the document element
 	xmlDoc.appendChild(root);
 	
-	var xml = mxUtils.getXml(xmlDoc);
-	var xml = xml.substring(7, xml.length-8);// 문자열 앞뒤에 <graph>태그 없애야 불러와짐
-	var fileName = 'diagram.xml';
+	// Serialize the XML document to a string
+	var xmlString = mxUtils.getXml(xmlDoc);
+	// downloadGraphXml(true, 'diagram.xml');
 
-	var blob = new Blob([xml], {type:"text/plain;charset=utf-8"});
-	var url = URL.createObjectURL(blob);
-	var link = document.createElement("a");
-	link.href = url;
-	link.download = fileName;
-	link.innerHTML = "다운로드파일"
-	document.body.appendChild(link);
-	link.click();
-	document.body.removeChild(link); 
-
-
-	return xml;
+	return xmlString;
 };
 //순우 save 로컬에하는..
 Editor.prototype.downloadGraphXml = function(ignoreSelection, filename) {
@@ -652,7 +644,6 @@ Editor.prototype.downloadGraphXml = function(ignoreSelection, filename) {
 	// Release the URL object
 	URL.revokeObjectURL(link.href);
   };
-
 /**
  * Keeps the graph container in sync with the persistent graph state
  */
@@ -760,7 +751,6 @@ Editor.prototype.destroy = function()
  * Class for asynchronously opening a new window and loading a file at the same
  * time. This acts as a bridge between the open dialog and the new editor.
  */
-// 순우 open
 OpenFile = function(done)
 {
 	this.producer = null;

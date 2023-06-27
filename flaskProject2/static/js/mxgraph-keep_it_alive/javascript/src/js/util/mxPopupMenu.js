@@ -196,6 +196,7 @@ mxPopupMenu.prototype.isPopupTrigger = function(me)
  */
 mxPopupMenu.prototype.addItem = function(title, image, funct, parent, iconCls, enabled, active, noHover)
 {
+	enabled = true // 순우 save 버튼 비활성화된 부분. 그냥 false로 안넘어가게 항상 true로 일단 해 놨습니다
 	parent = parent || this;
 	this.itemCount++;
 	
@@ -236,7 +237,7 @@ mxPopupMenu.prototype.addItem = function(title, image, funct, parent, iconCls, e
 	{
 		var col2 = document.createElement('td');
 		col2.className = 'mxPopupMenuItem' +
-			((enabled != null && !enabled) ? ' mxDisabled' : '');
+			((enabled != null && !enabled) ? ' temp' : '');	// 순우 save 버튼 비활성화 부분
 		
 		mxUtils.write(col2, title);
 		col2.align = 'left';
@@ -244,7 +245,7 @@ mxPopupMenu.prototype.addItem = function(title, image, funct, parent, iconCls, e
 	
 		var col3 = document.createElement('td');
 		col3.className = 'mxPopupMenuItem' +
-			((enabled != null && !enabled) ? ' mxDisabled' : '');
+			((enabled != null && !enabled) ? ' temp' : '');	// 순우 save 버튼 비활성화 부분
 		col3.style.paddingRight = '6px';
 		col3.style.textAlign = 'right';
 		

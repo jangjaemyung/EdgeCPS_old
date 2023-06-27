@@ -610,8 +610,7 @@ Editor.prototype.getGraphXml = function(ignoreSelection)
 	}
 	
 	return node;
-};
-
+}
 /**
  * Keeps the graph container in sync with the persistent graph state
  */

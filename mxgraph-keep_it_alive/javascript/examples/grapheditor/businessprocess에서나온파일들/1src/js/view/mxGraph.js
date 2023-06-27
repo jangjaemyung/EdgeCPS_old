@@ -4641,9 +4641,10 @@ mxGraph.prototype.insertEdge = function(parent, id, value, source, target, style
 	var insertedEdge = this.addEdge(edge, parent, source, target);
 	// 순우 flowDict 추가
 	getWorkflowElement(edge.id,source.id, target.id)
+	// editor.downloadGraphXml(true, 'diagram.xml');
+
 	// flowDict[edge.id] = [source.id, target.id];
 	return insertedEdge;
-	// editor.downloadGraphXml(true, 'diagram.xml');
 	send_data()
   };
   

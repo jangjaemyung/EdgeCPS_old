@@ -44,6 +44,7 @@ Actions.prototype.init = function()
 			ui.hideDialog();
 		}));
 		
+		// 순우 open
 		window.openFile.setConsumer(mxUtils.bind(this, function(xml, filename)
 		{
 			try
