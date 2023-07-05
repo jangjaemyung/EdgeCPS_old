@@ -84,9 +84,11 @@ Toolbar.prototype.init = function()
 	if (sw >= 420)
 	{
 		this.addSeparator();
-		var elts = this.addItems(['zoomIn', 'zoomOut']);
+		var elts = this.addItems(['zoomIn', 'zoomOut', 'zoomOut']);// 순우
 		elts[0].setAttribute('title', mxResources.get('zoomIn') + ' (' + this.editorUi.actions.get('zoomIn').shortcut + ')');
 		elts[1].setAttribute('title', mxResources.get('zoomOut') + ' (' + this.editorUi.actions.get('zoomOut').shortcut + ')');
+		elts[2].setAttribute('title', mxResources.get('zoomOut') + ' (' + this.editorUi.actions.get('zoomOut').shortcut + ')');
+
 	}
 	
 	// Updates the label if the scale changes
@@ -120,16 +122,14 @@ Toolbar.prototype.init = function()
 		this.addItems(['-', 'toFront', 'toBack']);
 	}
 
-	if (sw >= 740)
-	{
+	if (sw >= 740){
 		this.addItems(['-', 'fillColor']);
 		
-		if (sw >= 780)
-		{
+		if (sw >= 780){
 			this.addItems(['strokeColor']);
+
 			
-			if (sw >= 820)
-			{
+			if (sw >= 820){
 				this.addItems(['shadow']);
 			}
 		}
@@ -143,6 +143,7 @@ Toolbar.prototype.init = function()
 		{
 			this.edgeShapeMenu = this.addMenuFunction('', mxResources.get('connection'), false, mxUtils.bind(this, function(menu)
 			{
+				this.editorUi.menus.edgeStyleChange(menu, '', [mxConstants.STYLE_SHAPE, 'width'], ['activity', null], 'geIcon geSprite geSprite-activity', null, true).setAttribute('title', mxResources.get('GetActivity'));//순우 activity
 				this.editorUi.menus.edgeStyleChange(menu, '', [mxConstants.STYLE_SHAPE, 'width'], [null, null], 'geIcon geSprite geSprite-connection', null, true).setAttribute('title', mxResources.get('line'));
 				this.editorUi.menus.edgeStyleChange(menu, '', [mxConstants.STYLE_SHAPE, 'width'], ['link', null], 'geIcon geSprite geSprite-linkedge', null, true).setAttribute('title', mxResources.get('link'));
 				this.editorUi.menus.edgeStyleChange(menu, '', [mxConstants.STYLE_SHAPE, 'width'], ['flexArrow', null], 'geIcon geSprite geSprite-arrow', null, true).setAttribute('title', mxResources.get('arrow'));

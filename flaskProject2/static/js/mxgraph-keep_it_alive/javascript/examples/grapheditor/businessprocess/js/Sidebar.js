@@ -1048,6 +1048,7 @@ Sidebar.prototype.insertSearchHint = function(div, searchTerm, count, page, resu
  * Adds the general palette to the sidebar.
  */
 // 순우 좌측 사이드바 각 요소
+
 Sidebar.prototype.addGeneralPalette = function(expand)
 {
 	var lineTags = 'line lines connector connectors connection connections arrow arrows ';

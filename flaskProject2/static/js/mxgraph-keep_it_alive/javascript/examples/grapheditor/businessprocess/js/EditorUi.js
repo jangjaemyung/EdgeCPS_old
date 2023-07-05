@@ -1004,7 +1004,7 @@ EditorUi.prototype.formatWidth = 240;
 /**
  * Specifies the height of the toolbar. Default is 38.
  */
-EditorUi.prototype.toolbarHeight = 38;
+EditorUi.prototype.toolbarHeight = 38; 
 
 /**
  * Specifies the height of the footer. Default is 28.
@@ -1263,7 +1263,7 @@ EditorUi.prototype.showShapePicker = function(x, y, source, callback, direction)
 		
 		// Do not place entry under pointer for touch devices
 		div.className = 'geToolbarContainer geSidebarContainer geSidebar';
-		div.style.cssText = 'position:absolute;left:' + x + 'px;top:' + y + 
+		div.style.cssText = 'position:absolute;left:' + x + 'px;top:' + y  + 
 			'px;width:140px;border-radius:10px;padding:4px;text-align:center;' +
 			'box-shadow:0px 0px 3px 1px #d1d1d1;padding: 6px 0 8px 0;';
 		mxUtils.setPrefixedStyle(div.style, 'transform', 'translate(-22px,-22px)');
@@ -1896,7 +1896,7 @@ EditorUi.prototype.initCanvas = function()
 				
 				if (graph.isViewer())
 				{
-					this.chromelessToolbar.style.top = '0';
+					this.chromelessToolbar.style.top = '0'; 
 				}
 				else
 				{
@@ -3619,13 +3619,14 @@ EditorUi.prototype.refresh = function(sizeDidChange)
 	// 순우 상단 메뉴바 삭제
 	if (this.menubar != null)
 	{
+		this.menubarContainer.style.top = this.menubarHeight +100+'px'; //순우 상단 메뉴바 재배치
 		this.menubarContainer.style.height = this.menubarHeight + 'px';
 		tmp += this.menubarHeight;
 	}
 	
 	if (this.toolbar != null)
 	{
-		this.toolbarContainer.style.top = this.menubarHeight + +100+'px';
+		this.toolbarContainer.style.top = this.menubarHeight + +100+30+'px'; //내림
 		this.toolbarContainer.style.height = this.toolbarHeight + 'px';
 		tmp += this.toolbarHeight;
 	}
@@ -3931,7 +3932,7 @@ EditorUi.prototype.createFooter = function()
 /**
  * Creates the actual toolbar for the toolbar container.
  */
-EditorUi.prototype.createDiv = function(classname) // 순우 툴바, 좌측 사이드바, 우측 사이드바 생성
+EditorUi.prototype.createDiv = function(classname) 
 {
 	var elt = document.createElement('div');
 	elt.className = classname+' right_sidebar';
@@ -4470,6 +4471,9 @@ EditorUi.prototype.showDataDialog = function(cell)
 	if (cell != null)
 	{
 		var dlg = new EditDataDialog(this, cell);
+		// 순우
+		
+		// console.log(createDiagramSape);
 		this.showDialog(dlg.container, 480, 420, true, false, null, false); // property 여기에 작성된 정보가 저장 된다. 민수
 		dlg.init();
 	}

@@ -1,9 +1,11 @@
+
 /**
  * Copyright (c) 2006-2012, JGraph Ltd
  */
 /**
  * Editor constructor executed on page load.
  */
+
 Editor = function(chromeless, themes, model, graph, editable)
 {
 	mxEventSource.call(this);
@@ -566,6 +568,23 @@ Editor.prototype.setGraphXml = function(node)
 	}
 };
 
+// const collection = client.db(dbName).collection('business'); // 'your_collection'은 실제 컬렉션 이름으로 변경해야 합니다.
+
+// const variableValue = xml; // 저장할 변수 값
+
+// // MongoDB에 변수 값을 저장하는 쿼리
+// collection.updateOne(
+// { _id: '649bf7ae36753f74db06c9ee' }, // 저장할 문서의 고유 식별자 (_id)를 지정합니다.
+// { $set: { variable: variableValue } }, // 변수 값을 업데이트합니다.
+// function (err, result) {
+// 	if (err) {
+// 	console.error('Failed to save variable:', err);
+// 	return;
+// 	}
+
+// 	console.log('Variable saved successfully');
+// }
+// );
 /**
  * Returns the XML node that represents the current diagram.
  */
@@ -609,23 +628,23 @@ Editor.prototype.getGraphXml = function(ignoreSelection)
 	}
 	
 	// return node;
-	// 순우 save xml변수에 저장
+	
 	var xmlDoc = mxUtils.createXmlDocument();
 	var root = xmlDoc.createElement('graph');
 
 	root.appendChild(node);
 	xmlDoc.appendChild(root);
-	
+	// 순우 save xml변수에 저장
 	var xml = mxUtils.getXml(xmlDoc);
 	var xml = xml.substring(7, xml.length-8);// 문자열 앞뒤에 <graph>태그 없애야 불러와짐
-	var fileName = 'diagram.xml';
+	var fileName = 'diagram.xml'; // 순우 파일 이름 지금은 고정인데 동적으로 바꿔야 함.
 
 	var blob = new Blob([xml], {type:"text/plain;charset=utf-8"});
 	var url = URL.createObjectURL(blob);
 	var link = document.createElement("a");
 	link.href = url;
 	link.download = fileName;
-	link.innerHTML = "다운로드파일"
+	link.innerHTML = "순우 다운로드파일"
 	document.body.appendChild(link);
 	link.click();
 	document.body.removeChild(link); 
@@ -783,7 +802,7 @@ OpenFile.prototype.setConsumer = function(value)
  */
 OpenFile.prototype.setData = function()
 {
-	this.args = arguments;
+	this.args = arguments; // 순우 open args 안에 xml 스트링 들어간다 불러오기 할 때
 	this.execute();
 };
 
@@ -918,7 +937,7 @@ function Dialog(editorUi, elt, w, h, modal, closable, onClose, noScroll, transpa
 	{
 		var img = document.createElement('img');
 
-		img.setAttribute('src', Dialog.prototype.closeImage);
+		img.setAttribute('src', Dialog.prototype.closeImage);	
 		img.setAttribute('title', mxResources.get('close'));
 		img.className = 'geDialogClose';
 		img.style.top = (top + 14) + 'px';
@@ -2337,7 +2356,7 @@ FilenameDialog.createFileTypes = function(editorUi, nameInput, types)
 	
 	return typeSelect;
 };
-
+var canvas_list = ''; //순우 roundedrectangle 저장할 변수
 /**
  * Static overrides
  */
@@ -2500,6 +2519,24 @@ FilenameDialog.createFileTypes = function(editorUi, nameInput, types)
 			canvas.style.backgroundColor = color;
 			canvas.style.backgroundImage = image;
 		}
+		
+		canvas_list = canvas.innerHTML //순우 캔버스 위에 있는 모든 다이어그램 리스트 저장 
+	};
+	// 순우 
+	mxGraphView.prototype.getRectangleList=function(){
+		// console.log(canvas_list)
+		var regex = /DiRoundedRectangle([^"]*)"/g;
+		var matches = [];
+		var match;
+		while ((match = regex.exec(canvas_list)) !== null) {
+			matches.push(match[1]);
+		  }
+		// console.log(matches)
+		return matches
+		// var background_div = document.querySelector('div.geDiagramContainer geDiagramBackdrop')
+		// var background_svg = background_div.querySelector('svg')
+		// var svg_g_tag = background_svg.querySelector('g')
+		// var g_tag_in_g = svg_g_tag.querySelector()
 	};
 	
 	// Returns the SVG required for painting the background grid.

@@ -1,6 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for
 
-
 app = Flask(__name__)
 
 # 임의의 프로젝트 목록 데이터
@@ -134,6 +133,10 @@ def policy_process():
 def run_process():
     active_run = True
     return render_template('process/runProcess.html', active_run=active_run)
+
+
+
+
 
 
 if __name__ == '__main__':

@@ -1,0 +1,121 @@
+
+/* EdgeCPS */
+.title h2 {
+    color: #3391FF;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
+    font-size: 40px;
+    font-family: Inter;
+    font-style: normal;
+    font-weight: 800;
+    line-height: normal;
+}
+
+  
+.dot {
+    position: relative;
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    background: #0075FF;
+    margin: 0 5px; /* 원하는 간격으로 조정합니다. */
+    border-radius: 50%;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
+  }
+  
+.nav-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+.nav-list li {
+    flex-grow: 1;
+    text-align: center;
+  }
+  
+.nav-button {
+    position: relative;
+    width: 185px;
+    height: 40px;
+    border-radius: 10px;
+    background: #F8F9FA;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
+  }
+
+.nav-button .button-text {
+    color: #A4A4A4;
+    font-size: 14px;
+    font-family: Inter;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    position: relative;
+    top: 25%;
+    right: 10%;
+    transform: translateY(-50%);
+  }
+
+.nav-button:hover {
+    position: relative;
+    width: 185px;
+    height: 40px;
+    border-radius: 10px;
+    background: #F8F9FA;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
+  }
+
+.nav-button:hover .button-text {
+    color: #0075FF;
+    font-size: 14px;
+    font-family: Inter;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    position: absolute;
+    top: 50%;
+    right: 10%; /* 오른쪽 여백 조정 */
+    transform: translateY(-50%);
+}
+.nav-button:active {
+    position: relative;
+    width: 185px;
+    height: 40px;
+    border-radius: 10px;
+    background: #0075FF;
+    box-shadow: 2px 2px 4px  rgba(0, 0, 0, 0.25);
+  }
+.nav-button:active .button-text {
+    color: #FFF;
+    font-size: 14px;
+    font-family: Inter;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    position: absolute;
+    top: 50%;
+    right: 10%; /* 오른쪽 여백 조정 */
+    transform: translateY(-50%);
+  }
+  
+/* .nav-button::before {
+
+  }
+  
+.nav-button::after {
+
+  } */
+  
+
+
+  .nav-item-separator {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin: 0 10px;
+  }
+  
+

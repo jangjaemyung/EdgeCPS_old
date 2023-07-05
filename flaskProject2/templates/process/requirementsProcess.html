@@ -176,7 +176,8 @@
 	<script type="text/javascript" src="{{ url_for('static', filename='js/mxgraph-keep_it_alive/javascript/examples/grapheditor/businessprocess/js/Menus.js') }}"></script>
 	<script type="text/javascript" src="{{ url_for('static', filename='js/mxgraph-keep_it_alive/javascript/examples/grapheditor/businessprocess/js/Toolbar.js') }}"></script>
 	<script type="text/javascript" src="{{ url_for('static', filename='js/mxgraph-keep_it_alive/javascript/examples/grapheditor/businessprocess/js/Dialogs.js') }}"></script>
-
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles/process.css')}}"> <!--순우 css 추가-->
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@800&display=swap">
 </head>
 <body class="geEditor">
 	<script type="text/javascript">
@@ -232,8 +233,8 @@
 
 
 
-	<div id = "title" class="title" style="height: 70px; margin-top:1%">
-		<h2>MDD4EdgeCPS</h2>
+	<div id = "title" class="title" style="height: 50px; margin-top:1%">
+		<h2>EdgeCPS</h2>
 	</div>
 	<nav class="nav nav-pills flex-column flex-sm-row">
         <a class="flex-sm-fill text-sm-center nav-link {% if active_overview %}active{% endif %}" href="{{ url_for('overview_process') }}">Overview</a>

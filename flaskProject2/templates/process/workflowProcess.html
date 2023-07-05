@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 
-	</script>
 	<script> // 민수 edit property 자료 담는 곳
 
 
@@ -124,6 +123,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 	<!--BOOTSTRAP END-->
 
 
@@ -176,7 +176,8 @@
 	<script type="text/javascript" src="{{ url_for('static', filename='js/mxgraph-keep_it_alive/javascript/examples/grapheditor/businessprocess/js/Menus.js') }}"></script>
 	<script type="text/javascript" src="{{ url_for('static', filename='js/mxgraph-keep_it_alive/javascript/examples/grapheditor/businessprocess/js/Toolbar.js') }}"></script>
 	<script type="text/javascript" src="{{ url_for('static', filename='js/mxgraph-keep_it_alive/javascript/examples/grapheditor/businessprocess/js/Dialogs.js') }}"></script>
-
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles/process.css')}}"> <!--순우 css 추가-->
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@800&display=swap">
 </head>
 <body class="geEditor">
 	<script type="text/javascript">
@@ -232,8 +233,8 @@
 
 
 
-	<div id = "title" class="title" style="height: 70px; margin-top:1%">
-		<h2>MDD4EdgeCPS</h2>
+	<div id = "title" class="title" style="height: 50px; margin-top:1%">
+		<h2>EdgeCPS</h2>
 	</div>
 	<nav class="nav nav-pills flex-column flex-sm-row">
         <a class="flex-sm-fill text-sm-center nav-link {% if active_overview %}active{% endif %}" href="{{ url_for('overview_process') }}">Overview</a>
@@ -245,6 +246,52 @@
         <a class="flex-sm-fill text-sm-center nav-link {% if active_policy %}active{% endif %}" href="{{ url_for('policy_process') }}">Policy</a>
         <a class="flex-sm-fill text-sm-center nav-link {% if active_run %}active{% endif %}" href="{{ url_for('run_process') }}">Run</a>
 	</nav>
+	
+
+	<div class="container">
+		<div class="row">
+		  <div class="col-12">
+			<div class="buttons-container"></div>
+		  </div>
+		</div>
+	  </div>
+	
+	  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	  <script>
+	
+		$(document).ready(function() {
+		  const activityList =localStorage.getItem('actlist')
+		  const activityArray = JSON.parse(activityList);
+		//   const values = ["값 1", "값 2", "값 3"]; // 사용자가 가지고 있는 배열
+		//   const values =activityArray;
+		  // 버튼 컨테이너 요소
+		  const buttonsContainer = $('.buttons-container');
+	
+		  // 배열 값에 따른 버튼 생성
+		  activityArray.forEach(function(value) {
+			const button = $('<button type="button" class="btn btn-primary btn-sm"></button>').text(value);
+			buttonsContainer.append(button);
+	
+			// 버튼 클릭 이벤트 처리
+			button.click(function() {
+			  // 버튼 클릭 시 처리할 로직을 여기에 작성
+			  alert('선택한 값: ' + value);
+			});
+		  });
+		});
+	
+	  </script>	
+
+
+
+
+
+
+
+	
+	  
+	  
+
 
 
 

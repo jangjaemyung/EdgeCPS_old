@@ -28,6 +28,7 @@ if (typeof html4 !== 'undefined')
 	{
 		for (var i = 0; i < entities.length; i++)
 	    {
+			// 순우 open xml 데이터 받아오는 곳
 	        text = text.replace(new RegExp(
 	        	'&' + entities[i][0] + ';', 'g'),
 		        '&#' + entities[i][1] + ';');
