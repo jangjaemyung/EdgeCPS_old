@@ -14,6 +14,7 @@ function Actions(editorUi)
 /**
  * Adds the default actions.
  */
+
 Actions.prototype.init = function()
 {
 	var ui = this.editorUi;
@@ -211,6 +212,7 @@ Actions.prototype.init = function()
 			graph.setSelectionCells(select);
 		}
 	};
+	
 	
 	this.addAction('delete', function(evt)
 	{

@@ -1,5 +1,17 @@
+@font-face {
+	font-family: 'Inter Extra Bold';
+	src: url('/static/font/Inter-ExtraBold.ttf') format('truetype');
+	font-weight: normal;
+	font-style: normal;
+  }
+  @font-face {
+	font-family: 'Inter Extra Light';
+	src: url('/static/font/Inter-Regular.ttf') format('truetype');
+	font-weight: normal;
+	font-style: normal;
+  } /*글씨체 변경 전체*/
 .geEditor {
-	font-family:Helvetica,Arial,sans-serif;
+	font-family: 'Inter Extra Light';
 	font-size:14px;
 	border:none;
 	margin:0px;
@@ -736,7 +748,8 @@ html table.mxPopupMenu {
 }
 html td.mxPopupMenuItem {
 	padding:7px 30px 7px 30px;
-	font-family:Helvetica Neue,Helvetica,Arial Unicode MS,Arial;
+	/* font-family:Helvetica Neue,Helvetica,Arial Unicode MS,Arial; */
+	font-family: 'Inter Extra Light';
 	font-size:10pt;
 }
 html td.mxPopupMenuIcon {
@@ -771,7 +784,8 @@ table.mxPopupMenu tr {
 	font-size:4pt;
 }
 html td.mxWindowTitle {
-	font-family:Helvetica Neue,Helvetica,Arial Unicode MS,Arial;
+	/* font-family:Helvetica Neue,Helvetica,Arial Unicode MS,Arial; */
+	font-family: 'Inter Extra Light';
  	text-align:left;
  	font-size:12px;
  	color:rgb(112, 112, 112);
@@ -867,7 +881,8 @@ html td.mxWindowTitle {
 	border: 1px solid #CCCCCC;
 	border-radius: 3px;
     float:right;
-    font-family:Arial,Helvetica,sans-serif;
+    /* font-family:Arial,Helvetica,sans-serif; */
+	font-family: 'Inter Extra Light';
     font-size:15px;
     line-height:36px;
     margin: 11px 36px 0 0;
@@ -906,7 +921,8 @@ html td.mxWindowTitle {
 	border-radius: 0 0 5px 5px;
 	background-color: #F5F5F5;
 	text-align: right;
-	font-family: Helvetica;
+	/* font-family: Helvetica; */
+	font-family: 'Inter Extra Light';
 	font-size: 14px;
 	line-height: 17px;
 	padding-top: 11px;
@@ -949,7 +965,8 @@ html td.mxWindowTitle {
 .geTempDlgNewDiagramlbl {
 	height: 17px;
 	color: #333333;
-	font-family: Helvetica;
+	/* font-family: Helvetica; */
+	font-family: 'Inter Extra Light';
 	font-size: 14px;
 	font-weight: bold;
 	line-height: 17px;
@@ -965,7 +982,8 @@ html td.mxWindowTitle {
 .geTemplatesLbl {
 	height: 17px;
 	color: #6D6D6D;
-	font-family: Helvetica;
+	/* font-family: Helvetica; */
+	font-family: 'Inter Extra Light';
 	font-size: 14px;
 	font-weight: bold;
 	line-height: 17px;
@@ -975,7 +993,8 @@ html td.mxWindowTitle {
 .geTemplateCatLink {
 	height: 17px;
 	color: #3D72AD;
-	font-family: Helvetica;
+	/* font-family: Helvetica; */
+	font-family: 'Inter Extra Light';
 	font-size: 14px;
 	line-height: 17px;
 	margin: 12px 0 0 20px;
@@ -989,7 +1008,8 @@ html td.mxWindowTitle {
 .geTempDlgNewDiagramCatLbl {
 	height: 17px;
 	color: #FFFFFF;
-	font-family: Helvetica;
+	/* font-family: Helvetica; */
+	font-family: 'Inter Extra Light';
 	font-size: 14px;
 	font-weight: bold;
 	line-height: 17px;
@@ -1014,7 +1034,8 @@ html td.mxWindowTitle {
 	cursor: pointer;
 	text-align: center;
 	color: #DDDDDD;
-	font-family: Helvetica;
+	/* font-family: Helvetica; */
+	font-family: 'Inter Extra Light';
 	font-size: 14px;
 	line-height: 17px;
 	padding: 4px;
@@ -1049,7 +1070,8 @@ html td.mxWindowTitle {
 	height: 17px;
 	width: 100%;
 	color: #FFFFFF;
-	font-family: Helvetica;
+	/* font-family: Helvetica; */
+	font-family: 'Inter Extra Light';
 	font-size: 14px;
 	line-height: 17px;
 	text-align: center;
@@ -1076,7 +1098,8 @@ html td.mxWindowTitle {
 	box-sizing: border-box;
 	height: 17px;
 	color: #666666;
-	font-family: Helvetica;
+	/* font-family: Helvetica; */
+	font-family: 'Inter Extra Light';
 	font-size: 14px;
 	font-weight: bold;
 	line-height: 17px;
@@ -1095,7 +1118,8 @@ html td.mxWindowTitle {
 	background-color: #555555;
 	display: inline-block;
 	color: #FFFFFF;
-	font-family: Helvetica;
+	/* font-family: Helvetica; */
+	font-family: 'Inter Extra Light';
 	font-size: 14px;
 	line-height: 17px;
 	text-align: center;
@@ -1230,7 +1254,8 @@ html td.mxWindowTitle {
 	height: 17px;
 	width: 100%;
 	color: #333333;
-	font-family: Helvetica;
+	/* font-family: Helvetica; */
+	font-family: 'Inter Extra Light';
 	font-size: 14px;
 	line-height: 17px;
 	text-align: center;

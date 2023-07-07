@@ -3,6 +3,12 @@
  */
 // Workaround for allowing target="_blank" in HTML sanitizer
 // see https://code.google.com/p/google-caja/issues/detail?can=2&q=&colspec=ID%20Type%20Status%20Priority%20Owner%20Summary&groupby=&sort=&id=1296
+
+
+
+/**
+ * Adds the default actions.
+ */
 if (typeof html4 !== 'undefined')
 {
 	html4.ATTRIBS['a::target'] = 0;
@@ -9116,7 +9122,46 @@ if (typeof mxVertexHandler != 'undefined')
 				model.endUpdate();
 			}
 		};
-		
+		Graph.prototype.initcanvas =function() { // 순우 init
+			var container = document.getElementsByClassName('geDiagramContainer')[0];
+			container.id = 'graphContainer';
+			// var graph = new mxGraph(document.getElementById('graphContainer'));
+			var select = graph.deleteCells(graph.getDeletableCells(graph.getSelectionCells()), includeEdges);
+			if (select != null)
+			{
+				graph.setSelectionCells(select);
+			}
+			// var graph = this.getModel();
+			// graph.removeCells(graph.getChildVertices(graph.getDefaultParent()));
+			// var a = graph.getDefaultParent();
+			// var cellsToRemove = graph.getModel().getChildVertices(a);
+			// graph.getModel().remove(a);
+		};
+		Graph.prototype.clearGraphContainer=function() {
+			var container = document.getElementsByClassName('geDiagramContainer')[0];
+			container.id = 'graphContainer';
+			// var containerId = 
+			// var container = document.getElementById(containerId);
+			// container 안의 모든 자식 요소 제거
+			// while (container.firstChild) {
+			// container.removeChild(container.outerHTML);
+			container.innerHTML = ''
+			// }
+		};
+		Graph.prototype.initializeGraph=function() {
+			// 컨테이너 초기화
+			var container = document.getElementsByClassName('geDiagramContainer')[0];
+			container.id = 'graphContainer';
+			Graph.prototype.clearGraphContainer();
+		  
+			// 그래프 초기화
+			// var container = document.getElementById(container);
+			var graph = new mxGraph(container);
+		  
+			// 그래프 설정 등 추가 초기화 작업 수행
+		  
+			return graph;
+		  }
 		/**
 		 * 
 		 */
