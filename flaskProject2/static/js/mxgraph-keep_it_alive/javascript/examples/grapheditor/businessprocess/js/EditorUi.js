@@ -4,6 +4,8 @@
 /**
  * Constructs a new graph editor
  */
+var path = window.location.pathname;
+var process_name = path.split("/").pop();
 EditorUi = function(editor, container, lightbox)
 {
 	mxEventSource.call(this);
@@ -82,8 +84,10 @@ EditorUi = function(editor, container, lightbox)
 			this.toolbarContainer.onmousedown = textEditing;
 			this.diagramContainer.onselectstart = textEditing;
 			this.diagramContainer.onmousedown = textEditing;
+			
 			this.sidebarContainer.onselectstart = textEditing;
 			this.sidebarContainer.onmousedown = textEditing;
+		
 			this.formatContainer.onselectstart = textEditing;
 			this.formatContainer.onmousedown = textEditing;
 			this.footerContainer.onselectstart = textEditing;
@@ -1262,7 +1266,9 @@ EditorUi.prototype.showShapePicker = function(x, y, source, callback, direction)
 			graph.copyStyle(source) : null;
 		
 		// Do not place entry under pointer for touch devices
-		div.className = 'geToolbarContainer geSidebarContainer geSidebar';
+		if (process_name =='overviewProcess' || process_name =='searchReusablesProcess' || process_name =='workflowImplementationProcess' || process_name =='runProcess')
+		{	
+		}else{div.className = 'geToolbarContainer geSidebarContainer geSidebar';}
 		div.style.cssText = 'position:absolute;left:' + x + 'px;top:' + y  + 
 			'px;width:140px;border-radius:10px;padding:4px;text-align:center;' +
 			'box-shadow:0px 0px 3px 1px #d1d1d1;padding: 6px 0 8px 0;';
@@ -3736,6 +3742,7 @@ EditorUi.prototype.createDivs = function()
 
 	this.toolbarContainer = this.createDiv('geToolbarContainer');
 	this.sidebarContainer = this.createDiv('geSidebarContainer');
+	
 	this.formatContainer = this.createDiv('geSidebarContainer geFormatContainer');
 	this.diagramContainer = this.createDiv('geDiagramContainer');
 	this.footerContainer = this.createDiv('geFooterContainer');
@@ -3817,13 +3824,13 @@ EditorUi.prototype.createUi = function() //민수 요청된 ui생성하는 곳
 	}
 
 	// Creates the sidebar 민수 우측 사이드바 생성되는 곳ㄷ
-	this.sidebar = (this.editor.chromeless) ? null : this.createSidebar(this.sidebarContainer);
-	
-	if (this.sidebar != null)
-	{
-		this.container.appendChild(this.sidebarContainer);
-	}
-	
+	if (process_name =='overviewProcess' || process_name =='searchReusablesProcess' || process_name =='workflowImplementationProcess' || process_name =='runProcess')
+	{}else{this.sidebar = (this.editor.chromeless) ? null : this.createSidebar(this.sidebarContainer);
+		
+		if (this.sidebar != null)
+		{
+			this.container.appendChild(this.sidebarContainer);
+		}}
 	// Creates the format sidebar
 	this.format = (this.editor.chromeless || !this.formatEnabled) ? null : this.createFormat(this.formatContainer);
 	
@@ -3909,7 +3916,12 @@ EditorUi.prototype.createToolbar = function(container)
  */
 EditorUi.prototype.createSidebar = function(container)
 {
-	return new Sidebar(this, container);
+	if (process_name =='overviewProcess' || process_name =='searchReusablesProcess' || process_name =='workflowImplementationProcess' || process_name =='runProcess')
+	{
+		return 0;
+	}else{
+		return new Sidebar(this, container);
+	}
 };
 
 /**
@@ -5087,11 +5099,24 @@ EditorUi.prototype.destroy = function()
 		this.destroyFunctions = null;
 	}
 	
-	var c = [/*순우 상단 메뉴바 삭제*/this.menubarContainer, this.toolbarContainer, this.sidebarContainer,
+	// var c = [/*순우 상단 메뉴바 삭제*/this.menubarContainer, this.toolbarContainer, this.sidebarContainer,
+	//          this.formatContainer, this.diagramContainer, this.footerContainer,
+	//          this.chromelessToolbar, this.hsplit, this.sidebarFooterContainer,
+	//          this.layersDialog];
+	
+	if (process_name =='overviewProcess' || process_name =='searchReusablesProcess' || process_name =='workflowImplementationProcess' || process_name =='runProcess')
+	{
+		var c = [/*순우 상단 메뉴바 삭제*/this.menubarContainer, this.toolbarContainer,
 	         this.formatContainer, this.diagramContainer, this.footerContainer,
 	         this.chromelessToolbar, this.hsplit, this.sidebarFooterContainer,
 	         this.layersDialog];
-	
+		
+	}else{
+		var c = [/*순우 상단 메뉴바 삭제*/this.menubarContainer, this.toolbarContainer, this.sidebarContainer,
+	         this.formatContainer, this.diagramContainer, this.footerContainer,
+	         this.chromelessToolbar, this.hsplit, this.sidebarFooterContainer,
+	         this.layersDialog];
+	}
 	for (var i = 0; i < c.length; i++)
 	{
 		if (c[i] != null && c[i].parentNode != null)

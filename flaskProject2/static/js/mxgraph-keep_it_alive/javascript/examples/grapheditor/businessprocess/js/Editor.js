@@ -5,7 +5,9 @@
 /**
  * Editor constructor executed on page load.
  */
-
+// document.write('<script type="module" src="../../../../../src/js/view/mxGraph.js"></script>');
+// /home/kpst/Desktop/cps/web_base_tool/mins/drawio/flaskProject2/static/js/mxgraph-keep_it_alive/javascript/src/js/view/mxGraph.js
+// /home/kpst/Desktop/cps/web_base_tool/mins/drawio/flaskProject2/static/js/mxgraph-keep_it_alive/javascript/examples/grapheditor/businessprocess/js/Editor.js
 Editor = function(chromeless, themes, model, graph, editable)
 {
 	mxEventSource.call(this);
@@ -63,6 +65,8 @@ Editor = function(chromeless, themes, model, graph, editable)
 /**
  * Counts open editor tabs (must be global for cross-window access)
  */
+
+
 Editor.pageCounter = 0;
 
 // Cross-domain window access is not allowed in FF, so if we

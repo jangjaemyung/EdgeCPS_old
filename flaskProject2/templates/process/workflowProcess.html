@@ -362,16 +362,18 @@
 		//   const values =activityArray;
 		  const buttonsContainer = $('.buttons-container');
 	
-		  // 배열 값에 따른 버튼 생성
+		  // 순우 배열 값에 따른 버튼 생성
 		  activityArray.forEach(function(value) {
 			const button = $('<button type="button" class="btn btn-primary btn-sm"></button>').text(value);
 			buttonsContainer.append(button);
 	
-			// 버튼 클릭 이벤트 처리
+			// 순우 버튼 클릭 이벤트 처리
 			button.click(function() {
-			  // 버튼 클릭 시 처리할 로직을 여기에 작성
+			  // 순우 버튼 클릭 시 처리할 로직을 여기에 작성
 				alert('선택한 값: ' + value);
-				Graph.prototype.initializeGraph()
+				// Editor.prototype.clearDiagram();
+				// mxGraph.prototype.clearDiagram();
+				Graph.prototype.clearGraphContainer()
 				// var container = document.querySelector('.geDiagramContainer');
 				// var container = document.getElementById('geBackgroundPage');
 				// var graph = new mxGraph(container);
