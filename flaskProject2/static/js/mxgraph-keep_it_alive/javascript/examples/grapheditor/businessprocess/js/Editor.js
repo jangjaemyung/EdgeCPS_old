@@ -800,7 +800,7 @@ OpenFile.prototype.setData = function()
 };
 
 // 0727 민수
-OpenFile.prototype.setDataProcess = function()
+OpenFile.prototype.setDataProcess = function() // 순우 불러오기 자동
 {
 	this.args = arguments
 	this.execute();
@@ -2546,7 +2546,7 @@ var canvas_list = ''; //순우 roundedrectangle 저장할 변수
 			for (i=0; i<arraySize; i++){
 				if (actlistArray[i] == localStorage.getItem('last_selected_activity')){
 					var activity_name = actlistArray[i]
-					localStorage.setItem(activity_name, JSON.stringify(xml)); // 순우 캔버스 위에 그려진 action 다이어그램 리스트를 최근에 선택한 activity 이름을 key로 갖는 로컬스토리지에 저장 
+					localStorage.setItem(activity_name,xml); // 순우 캔버스 위에 그려진 action 다이어그램 리스트를 최근에 선택한 activity 이름을 key로 갖는 로컬스토리지에 저장 
 					}
 				}
 			}

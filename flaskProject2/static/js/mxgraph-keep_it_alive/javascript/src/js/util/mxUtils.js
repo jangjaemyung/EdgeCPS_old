@@ -4,7 +4,7 @@
  */
 // import mxGraph from "../view/mxGraph.js";
 
-document.write('<script src = "../../../examples/grapheditor/businessprocess/open.js"></script>')
+// document.write('<script src = "../../../examples/grapheditor/businessprocess/open.js"></script>')
 
 var mxUtils =
 {
@@ -241,15 +241,16 @@ var mxUtils =
 			catch (e)
 			{
 				// console.log('찾는거 없음')
-			}//순우 자동불러오기 테스트
-			try{
+			}
+			//순우 자동불러오기 테스트
+			// try{
 				
-				procesHandleSubmit()
-			}
-			catch(e)
-			{
+			// 	procesHandleSubmit()
+			// }
+			// catch(e)
+			// {
 
-			}
+			// }
 			return funct.apply(scope, arguments); //민수 이벤트 바인디 하는 곳
 		};
 	},

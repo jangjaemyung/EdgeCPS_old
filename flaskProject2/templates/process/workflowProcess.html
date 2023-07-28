@@ -373,9 +373,12 @@
 			  // 순우 버튼 클릭 시 처리할 로직을 여기에 작성
 				alert('선택한 값: ' + value);
 				localStorage.setItem("last_selected_activity",value);
-				
+				processHandleSubmit();
 				
 				window.location.href = "{{ url_for('workflow_process') }}"
+
+
+
 				// Editor.prototype.clearDiagram();
 				// mxGraph.prototype.clearDiagram();
 				// Action.prototype.clearGraphContainer()
@@ -405,9 +408,22 @@
 		});
 		
 	  </script>	
-
-
-
+	
+	
+	<script src="../../static/js/mxgraph-keep_it_alive/javascript/examples/grapheditor/businessprocess/open.js""></script>
+<!-- <script>	
+document.addEventListener("DOMContentLoaded", function(){
+	processHandleSubmit()  
+})
+</script>	 -->
+	<script >
+		setTimeout(function(){
+			
+			processHandleSubmit(); //순우 불러오기 자동 
+						
+			
+		},2000);
+	</script>
 
 
 
@@ -421,4 +437,3 @@
 
 </body>
 </html>
-<!-- <script>procesHandleSubmit()</script> -->
