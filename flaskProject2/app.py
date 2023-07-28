@@ -1,4 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for
+from db_conn import get_pool_conn
+import db_query
 
 app = Flask(__name__)
 
@@ -9,6 +11,7 @@ projects = [
     {'id': 3, 'name': 'Project 3'}
 ]
 
+mariadb_pool = get_pool_conn()
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -25,14 +28,17 @@ def index():
             실패 : 다시 로그인
         """
     if request.method == 'POST':
-        username = request.form['username']
+        return redirect(url_for('project_list')) # todo 로그인 없이 되도록
+        userid = request.form['userid']
         password = request.form['password']
+        login = db_query.login(mariadb_pool,id = userid,pwd = password )
 
-        # todo 로그인 기능 구현 필요  // 로그인시 정보를 저장하는 곳 필요
-        return redirect(url_for('project_list'))
+        if login['login']:
+            return redirect(url_for('project_list'))
+        else:
+            return render_template('index.html',login_msg='로그인 실패. 일치하는 회원이 없습니다.' )
 
-    # todo 로그인 정보 오류 알람 필요
-    return render_template('index.html')
+    return render_template('index.html', login_msg='')
 
 
 @app.route('/project/projectsList')
@@ -40,21 +46,6 @@ def project_list():
 
     # todo 프로젝트 리스트 정보 조회하는 기능 필요
     return render_template('projectList.html', projects=projects)
-
-
-@app.route('/project/create_project', methods=['GET', 'POST']) # todo 프로젝트 생성 로직 전체 적으로 손좀 봐야함 ...
-def create_project():
-
-    catlist = ['java', 'python']  # todo 카테고리 정의 요필
-
-    if request.method == 'POST':
-        project_name = request.form.get('project_name')
-        project_description = request.form.get('project_description')
-        project_category = request.form.get('project_category')
-        len(projects) +1
-        return f"Project created: {project_name}, {project_description}, {project_category}"
-    else:
-        return render_template('createProject.html', categories=catlist)
 
 
 @app.route('/projects/delete/<int:project_id>', methods=['POST'])
@@ -93,11 +84,20 @@ def open_process(project_id):
     return render_template('process/requirementsProcess.html', project_id=project_id, active_overview=active_overview)
 
 
-
 @app.route('/process/overviewProcess', methods=['GET', 'POST'])
 def overview_process():
+    catlist = ['java', 'python']
     active_overview = True
-    return render_template('process/overviewProcess.html', active_overview=active_overview)
+
+    if request.method == 'POST':
+        project_name = request.form.get('project_name')
+        project_description = request.form.get('project_description')
+        project_category = request.form.get('project_category')
+        len(projects) +1
+        return render_template('process/requirementsProcess.html', active_requirements= True)
+
+    return render_template('process/overviewProcess.html', active_overview=active_overview,categories = catlist)
+
 
 @app.route('/process/requirementsProcess', methods=['GET', 'POST'])
 def requirements_process():

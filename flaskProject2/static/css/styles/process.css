@@ -267,6 +267,95 @@ fill:#A4A4A4;
   fill: #ffffff;
 }
 
+/*--------------overview_process--------------------------------*/
+.nav-button .button-text-overview_process {
+  color: #A4A4A4;
+  font-size: 15px;
+  font-family: 'Inter Extra Light';
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  position: absolute;
+  top: 50%;
+  right: 5%;
+  transform: translateY(-50%);
+}
+.nav-button .button-text-overview_process_page {
+  color: #0075FF ;
+  font-size: 15px;
+  font-family: 'Inter Extra Light';
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  position: absolute;
+  top: 50%;
+  right: 5%;
+  transform: translateY(-50%);
+}
+
+.nav-button:active .button-text-overview_process {
+  color: #ffffff !important ;
+  font-size: 15px;
+  font-family: 'Inter Extra Light';
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  position: absolute;
+  top: 50%;
+  right: 5%; /* 오른쪽 여백 조정 */
+  transform: translateY(-50%);
+}
+
+.nav-button:hover .button-text-overview_process {
+  color: #0075FF ;
+  font-size: 15px;
+  font-family: 'Inter Extra Light';
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  position: absolute;
+  top: 50%;
+  right: 5%;
+  transform: translateY(-50%);
+}
+
+.nav-button .button-icon-overview_process_page {
+
+  margin-right: 10px;
+  position: absolute;
+  left: 10px;
+  top: 40%;
+  transform: translateY(-50%);
+  width: 14px;
+  height: 14px;
+  fill: #0075FF;
+  }
+
+.nav-button .button-icon-overview_process {
+
+margin-right: 10px;
+position: absolute;
+left: 10px;
+top: 40%;
+transform: translateY(-50%);
+width: 14px;
+height: 14px;
+/* 일반 상태 아이콘 스타일 */
+fill:#A4A4A4;
+}
+
+.nav-button:hover .button-icon-overview_process {
+  /* 호버 상태 아이콘 스타일 */
+  fill: #0075FF;
+}
+
+.nav-button:active .button-icon-overview_process {
+  /* 액티브 상태 아이콘 스타일 */
+  fill: #ffffff;
+}
+
+
+
 /*--------------business_process--------------------------------*/
 .nav-button .button-text-business_process {
   color: #A4A4A4;
