@@ -4,6 +4,7 @@
 /**
  * Constructs a new graph editor
  */
+
 var path = window.location.pathname;
 var process_name = path.split("/").pop();
 EditorUi = function(editor, container, lightbox)
@@ -2654,8 +2655,10 @@ EditorUi.prototype.initCanvas = function()
 		{
 			scheduleZoom(0);
 		}
+		
+		
 	});
-	
+
 	mxEvent.addMouseWheelListener(mxUtils.bind(this, function(evt, up, force, cx, cy)
 	{
 		if (this.dialogs == null || this.dialogs.length == 0)

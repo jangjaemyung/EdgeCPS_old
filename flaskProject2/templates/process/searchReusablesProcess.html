@@ -14,7 +14,7 @@
 		 *  오브젝트 값 insert 방법 flowDict['오브젝트 Cell Index'] = {'propIndex' : value, 'propIndex' : value};
 		 *
 		*/
-
+		localStorage.setItem('current_process', 'runProcess'); 
 		var flowDict = {}
 		var objValueDict = {}
 		var imagename  = {'imagename':'yolov5'}
@@ -229,6 +229,14 @@
 				document.body.innerHTML = '<center style="margin-top:10%;">Error loading resource files. Please check browser console.</center>';
 			});
 		})();
+
+		// 순우 activity버튼 눌렀을 때 불러오기 기능 구현 중..
+		if (typeof handleSubmit === 'function') {
+					handleSubmit();
+				} 
+		else {
+			console.error('handleSubmit() function is not defined.');
+		}
 	</script>
 
 
@@ -343,6 +351,53 @@
 			<span class="button-text-run_process">Run</span></a>
 		</ul>
 	</nav>
+	<div class="container">
+		<div class="row">
+		  <div class="col-12">
+			<div class="buttons-container"></div>
+		  </div>
+		</div>
+	  </div>
+	
+	  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	  <script>
+
+		$(document).ready(function() {
+		  const activityList =localStorage.getItem('actlist')
+		  const activityArray = JSON.parse(activityList); // 순우 activityList는 business process에서 그린 Activity들의 클래스 이름을 담고있는 배열
+		//   const values = ["값 1", "값 2", "값 3"]; // 사용자가 가지고 있는 배열
+		//   const values =activityArray;
+		  const buttonsContainer = $('.buttons-container');
+	
+		  // 순우 배열 값에 따른 버튼 생성
+		  activityArray.forEach(function(value) {
+			const button = $('<button type="button" class="btn btn-primary btn-sm"></button>').text(value);
+			buttonsContainer.append(button);
+	
+			// 순우 버튼 클릭 이벤트 처리
+			button.click(function() {
+			  // 순우 버튼 클릭 시 처리할 로직을 여기에 작성
+				alert('선택한 값ㄴ: ' + value);
+				localStorage.setItem("last_selected_activity",value);
+				
+				
+				window.location.href = "{{ url_for('search_reusables_process') }}"
+				console.log('새로고침 후 출력 메세지')
+				// 순우 선택한 버튼의 이름의 key의 값을 불러오기 
+				var last_select = localStorage.getItem('last_selected_activity');
+				var last_xml = localStorage.getItem(last_select);
+				if (typeof handleSubmit === 'function') {
+					handleSubmit();
+				} 
+				else {
+					console.error('handleSubmit() function is not define.');
+				}
+
+			});
+		  });
+		});
+	
+	  </script>	
 
 
 

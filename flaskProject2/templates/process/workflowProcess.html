@@ -2,7 +2,8 @@
 <html>
 <head>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-
+	<!-- /home/kpst/Desktop/cps/web_base_tool/mins/drawio/flaskProject2/templates/process/workflowProcess.html -->
+	
 	<script> // 민수 edit property 자료 담는 곳
 
 
@@ -13,7 +14,8 @@
 		 *  오브젝트 값 insert 방법 flowDict['오브젝트 Cell Index'] = {'propIndex' : value, 'propIndex' : value};
 		 *
 		*/
-
+		localStorage.setItem('current_process', 'workflowProcess'); 
+		
 		var flowDict = {}
 		var objValueDict = {}
 		var imagename  = {'imagename':'yolov5'}
@@ -353,7 +355,6 @@
 	
 	  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	  <script>
-		
 
 		$(document).ready(function() {
 		  const activityList =localStorage.getItem('actlist')
@@ -371,9 +372,19 @@
 			button.click(function() {
 			  // 순우 버튼 클릭 시 처리할 로직을 여기에 작성
 				alert('선택한 값: ' + value);
+				localStorage.setItem("last_selected_activity",value);
+				
+				
+				window.location.href = "{{ url_for('workflow_process') }}"
 				// Editor.prototype.clearDiagram();
 				// mxGraph.prototype.clearDiagram();
-				Graph.prototype.clearGraphContainer()
+				// Action.prototype.clearGraphContainer()
+				// Actions.prototype.clear();
+				// Graph.prototype.clearGraphContainer()
+				// Initi.prototype.init()
+				// Actions.init.clearGraphContainer()
+				// actions.clearGraphContainer();
+
 				// var container = document.querySelector('.geDiagramContainer');
 				// var container = document.getElementById('geBackgroundPage');
 				// var graph = new mxGraph(container);
@@ -392,7 +403,7 @@
 			});
 		  });
 		});
-	
+		
 	  </script>	
 
 
@@ -410,3 +421,4 @@
 
 </body>
 </html>
+<!-- <script>procesHandleSubmit()</script> -->

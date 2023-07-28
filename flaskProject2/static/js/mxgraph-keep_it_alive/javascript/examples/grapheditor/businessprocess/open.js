@@ -1,16 +1,5 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Open Diagram</title>
-    <link rel="stylesheet" type="text/css" href="styles/grapheditor.css" />
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-</head>
-<script src = './open.js'></script>
-<script type="text/javascript">
-	// import mongoose from "mongoose"
-
-	// Reads files locally
-	function handleFiles(files)
+document.write('<script src = "./js/Editor.js"></script>');
+function handleFiles(files)
 	{
 		for (var i = 0; i < files.length; i++)
 		{
@@ -40,7 +29,8 @@
 	function processHandleFiles(files)
 	{
 	
-		window.parent.openFile.setDataProcess(files[0],files[1]); //순우 open
+		window.openFile.setDataProcess(files[0],files[1]); //순우 open
+        // OpenFile.prototype.setDataProcess(files[0],files[1]);
 				
 	};
 
@@ -85,12 +75,12 @@
 	// Handles form-submit by preparing to process response 0727 민수 xml 불러오기 생성
 	function procesHandleSubmit()
 	{
-		var form = window.openForm || document.getElementById('openForm');
+		// var form = window.openForm || document.getElementById('openForm');
 
 		// 현재 프로세스 가져오기
 		var currentProcess = localStorage.getItem('current_process');
 		var getProcessXML = localStorage.getItem('')
-		if (currentProcess == 'workflowProcess'||currentProcess == 'searchReusableProcess',currentProcess=='workflowImplementationProcess'||currentProcess=='policyProcess'){
+		if (currentProcess == 'workflowProcess'||currentProcess == 'searchReusableProcess'|| currentProcess=='workflowImplementationProcess'||currentProcess=='policyProcess'){
 			var getActivityDict = localStorage.getItem(localStorage.getItem('last_selected_activity')); 
 			var file = [getActivityDict,localStorage.getItem('last_selected_activity')]
 			processHandleFiles(file);
@@ -239,64 +229,3 @@
 			form.appendChild(additionalFileInput); 
 		}
 	};
-
-	
-</script>
-
-<body onload="main();">
-
-<form method="POST" enctype="multipart/form-data" action="" name="openForm"
-	id="openForm" onsubmit="return handleSubmit();" accept-charset="UTF-8">
-<table style="width:100%;">
-<tr>
-<td style="height:40px;vertical-align:top;" colspan="2">
-<input type="file" name="upfile" onchange="fileChanged()">
-<!-- <input type="file" name="additionalFile" onchange="additionalFileChanged()"> -->
-</td>
-</tr>
-<tr>
-	<!--순우 open 다이어그램 메세지 크기 장 조절 하는 부분-->
-<td colspan="2" height="12px" id="openSupported" style="font-family:arial;color:grey;font-size:9pt;vertical-align:top;text-align:left;">
-</td>
-</tr>
-<tr>
-<td>
-</td>
-<td style="vertical-align:middle;text-align:right;white-space:nowrap;">
-<input type="button" id="cancelButton" class="geBtn" value="Cancel" onclick="hideWindow(true);">
-<input type="submit" id="openButton" class="geBtn gePrimaryBtn" value="Open" disabled="disabled">
-
-</td>
-</tr>
-</table>
-</form>
-
-
-<!-- 순우 open DB-->
-<form method="POST" enctype="multipart/form-data" action="/open" name="openFormDB"
-	id="openFormDB" onsubmit="return handleSubmitDB();" accept-charset="UTF-8">
-<table style="width:100%;">
-<tr>
-<td style="height:40px;vertical-align:top;" colspan="2">
-<!-- <input type="file" name="upfile" onchange="fileChanged()"> -->
-<!-- <input type="file" name="additionalFile" onchange="additionalFileChanged()"> -->
-</td>
-</tr>
-<tr>
-	<!--순우 open 다이어그램 메세지 크기 장 조절 하는 부분-->
-<td colspan="2" height="12px" id="openSupported" style="font-family:arial;color:grey;font-size:9pt;vertical-align:top;text-align:left;">
-</td>
-</tr>
-<tr>
-<td>
-</td>
-<td style="vertical-align:middle;text-align:right;white-space:nowrap;">
-<input type="button" id="cancelButton" class="geBtn" value="Cancel" onclick="hideWindow(true);">
-<input type="submit" id="DBopenButton" class="geBtn gePrimaryBtn" value="Open" disabled="disabled">
-
-</td>
-</tr>
-</table>
-</form>
-</body>
-</html>

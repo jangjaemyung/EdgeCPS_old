@@ -571,27 +571,12 @@ Editor.prototype.setGraphXml = function(node)
 		this.fireEvent(new mxEventObject('resetGraphView'));
 	}
 };
-
-// const collection = client.db(dbName).collection('business'); // 'your_collection'은 실제 컬렉션 이름으로 변경해야 합니다.
-
-// const variableValue = xml; // 저장할 변수 값
-
-// // MongoDB에 변수 값을 저장하는 쿼리
-// collection.updateOne(
-// { _id: '649bf7ae36753f74db06c9ee' }, // 저장할 문서의 고유 식별자 (_id)를 지정합니다.
-// { $set: { variable: variableValue } }, // 변수 값을 업데이트합니다.
-// function (err, result) {
-// 	if (err) {
-// 	console.error('Failed to save variable:', err);
-// 	return;
-// 	}
-
-// 	console.log('Variable saved successfully');
-// }
-// );
 /**
  * Returns the XML node that represents the current diagram.
  */
+var xml//순우
+
+
 Editor.prototype.getGraphXml = function(ignoreSelection)
 {
 	ignoreSelection = (ignoreSelection != null) ? ignoreSelection : true;
@@ -639,8 +624,12 @@ Editor.prototype.getGraphXml = function(ignoreSelection)
 	root.appendChild(node);
 	xmlDoc.appendChild(root);
 	// 순우 save xml변수에 저장
-	var xml = mxUtils.getXml(xmlDoc);
-	var xml = xml.substring(7, xml.length-8);// 문자열 앞뒤에 <graph>태그 없애야 불러와짐
+	xml = mxUtils.getXml(xmlDoc);
+	xml = xml.substring(7, xml.length-8);// 문자열 앞뒤에 <graph>태그 없애야 불러와짐
+	
+	var view = new mxGraphView();
+	view.saveActivity(xml);
+
 	var fileName = 'diagram.xml'; // 순우 파일 이름 지금은 고정인데 동적으로 바꿔야 함.
 
 	var blob = new Blob([xml], {type:"text/plain;charset=utf-8"});
@@ -806,7 +795,14 @@ OpenFile.prototype.setConsumer = function(value)
  */
 OpenFile.prototype.setData = function()
 {
-	this.args = arguments; // 순우 open args 안에 xml 스트링 들어간다 불러오기 할 때
+	this.args = arguments; // 순우 open args 안에 xml 스트링 들어간다 불러오기 할 때(리스트로 두개들어감. 0:XML, 1:파일이름)
+	this.execute();
+};
+
+// 0727 민수
+OpenFile.prototype.setDataProcess = function()
+{
+	this.args = arguments
 	this.execute();
 };
 
@@ -2541,6 +2537,20 @@ var canvas_list = ''; //순우 roundedrectangle 저장할 변수
 		// var background_svg = background_div.querySelector('svg')
 		// var svg_g_tag = background_svg.querySelector('g')
 		// var g_tag_in_g = svg_g_tag.querySelector()
+	};
+	// 순우 각 activity에 저장
+	mxGraphView.prototype.saveActivity=function(xml){
+		if (localStorage.getItem('actlist')){
+			var actlistArray = JSON.parse(localStorage.actlist);
+			var arraySize = actlistArray.length;
+			for (i=0; i<arraySize; i++){
+				if (actlistArray[i] == localStorage.getItem('last_selected_activity')){
+					var activity_name = actlistArray[i]
+					localStorage.setItem(activity_name, JSON.stringify(xml)); // 순우 캔버스 위에 그려진 action 다이어그램 리스트를 최근에 선택한 activity 이름을 key로 갖는 로컬스토리지에 저장 
+					}
+				}
+			}
+			
 	};
 	
 	// Returns the SVG required for painting the background grid.

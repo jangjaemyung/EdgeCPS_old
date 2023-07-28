@@ -10,11 +10,23 @@ function Actions(editorUi)
 	this.actions = new Object();
 	this.init();
 };
-
+// Actions.prototype.clearGraphContainer = function(){
+// 	// graph = this.graph
+// 	var ui = this.editorUi;
+// 	var editor = ui.editor;
+// 	var graph = editor.graph;
+// 	graph.escape();
+	
+// 	var select = graph.deleteCells(graph.getDeletableCells(graph.getSelectionCells()), false);
+	
+// 	if (select != null)
+// 	{
+// 		graph.setSelectionCells(select);
+// 	}
+// }
 /**
  * Adds the default actions.
  */
-
 Actions.prototype.init = function()
 {
 	var ui = this.editorUi;
@@ -24,7 +36,6 @@ Actions.prototype.init = function()
 	{
 		return Action.prototype.isEnabled.apply(this, arguments) && graph.isEnabled();
 	};
-
 	// File actions
 	this.addAction('new...', function() { graph.openLink(ui.getUrl()); });
 	this.addAction('open...', function()
@@ -200,7 +211,21 @@ Actions.prototype.init = function()
 			}
 		}
 	}, null, null, 'Alt+Shift+V');
-	
+
+	// function clearGraphContaine() // 순우 캔버스 초기화 시도중..
+	// {	
+	// 	graph = this.graph
+	// 	// graph.escape();
+		
+	// 	var select = graph.deleteCells(graph.getDeletableCells(graph.getSelectionCells()), false);
+		
+	// 	if (select != null)
+	// 	{
+	// 		graph.setSelectionCells(select);
+	// 	}
+	// };
+	// clearGraphContaine()
+
 	function deleteCells(includeEdges)
 	{
 		// Cancels interactive operations
@@ -212,8 +237,7 @@ Actions.prototype.init = function()
 			graph.setSelectionCells(select);
 		}
 	};
-	
-	
+	// this.clearGraphContainer(); // 순우 초기화 시도중 ..
 	this.addAction('delete', function(evt)
 	{
 		deleteCells(evt != null && mxEvent.isControlDown(evt));
@@ -1495,6 +1519,16 @@ Actions.prototype.init = function()
 /**
  * Registers the given action under the given name.
  */
+// Actions.prototype.clear = function(){
+// 	// var action = new Actions();
+// 	// action.clearGraphContainer();
+// 	Actions.prototype.clearGraphContainer();
+// }
+
+
+
+
+
 Actions.prototype.addAction = function(key, funct, enabled, iconCls, shortcut)
 {
 	var title;
@@ -1574,7 +1608,6 @@ Action.prototype.isEnabled = function()
 {
 	return this.enabled;
 };
-
 /**
  * Sets the enabled state of the action and fires a stateChanged event.
  */
