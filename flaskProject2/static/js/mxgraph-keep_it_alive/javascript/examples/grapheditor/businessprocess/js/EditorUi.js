@@ -4333,7 +4333,7 @@ EditorUi.prototype.saveFile = function(forceDialog)
 	}
 };
 
-/** 프로세스 저장 흠..
+/** 민수 프로세스 저장 흠..
  * Saves the current graph under the given filename.
  */
 EditorUi.prototype.save = function(name)
