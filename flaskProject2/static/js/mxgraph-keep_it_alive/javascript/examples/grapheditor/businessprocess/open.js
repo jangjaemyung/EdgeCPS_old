@@ -17,6 +17,7 @@
 	// Handles form-submit by preparing to process response 0727 민수 xml 불러오기 생성
 	function processHandleSubmit()
 	{
+		console.log('processHandleSubmit')
 		// var form = window.openForm || document.getElementById('openForm');
 
 		// 현재 프로세스 가져오기
@@ -40,5 +41,5 @@
 
 		
 	};
-	
+
 	

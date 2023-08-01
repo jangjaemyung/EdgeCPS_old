@@ -63,6 +63,8 @@ EditorUi = function(editor, container, lightbox)
 		this.createUi();
 		this.refresh(); // 위에서 좌측 사이드바, 상단메뉴바가 생성 되고 리프레시 되면서 화면의 그리드가 잡힌다. 민수
 
+
+
 		// Disables HTML and text selection
 		var textEditing =  mxUtils.bind(this, function(evt) //민수 여기에서 evt.path 안에 내가 클릭한 도형이 들어간다.
 		{
@@ -3802,6 +3804,7 @@ EditorUi.prototype.createUi = function() //민수 요청된 ui생성하는 곳
 	// 순우 상단 메뉴 바 삭제
 	// Creates menubar
 	this.menubar = (this.editor.chromeless) ? null : this.menus.createMenubar(this.createDiv('geMenubar'));
+
 	
 	if (this.menubar != null)
 	{
@@ -4330,7 +4333,7 @@ EditorUi.prototype.saveFile = function(forceDialog)
 	}
 };
 
-/**
+/** 프로세스 저장
  * Saves the current graph under the given filename.
  */
 EditorUi.prototype.save = function(name)
@@ -5128,3 +5131,5 @@ EditorUi.prototype.destroy = function()
 		}
 	}
 };
+
+

@@ -94,7 +94,7 @@ def overview_process():
         project_description = request.form.get('project_description')
         project_category = request.form.get('project_category')
         len(projects) +1
-        return render_template('process/requirementsProcess.html', active_requirements= True)
+        return redirect(url_for('requirements_process'))
 
     return render_template('process/overviewProcess.html', active_overview=active_overview,categories = catlist)
 

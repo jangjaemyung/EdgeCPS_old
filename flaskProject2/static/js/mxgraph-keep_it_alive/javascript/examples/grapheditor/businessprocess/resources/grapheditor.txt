@@ -1,5 +1,7 @@
 # Resources from graph.properties
 alreadyConnected=Nodes already connected
+minsoomenue=minsoo Menu
+minsoo=minsoo M
 cancel=Cancel
 close=Close
 collapse-expand=Collapse/Expand
