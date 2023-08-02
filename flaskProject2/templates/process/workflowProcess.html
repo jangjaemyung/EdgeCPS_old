@@ -3,10 +3,24 @@
 <head>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 	<!-- /home/kpst/Desktop/cps/web_base_tool/mins/drawio/flaskProject2/templates/process/workflowProcess.html -->
-	
+	<script>
+		/**
+		 * 프로세스를 로컬 스토리지에 저장 하고 불러오는 스크립트
+		 */
+
+		let processGraphxml = ''; // xml
+
+		localStorage.setItem('current_process', 'workflowProcess');
+
+		let nowProcess = '';
+
+		function getLatestXml(){
+			localStorage.setItem('workflowProcessXml',processGraphxml)
+			localStorage.setItem('workflowProcessFlowDict',processGraphxml)
+		}
+
+	</script>
 	<script> // 민수 edit property 자료 담는 곳
-
-
 		/**  추후 더 복잡한 구조로 생성 가능하다.
 		 *
 		 *  화살표 정보 입력 포멧 flowDict['화살표 Cell Index'] = [화살표 시작 Cell, 화살표 끝 Cell];
@@ -298,7 +312,7 @@
 						<span class="dot"></span>
 						<span class="dot"></span>
 					  </li>
-				<a class="nav-button" href="{{ url_for('search_reusables_process') }}">
+				<a class="nav-button" href="{{ url_for('search_reusables_process') }}" onclick="getLatestXml()">
 					<span class="button-icon-search_reusables_process">
 						<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 32 32">
 							<path d="M16 22.6667C14.7333 22.6667 13.5778 22.3498 12.5333 21.716C11.4889 21.0822 10.6778 20.2324 10.1 19.1667C9.94445 18.9 9.91645 18.6164 10.016 18.316C10.1156 18.0156 10.3102 17.8102 10.6 17.7C10.8444 17.5889 11.0889 17.5889 11.3333 17.7C11.5778 17.8111 11.7667 17.9889 11.9 18.2333C12.3 18.9667 12.8667 19.5556 13.6 20C14.3333 20.4444 15.1333 20.6667 16 20.6667C17.2889 20.6667 18.3889 20.2111 19.3 19.3C20.2111 18.3889 20.6667 17.2889 20.6667 16C20.6667 14.7111 20.2111 13.6111 19.3 12.7C18.3889 11.7889 17.2889 11.3333 16 11.3333C15.3778 11.3333 14.7889 11.4444 14.2333 11.6667C13.6778 11.8889 13.1778 12.2222 12.7333 12.6667H13.6667C13.9556 12.6667 14.1942 12.7613 14.3827 12.9507C14.5711 13.14 14.6658 13.3787 14.6667 13.6667C14.6667 13.9556 14.572 14.1942 14.3827 14.3827C14.1933 14.5711 13.9547 14.6658 13.6667 14.6667H10.6667C10.2889 14.6667 9.972 14.5387 9.716 14.2827C9.46 14.0267 9.33245 13.7102 9.33334 13.3333V10.3333C9.33334 10.0444 9.428 9.80578 9.61734 9.61734C9.80667 9.42889 10.0453 9.33423 10.3333 9.33334C10.6222 9.33334 10.8609 9.428 11.0493 9.61734C11.2378 9.80667 11.3324 10.0453 11.3333 10.3333V11.2333C11.9778 10.6333 12.7 10.1667 13.5 9.83334C14.3 9.5 15.1333 9.33334 16 9.33334C17.8444 9.33334 19.4169 9.98356 20.7173 11.284C22.0178 12.5844 22.6676 14.1564 22.6667 16C22.6667 17.8444 22.0164 19.4169 20.716 20.7173C19.4156 22.0178 17.8436 22.6676 16 22.6667ZM6.66667 28C5.93334 28 5.30534 27.7387 4.78267 27.216C4.26 26.6933 3.99912 26.0658 4 25.3333V21.3333C4 20.9556 4.128 20.6387 4.384 20.3827C4.64 20.1267 4.95645 19.9991 5.33334 20C5.71112 20 6.028 20.128 6.284 20.384C6.54 20.64 6.66756 20.9564 6.66667 21.3333V25.3333H10.6667C11.0444 25.3333 11.3613 25.4613 11.6173 25.7173C11.8733 25.9733 12.0009 26.2898 12 26.6667C12 27.0444 11.872 27.3613 11.616 27.6173C11.36 27.8733 11.0436 28.0009 10.6667 28H6.66667ZM21.3333 28C20.9556 28 20.6387 27.872 20.3827 27.616C20.1267 27.36 19.9991 27.0436 20 26.6667C20 26.2889 20.128 25.972 20.384 25.716C20.64 25.46 20.9564 25.3324 21.3333 25.3333H25.3333V21.3333C25.3333 20.9556 25.4613 20.6387 25.7173 20.3827C25.9733 20.1267 26.2898 19.9991 26.6667 20C27.0444 20 27.3613 20.128 27.6173 20.384C27.8733 20.64 28.0009 20.9564 28 21.3333V25.3333C28 26.0667 27.7387 26.6947 27.216 27.2173C26.6933 27.74 26.0658 28.0009 25.3333 28H21.3333ZM5.33334 12C4.95556 12 4.63867 11.872 4.38267 11.616C4.12667 11.36 3.99912 11.0436 4 10.6667V6.66667C4 5.93334 4.26134 5.30534 4.784 4.78267C5.30667 4.26 5.93423 3.99912 6.66667 4H10.6667C11.0444 4 11.3613 4.128 11.6173 4.384C11.8733 4.64 12.0009 4.95645 12 5.33334C12 5.71112 11.872 6.028 11.616 6.284C11.36 6.54 11.0436 6.66756 10.6667 6.66667H6.66667V10.6667C6.66667 11.0444 6.53867 11.3613 6.28267 11.6173C6.02667 11.8733 5.71023 12.0009 5.33334 12ZM26.6667 12C26.2889 12 25.972 11.872 25.716 11.616C25.46 11.36 25.3324 11.0436 25.3333 10.6667V6.66667H21.3333C20.9556 6.66667 20.6387 6.53867 20.3827 6.28267C20.1267 6.02667 19.9991 5.71023 20 5.33334C20 4.95556 20.128 4.63867 20.384 4.38267C20.64 4.12667 20.9564 3.99912 21.3333 4H25.3333C26.0667 4 26.6947 4.26134 27.2173 4.784C27.74 5.30667 28.0009 5.93423 28 6.66667V10.6667C28 11.0444 27.872 11.3613 27.616 11.6173C27.36 11.8733 27.0436 12.0009 26.6667 12Z"/>
@@ -361,62 +375,62 @@
 		  </div>
 		</div>
 	  </div>
-	
-	  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-	  <script>
 
-		$(document).ready(function() {
-		  const activityList =localStorage.getItem('actlist')
-		  const activityArray = JSON.parse(activityList); // 순우 activityList는 business process에서 그린 Activity들의 클래스 이름을 담고있는 배열
-		//   const values = ["값 1", "값 2", "값 3"]; // 사용자가 가지고 있는 배열
-		//   const values =activityArray;
-		  const buttonsContainer = $('.buttons-container');
-	
-		  // 순우 배열 값에 따른 버튼 생성
-		  activityArray.forEach(function(value) {
-			const button = $('<button type="button" class="btn btn-primary btn-sm"></button>').text(value);
-			buttonsContainer.append(button);
-	
-			// 순우 버튼 클릭 이벤트 처리
-			button.click(function() {
-			  // 순우 버튼 클릭 시 처리할 로직을 여기에 작성
-				alert('선택한 값: ' + value);
-				localStorage.setItem("last_selected_activity",value);
-				processHandleSubmit();
-				
-				window.location.href = "{{ url_for('workflow_process') }}"
+<!--	  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>-->
+<!--	  <script>-->
 
+<!--		$(document).ready(function() {-->
+<!--		  const activityList =localStorage.getItem('actlist')-->
+<!--		  const activityArray = JSON.parse(activityList); // 순우 activityList는 business process에서 그린 Activity들의 클래스 이름을 담고있는 배열-->
+<!--		//   const values = ["값 1", "값 2", "값 3"]; // 사용자가 가지고 있는 배열-->
+<!--		//   const values =activityArray;-->
+<!--		  const buttonsContainer = $('.buttons-container');-->
 
+<!--		  // 순우 배열 값에 따른 버튼 생성-->
+<!--		  activityArray.forEach(function(value) {-->
+<!--			const button = $('<button type="button" class="btn btn-primary btn-sm"></button>').text(value);-->
+<!--			buttonsContainer.append(button);-->
 
-				// Editor.prototype.clearDiagram();
-				// mxGraph.prototype.clearDiagram();
-				// Action.prototype.clearGraphContainer()
-				// Actions.prototype.clear();
-				// Graph.prototype.clearGraphContainer()
-				// Initi.prototype.init()
-				// Actions.init.clearGraphContainer()
-				// actions.clearGraphContainer();
+<!--			// 순우 버튼 클릭 이벤트 처리-->
+<!--			button.click(function() {-->
+<!--			  // 순우 버튼 클릭 시 처리할 로직을 여기에 작성-->
+<!--				alert('선택한 값: ' + value);-->
+<!--				localStorage.setItem("last_selected_activity",value);-->
+<!--				processHandleSubmit();-->
 
-				// var container = document.querySelector('.geDiagramContainer');
-				// var container = document.getElementById('geBackgroundPage');
-				// var graph = new mxGraph(container);
+<!--				window.location.href = "{{ url_for('workflow_process') }}"-->
 
 
-				// var mxgraph = new mxGraph();
-				// var graph = mxGraph.container;  // container는 그래프를 표시할 DOM 요소
-				// mxGraph.prototype.initcanvas();  // 캔버스 위의 다이어그램 제거
 
-				// var container = document.getElementById('geDiagramContainer');
-				// var graph = new mxGraph(container);
-				// graph.removeCells(graph.getChildVertices(graph.getDefaultParent()));
-				// var cellsToRemove = graph.getModel().getChildVertices(graph.getDefaultParent());
-				// graph.getModel().remove(cellsToRemove);
-			  
-			});
-		  });
-		});
-		
-	  </script>	
+<!--				// Editor.prototype.clearDiagram();-->
+<!--				// mxGraph.prototype.clearDiagram();-->
+<!--				// Action.prototype.clearGraphContainer()-->
+<!--				// Actions.prototype.clear();-->
+<!--				// Graph.prototype.clearGraphContainer()-->
+<!--				// Initi.prototype.init()-->
+<!--				// Actions.init.clearGraphContainer()-->
+<!--				// actions.clearGraphContainer();-->
+
+<!--				// var container = document.querySelector('.geDiagramContainer');-->
+<!--				// var container = document.getElementById('geBackgroundPage');-->
+<!--				// var graph = new mxGraph(container);-->
+
+
+<!--				// var mxgraph = new mxGraph();-->
+<!--				// var graph = mxGraph.container;  // container는 그래프를 표시할 DOM 요소-->
+<!--				// mxGraph.prototype.initcanvas();  // 캔버스 위의 다이어그램 제거-->
+
+<!--				// var container = document.getElementById('geDiagramContainer');-->
+<!--				// var graph = new mxGraph(container);-->
+<!--				// graph.removeCells(graph.getChildVertices(graph.getDefaultParent()));-->
+<!--				// var cellsToRemove = graph.getModel().getChildVertices(graph.getDefaultParent());-->
+<!--				// graph.getModel().remove(cellsToRemove);-->
+
+<!--			});-->
+<!--		  });-->
+<!--		});-->
+
+<!--	  </script>-->
 	
 	
 	<script src="../../static/js/mxgraph-keep_it_alive/javascript/examples/grapheditor/businessprocess/open.js"></script>
@@ -436,8 +450,12 @@ document.addEventListener("DOMContentLoaded", function(){
 
 
 
-<!-- 민수 메뉴바에 버튼 추가 하는 방식 다른 자바스크립트 로드 속도 때문에 시간차가 필요하다.-->
+
 <script>
+	/**
+	 * 민수 메뉴바에 버튼 추가 하는 방식 다른 자바스크립트 로드 속도 때문에 시간차가 필요하다
+	 */
+
     document.addEventListener("DOMContentLoaded", function() {
 
 			// 민수 process 버튼 생성 메뉴 버튼 생성 함수
@@ -476,7 +494,7 @@ document.addEventListener("DOMContentLoaded", function(){
                 if (targetElementRetry !== null) {
                     targetElementRetry.appendChild(buttonContainer);
                 }
-            }, 250);
+            }, 500);
         }
     });
 </script>

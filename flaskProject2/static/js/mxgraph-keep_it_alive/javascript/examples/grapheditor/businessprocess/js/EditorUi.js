@@ -5011,7 +5011,7 @@ EditorUi.prototype.createKeyHandler = function(editor)
 		keyHandler.bindKey(13, function() { if (graph.isEnabled()) { graph.startEditingAtCell(); }}); // Enter
 		keyHandler.bindKey(113, function() { if (graph.isEnabled()) { graph.startEditingAtCell(); }}); // F2
 	}
-	
+
 	if (!mxClient.IS_WIN)
 	{
 		keyHandler.bindAction(90, true, 'redo', true); // Ctrl+Shift+Z
@@ -5020,7 +5020,7 @@ EditorUi.prototype.createKeyHandler = function(editor)
 	{
 		keyHandler.bindAction(89, true, 'redo'); // Ctrl+Y
 	}
-	
+
 	return keyHandler;
 };
 

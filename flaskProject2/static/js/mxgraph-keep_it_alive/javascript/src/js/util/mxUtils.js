@@ -4568,10 +4568,9 @@ var mxUtils =
 				};
 			}
 		}
-		
+
 		return dragSource;
 	}
 
 };
-
 

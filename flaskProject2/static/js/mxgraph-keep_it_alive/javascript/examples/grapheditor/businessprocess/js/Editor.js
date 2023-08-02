@@ -795,7 +795,7 @@ OpenFile.prototype.setConsumer = function(value)
  */
 OpenFile.prototype.setData = function()
 {
-	this.args = arguments; // 순우 open args 안에 xml 스트링 들어간다 불러오기 할 때(리스트로 두개들어감. 0:XML, 1:파일이름)
+	this.args = arguments; // 순우 open ar불gs 안에 xml 스트링 들어간다 불러오기 할 때(리스트로 두개들어감. 0:XML, 1:파일이름)
 	this.execute();
 };
 
