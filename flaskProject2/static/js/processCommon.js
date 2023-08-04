@@ -1,4 +1,4 @@
-let processDict = ['overviewProcess','requirementsProcess',,'businessProcess','workflowProcess','searchReusablesProcess','workflowImplementationProcess','policyProcess','runProcess']
+let processDict = ['overviewProcess','requirementsProcess','businessProcess','workflowProcess','searchReusablesProcess','workflowImplementationProcess','policyProcess','runProcess']
 let processXml = ['overviewProcessXML','requirementsProcessXml','businessProcessXml','workflowProcessXml','searchReusablesProcessXml','workflowImplementationProcessXml','policyProcessXml','runProcessXml']
 
 
@@ -42,11 +42,11 @@ function uploadXML(){
  * 민수 메뉴바에 버튼 추가 하는 방식 다른 자바스크립트 로드 속도 때문에 시간차가 필요하다
  */
 document.addEventListener("DOMContentLoaded", function() {
-	let nowPorcess = localStorage.getItem(processDict[current_process]) // 현재 프로세스 확인
 
 	localStorage.setItem('current_processXml', processXml[current_process]); //현재 작업중인 프로세스 xml저장
 	localStorage.setItem('current_processDict', processDict[current_process]); //현재 작업중인 프로세스 dict저장
 
+	let nowPorcess = localStorage.getItem('current_processDict') // 현재 프로세스 확인
 
 
 	// 민수 process 버튼 생성 메뉴 버튼 생성 함수
