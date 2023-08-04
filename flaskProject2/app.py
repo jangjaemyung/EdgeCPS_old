@@ -1,9 +1,14 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, jsonify
 from db_conn import get_pool_conn
+import requests
+import urllib3
 import db_query
+from flask_cors import CORS
+
+urllib3.disable_warnings()
 
 app = Flask(__name__)
-
+CORS(app)
 # 임의의 프로젝트 목록 데이터
 projects = [
     {'id': 1, 'name': 'Project 1'},
@@ -135,13 +140,113 @@ def run_process():
 
 
 
+<<<<<<< HEAD
+""" 아르고 """
+
+
+NAMESPACE = 'argo'
+ARGO_SERVER_URL = 'https://localhost:2746'
+
+def search_images(keyword):
+    url = f'https://hub.docker.com/v2/search/repositories'
+    params = {'query': keyword}
+
+    response = requests.get(url, params=params)
+    if response.status_code == 200:
+        data = response.json()
+        if 'results' in data:
+            image_list = [result['repo_name'] for result in data['results']]
+            return image_list
+    return None
+
+def argo_submit_workflow(workflow_json):
+    # argo_server_url = 'https://localhost:2746'  
+    headers = {'Content-Type': 'application/json'}
+
+    # response = requests.post(f"{ARGO_SERVER_URL}/api/v1/workflows/{NAMESPACE}", headers=headers, json=workflow_json,  verify=False)
+    response = requests.post("https://localhost:2746/api/v1/workflows/argo", headers=headers, json=workflow_json,  verify=False)
+    
+    if response.status_code == 200:
+        return True  
+    else:
+        return False  
+    
+def argo_logs_workflow(workflow_name):
+    api_url = f"{ARGO_SERVER_URL}/api/v1/workflows/{NAMESPACE}/{workflow_name}/log?logOptions.container=main"
+    response = requests.get(api_url, verify=False)
+    if response.status_code == 200:
+        logs = response.text
+        return logs
+    else:
+        print(f"Failwd to fetch logs. Status code: {response.status_code}")
+        return None
+    
+def argo_status_workflow(workflow_name):
+    api_url = f"{ARGO_SERVER_URL}/api/v1/workflows/{NAMESPACE}/{workflow_name}"
+    response = requests.get(api_url, verify=False)
+    if response.status_code == 200:
+        status = response.text
+        return status
+    else:
+        print(f"FFailed to load status. Status code: {response.status_code}")
+        return None
+
+@app.route('/submit', methods=['POST'])
+def submit_workflow():
+    try:
+        workflow_json = request.get_json()  
+        print('1')
+        print(workflow_json)
+        headers = {
+            "Content-Type": "application/json"
+        }
+        print('2')
+        response = requests.post(f"{ARGO_SERVER_URL}/api/v1/workflows/{NAMESPACE}", headers=headers, json=workflow_json, verify=False)
+        
+        print(response)
+        print(response.text)
+        print(response.status_code)
+        if response.status_code == 200:
+            return "Workflow submitted successfully", 200
+        else:
+            return "Workflow submission failed", 500
+    except Exception as e:
+        error_message = str(e)
+        return f"Error: {error_message}", 500
+
+
+@app.route('/log', methods=['GET'])
+def logs_workflow():
+    workflow_name = request.args.get('workflow_name')
+    logs = argo_logs_workflow(workflow_name)
+    return logs
+
+@app.route('/status', methods = ['GET'])
+def staus_workflow():
+    workflow_name = request.args.get('workflow_name')
+    status = argo_status_workflow(workflow_name)
+    return status
+
+@app.route('/search', methods=['GET'])
+def search():
+    keyword = request.args.get('keyword')
+    if not keyword:
+        return jsonify({'error': 'Missing keyword parameter.'}), 400
+    images = search_images(keyword)
+    if images:
+        print(images)
+        return jsonify({'images': images}), 200
+    else:
+        return jsonify({'error': 'Failed to retrieve image list.'}), 500
+=======
 
 @app.route('/open', methods=['GET', 'POST'])
 def open():
     return render_template('/open.html')
 
 
+>>>>>>> a785458c30a9ce2ef035486cefd91be533f33564
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
