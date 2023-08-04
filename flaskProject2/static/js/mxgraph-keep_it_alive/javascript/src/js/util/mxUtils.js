@@ -209,7 +209,10 @@ var mxUtils =
 	{
 		return function()
 		{
-			
+			// if(arguments[0]){ todo 이벤트 바인딩 하는 곳 다이어그램 생성 코드 수정 해야한다.
+			// 	console.log( arguments[0].type)
+			// }
+
 			try
 			{
 				// if (scope.currentElt.className &&  scope.currentElt.className.includes('geItem DiShape') && arguments[0].type == 'pointerdown'){

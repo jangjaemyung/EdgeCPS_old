@@ -1,90 +1,114 @@
-let processDict = ['requirementsProcess',,'businessProcess','workflowProcess','searchReusablesProcess','workflowImplementationProcess','policyProcess','runProcess']
-let processXml = ['requirementsProcessXml','businessProcessXml','workflowProcessXml','searchReusablesProcessXml','workflowImplementationProcessXml','policyProcessXml','runProcessXml']
+let processDict = ['overviewProcess','requirementsProcess',,'businessProcess','workflowProcess','searchReusablesProcess','workflowImplementationProcess','policyProcess','runProcess']
+let processXml = ['overviewProcessXML','requirementsProcessXml','businessProcessXml','workflowProcessXml','searchReusablesProcessXml','workflowImplementationProcessXml','policyProcessXml','runProcessXml']
 
 
 /**
  * xml을 화면으로 불러오는 함수
  */
 function uploadXML(){
-		let xml = localStorage.getItem(processXml[current_process]); // 해당 프로세스의 xml을 불러온다.
+	let xml = localStorage.getItem(processXml[current_process]); // 해당 프로세스의 xml을 불러온다.
+	if (processXml[current_process] == 'businessProcess'){
+		let reqXml = localStorage.getItem('requirementsProcessXml');
+		let businessXml = localStorage.getItem(processXml[current_process]);
+	}
 
-		let doc = mxUtils.parseXml(xml);
-		let codec = new mxCodec(doc);
-		if (universalGraph && universalGraph !== '') {
 
-			codec.decode(doc.documentElement, universalGraph.getModel());
-			let elt = doc.documentElement.firstChild;
-			let cells = [];
-			while (elt != null)
-			{
-				let cell = codec.decode(elt)
-				if(cell != undefined){
-					if(cell.id != undefined && cell.parent != undefined && (cell.id == cell.parent)){
-						elt = elt.nextSibling;
-						continue;
-					}
-					cells.push(cell);
+
+	let doc = mxUtils.parseXml(xml);
+	let codec = new mxCodec(doc);
+
+	if (universalGraph && universalGraph !== '') {
+		codec.decode(doc.documentElement, universalGraph.getModel());
+		let elt = doc.documentElement.firstChild;
+		let cells = [];
+		while (elt != null)
+		{
+			let cell = codec.decode(elt)
+			if(cell != undefined){
+				if(cell.id != undefined && cell.parent != undefined && (cell.id == cell.parent)){
+					elt = elt.nextSibling;
+					continue;
 				}
-				elt = elt.nextSibling;
+				cells.push(cell);
 			}
-			universalGraph.addCells(cells);
+			elt = elt.nextSibling;
 		}
+		universalGraph.addCells(cells);
+	}
 
-    }
+}
 
 /**
  * 민수 메뉴바에 버튼 추가 하는 방식 다른 자바스크립트 로드 속도 때문에 시간차가 필요하다
  */
 document.addEventListener("DOMContentLoaded", function() {
-				localStorage.setItem('current_processXml', processXml[current_process]); //현재 작업중인 프로세스 xml저장
+	let nowPorcess = localStorage.getItem(processDict[current_process]) // 현재 프로세스 확인
 
-				localStorage.setItem('current_processDict', processDict[current_process]); //현재 작업중인 프로세스 dict저장
+	localStorage.setItem('current_processXml', processXml[current_process]); //현재 작업중인 프로세스 xml저장
+	localStorage.setItem('current_processDict', processDict[current_process]); //현재 작업중인 프로세스 dict저장
 
-				// 기존 프로세스 값을 불러오냐 오지 않냐
-				var storedXml = localStorage.getItem('requirementsProcessXml')
-				if (storedXml && storedXml !== '' && storedXml !== '<mxGraphModel><root><mxCell id="0"/><mxCell id="1" parent="0"/></root></mxGraphModel>') {
-					uploadXML();
-				}
 
-				// 민수 process 버튼 생성 메뉴 버튼 생성 함수
-				function createButton(text, clickFunc) {
-					var button = document.createElement("button");
-					button.innerHTML = text;
-					button.className = "process-button";
-					button.addEventListener("click", clickFunc); // 버튼 클릭 이벤트 리스너 추가
-					return button;
-				}
-				function processLoadClick() {
-					uploadXML();
-				}
 
-				function processSaveClick() {
+	// 민수 process 버튼 생성 메뉴 버튼 생성 함수
+	function createButton(text, clickFunc) {
+		var button = document.createElement("button");
+		button.innerHTML = text;
+		button.className = "process-button";
+		button.addEventListener("click", clickFunc); // 버튼 클릭 이벤트 리스너 추가
+		return button;
+	}
+	function processLoadClick() {
+		uploadXML();
+	}
 
-				}
+	function processSaveClick() {
 
-				// 버튼을 감싸는 div
-				var buttonContainer = document.createElement("div");
-				buttonContainer.style.float = "right"; // 오른쪽으로 정렬
-				buttonContainer.style.marginRight = "10px"; // 오른쪽 여백
-				buttonContainer.appendChild(createButton("process-save", processSaveClick)); // process-save 버튼
-				buttonContainer.appendChild(createButton("process-load", processLoadClick)); // process-load 버튼
+	}
 
-			// 버튼을 추가할 위치의 요소를 선택 (여기서는 "right_sidebar" 클래스를 가진 div)
-			var targetElement = document.querySelector(".geMenubar");
+	// 버튼을 감싸는 div
+	var buttonContainer = document.createElement("div");
+	buttonContainer.style.float = "right"; // 오른쪽으로 정렬
+	buttonContainer.style.marginRight = "10px"; // 오른쪽 여백
+	buttonContainer.appendChild(createButton("process-save", processSaveClick)); // process-save 버튼
+	buttonContainer.appendChild(createButton("process-load", processLoadClick)); // process-load 버튼
 
-			// targetElement가 null일 경우 예외 처리
-			if (targetElement !== null) {
-				targetElement.appendChild(buttonContainer);
-			} else {
-				// 일정 시간(예: 0.5초) 이후에 다시 시도
-				setTimeout(function() {
-					var targetElementRetry = document.querySelector(".geMenubar");
-					if (targetElementRetry !== null) {
-						targetElementRetry.appendChild(buttonContainer);
-					}
-				}, 250);
+	// 버튼을 추가할 위치의 요소를 선택 (여기서는 "right_sidebar" 클래스를 가진 div)
+	var targetElement = document.querySelector(".geMenubar");
+
+	// targetElement가 null일 경우 예외 처리
+	if (targetElement !== null) {
+		targetElement.appendChild(buttonContainer);
+	} else {
+		// 일정 시간(예: 0.5초) 이후에 다시 시도
+		setTimeout(function() {
+
+			let targetElementRetry = document.querySelector(".geMenubar");// save, load 버튼 생성
+			if (targetElementRetry !== null) {
+				targetElementRetry.appendChild(buttonContainer);
 			}
-		});
+
+			let workflowSelectList = []
+			if (nowPorcess == 'workflowProcess'){
+				workflowSelectList =  getWorkflowObjList(localStorage.getItem(processXml[2]))	// workflow process 일때 Activity 개수 만큼 select box 생성
+				createWorkflowSelectBox(workflowSelectList)
+			}else {
+				// 기존 프로세스 값을 불러오냐 오지 않냐
+				let storedXml = localStorage.getItem(processXml[current_process]);
+				if (!storedXml || storedXml == '' || storedXml == '<mxGraphModel><root><mxCell id="0"/><mxCell id="1" parent="0"/></root></mxGraphModel>') {
+					console.log('no xml value')
+				}else {
+					uploadXML();
+				}
+
+			}
+
+
+		}, 250);
+	}
+
+
+
+});
 
 
 /**
@@ -198,235 +222,48 @@ var imagename  = {'imagename':'yolov5'}
 			})
 		}
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////
+function getWorkflowObjList(xml){
+	var xmlString = xml;
 
-	// Reads files locally
-	function handleFiles(files)
-	{
-		for (var i = 0; i < files.length; i++)
-		{
-			(function(file)
-			{
-				// Small hack to support import
-				if (window.parent.openNew)
-				{
-					window.parent.open(window.parent.location.href);
-				}
+	var parser = new DOMParser();
+	var xmlDoc = parser.parseFromString(xmlString, "text/xml");
 
-				var reader = new FileReader();
-				reader.onload = function(e)
-				{
-					window.parent.openFile.setData(e.target.result, file.name); //순우 open
-				};
-				reader.onerror = function(e)
-				{
-					console.log(e);
-				};
-				reader.readAsText(file);
-			})(files[i]);
-		}
-	};
+	var roundedObjects = [];
 
-	// Reads files locally 0727 민수
-	function processHandleFiles(xml,fileName)
-	{
-
-		window.parent.openFile.setData(xml,fileName); //순우 open
-
-	};
-
-	// Handles form-submit by preparing to process response
-	function handleSubmit()
-	{
-		var form = window.openForm || document.getElementById('openForm');
-
-		// Checks for support of the File API for local file access
-		// except for files where the parse is on the server
-		if (window.parent.Graph.fileSupport && form.upfile.files.length > 0)
-		{
-			handleFiles(form.upfile.files);
-
-			return false;
-		}
-		else
-		{
-			if (/(\.xml)$/i.test(form.upfile.value) || /(\.txt)$/i.test(form.upfile.value) ||
-				/(\.mxe)$/i.test(form.upfile.value))
-			{
-				// Small hack to support import
-				if (window.parent.openNew)
-				{
-					window.parent.open(window.parent.location.href);
-				}
-
-				// NOTE: File is loaded via JS injection into the iframe, which in turn sets the
-				// file contents in the parent window. The new window asks its opener if any file
-				// contents are available or waits for the contents to become available.
-				return true;
-			}
-			else
-			{
-				window.parent.mxUtils.alert(window.parent.mxResources.get('invalidOrMissingFile'));
-
-				return false;
-			}
-		}
-	};
-
-	// Handles form-submit by preparing to process response 0727 민수 xml 불러오기 생성
-	function processHandleSubmit()
-	{
-		var form = window.openForm || document.getElementById('openForm');
-
-		// 현재 프로세스 가져오기
-		var currentProcess = localStorage.getItem('current_process');
-		var getProcessXML = localStorage.getItem('')
-		if (currentProcess == 'workflowProcess'||currentProcess == 'searchReusableProcess',currentProcess=='workflowImplementationProcess'||currentProcess=='policyProcess'){
-			var getActivityDict = localStorage.getItem(localStorage.getItem('last_selected_activity'));
-			var file = [getActivityDict,localStorage.getItem('last_selected_activity')]
-			processHandleFiles(file);
-		}
-		else{
-			var getProcessDict = localStorage.getItem(currentProcess);
-			var file = [getProcessDict,currentProcess]
-			processHandleFiles(file);
-		}
-
-
-
-
-		// return false;
-
-
-	};
-
-	// Hides this dialog
-	function hideWindow(cancel)
-	{
-		window.parent.openFile.cancel(cancel);
+	var mxCells = xmlDoc.getElementsByTagName("mxCell");
+	for (var i = 0; i < mxCells.length; i++) {
+	  var mxCell = mxCells[i];
+	  var style = mxCell.getAttribute("style");
+	  if (style && style.includes("rounded=1;")) {
+		var id = mxCell.getAttribute("id");
+		var value = mxCell.getAttribute("value");
+		roundedObjects.push({ id: id, value: value });
+	  }
 	}
 
-	function fileChanged()
-	{
-		var form = window.openForm || document.getElementById('openForm');
-		var openButton = document.getElementById('openButton');
+	return roundedObjects
 
-		if (form.upfile.value.length > 0)
-		{
-			openButton.removeAttribute('disabled');
-		}
-		else
-		{
-			openButton.setAttribute('disabled', 'disabled');
-		}
+}
+
+
+function createWorkflowSelectBox(activityCatList){
+	let data = activityCatList;
+	var selectBox = document.createElement("select");
+	selectBox.className = "select-box";
+
+	for (var i = 0; i < data.length; i++) {
+		var option = document.createElement("option");
+		option.value = data[i].id;
+		option.text = data[i].value;
+		selectBox.appendChild(option);
 	}
 
-	function main()
-	{
-		if (window.parent.Editor.useLocalStorage)
-		{
-			document.body.innerHTML = '';
-			var div = document.createElement('div');
-			div.style.fontFamily = 'Arial';
+	var geMenubar = document.querySelector(".geToolbarContainer");
+	geMenubar.style.display = "flex";
+	geMenubar.style.justifyContent = "flex-end";
+	geMenubar.appendChild(selectBox);
 
-			if (localStorage.length == 0)
-			{
-				window.parent.mxUtils.write(div, window.parent.mxResources.get('noFiles'));
-			}
-			else
-			{
-				var keys = [];
-
-				for (var i = 0; i < localStorage.length; i++)
-				{
-					keys.push(localStorage.key(i));
-				}
-
-				// Sorts the array by filename (key)
-				keys.sort(function (a, b)
-				{
-				    return a.toLowerCase().localeCompare(b.toLowerCase());
-				});
-
-				for (var i = 0; i < keys.length; i++)
-				{
-					var link = document.createElement('a');
-					link.style.fontDecoration = 'none';
-					link.style.fontSize = '14pt';
-					var key = keys[i];
-					window.parent.mxUtils.write(link, key);
-					link.style.cursor = 'pointer';
-					div.appendChild(link);
-
-					var img = document.createElement('span');
-					img.className = 'geSprite geSprite-delete';
-					img.style.position = 'relative';
-					img.style.cursor = 'pointer';
-					img.style.display = 'inline-block';
-					div.appendChild(img);
-
-					window.parent.mxUtils.br(div);
-
-					window.parent.mxEvent.addListener(img, 'click', (function(k)
-					{
-						return function()
-						{
-							if (window.parent.mxUtils.confirm(window.parent.mxResources.get('delete') + ' "' + k + '"?'))
-							{
-								localStorage.removeItem(k);
-								window.location.reload();
-							}
-						};
-					})(key));
-
-					window.parent.mxEvent.addListener(link, 'click', (function(k)
-					{
-						return function()
-						{
-							try
-							{
-								window.parent.open(window.parent.location.href);
-								window.parent.openFile.setData(localStorage.getItem(k), k);
-							}
-							catch (e)
-							{
-								window.parent.mxUtils.alert(e.message);
-							}
-						};
-					})(key));
-				}
-			}
-
-			window.parent.mxUtils.br(div);
-			window.parent.mxUtils.br(div);
-
-			var cancelBtn = window.parent.mxUtils.button(window.parent.mxResources.get('cancel'), function()
-			{
-				hideWindow(true);
-			});
-			cancelBtn.className = 'geBtn';
-			div.appendChild(cancelBtn);
-
-			document.body.appendChild(div);
-		}
-		else
-		{
-			var editLink = document.getElementById('editLink');
-			var openButton = document.getElementById('openButton');
-			openButton.value = window.parent.mxResources.get(window.parent.openKey || 'open');
-			var cancelButton = document.getElementById('cancelButton');
-			cancelButton.value = window.parent.mxResources.get('cancel');
-			var supportedText = document.getElementById('openSupported');// 순우 open 다이어그램 cancel 버튼 위에 도움말?
-			supportedText.innerHTML = window.parent.mxResources.get('openSupported');
-			var form = window.openForm || document.getElementById('openForm');
-
-			form.setAttribute('action', window.parent.OPEN_URL);
-
-			// 순우 open DB에서 불러오는 경우 클릭 할 버튼 생성
-			var additionalFileInput = document.createElement('input');
-			additionalFileInput.setAttribute('type', 'file');
-			additionalFileInput.setAttribute('name', 'additionalFile');
-			additionalFileInput.setAttribute('onchange', 'additionalFileChanged()');
-			form.appendChild(additionalFileInput);
-		}
-	};
+	selectBox.addEventListener("change", function() {
+		var selectedValue = selectBox.value;
+	});
+};
