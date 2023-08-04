@@ -10,8 +10,8 @@ def get_pool_conn():
     """
 
     config = {
-        'user': 'minsoo'
-        , 'password': '1111'
+        'user': 'root'
+        , 'password': 'root'
         , 'host': '127.0.0.1'
         , 'database': 'EdgeCPS'
               }

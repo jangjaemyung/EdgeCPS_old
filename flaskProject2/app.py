@@ -140,9 +140,8 @@ def run_process():
 
 
 
-""" 아르고 """
 
-
+#############""" 아르고 """#########
 NAMESPACE = 'argo'
 ARGO_SERVER_URL = 'https://localhost:2746'
 
@@ -157,18 +156,6 @@ def search_images(keyword):
             image_list = [result['repo_name'] for result in data['results']]
             return image_list
     return None
-
-def argo_submit_workflow(workflow_json):
-    # argo_server_url = 'https://localhost:2746'  
-    headers = {'Content-Type': 'application/json'}
-
-    # response = requests.post(f"{ARGO_SERVER_URL}/api/v1/workflows/{NAMESPACE}", headers=headers, json=workflow_json,  verify=False)
-    response = requests.post("https://localhost:2746/api/v1/workflows/argo", headers=headers, json=workflow_json,  verify=False)
-    
-    if response.status_code == 200:
-        return True  
-    else:
-        return False  
     
 def argo_logs_workflow(workflow_name):
     api_url = f"{ARGO_SERVER_URL}/api/v1/workflows/{NAMESPACE}/{workflow_name}/log?logOptions.container=main"
@@ -194,17 +181,11 @@ def argo_status_workflow(workflow_name):
 def submit_workflow():
     try:
         workflow_json = request.get_json()  
-        print('1')
         print(workflow_json)
         headers = {
             "Content-Type": "application/json"
         }
-        print('2')
         response = requests.post(f"{ARGO_SERVER_URL}/api/v1/workflows/{NAMESPACE}", headers=headers, json=workflow_json, verify=False)
-        
-        print(response)
-        print(response.text)
-        print(response.status_code)
         if response.status_code == 200:
             return "Workflow submitted successfully", 200
         else:

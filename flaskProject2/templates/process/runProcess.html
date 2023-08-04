@@ -223,29 +223,22 @@
 
 				</svg>
 			</span>
-			<span class="button-text-run_process">Run</span></a>
+			<span class="button-text-run_process_page">Run</span></a>
 		</ul>
 	</nav>
 	
 	
-	<!-- <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	
-	<div id="logContainer"></div>
-    <div id="consoleLog"></div> -->
-	
-	
-	<input type="file" id="fileInput">
+  <input type="file" id="fileInput">
   <button id="submitButton">Submit</button>
-  <input type="text" id="workflowNameInput" placeholder="Enter workflow name">
   <button id="logButton">Log</button>
+  <button id ="statusButton">Status</button>
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <div id="result"></div>
 
 </body>
 
-<script type="text/javascript">
+<!-- <script type="text/javascript">
 		// Extends EditorUi to update I/O action states based on availability of backend
 		(function()
 		{
@@ -294,15 +287,50 @@
 				document.body.innerHTML = '<center style="margin-top:10%;">Error loading resource files. Please check browser console.</center>';
 			});
 		})();
-	</script>
+	</script> -->
 	<script>
+		var workflowName=''
+		var workflowStatus = ''
+		// 워크플로우 상태 확인
+		document.getElementById("statusButton").addEventListener("click", function(){
+			const url = 'http://127.0.0.1:5000/status?workflow_name='+encodeURIComponent(workflowName);
+			fetch(url)
+				.then(response => response.text())  // 응답의 텍스트 데이터를 받아옴
+				.then(data => {
+					// console.log(data);  // 받아온 데이터를 콘솔에 출력
+					workflowStatus = data
+					const resultElement = document.getElementById("result");
+					const logs = data.split('\n');
 
-		document.getElementById("logButton").addEventListener("click", function() {
-			const workflowName = document.getElementById("workflowNameInput").value;
-			if (!workflowName) {
-				alert("Please enter a workflow name.");
-				return;
+				})
+				.catch(error => {
+					console.error("Error:", error);
+				});
+
+
+
+			const statusJsonData = JSON.parse(workflowStatus);
+
+
+			//각 노드 상태 확인
+			var nodeStatus = statusJsonData.status.nodes
+			const keys = Object.keys(nodeStatus)
+			
+
+			
+			
+			console.log("Workflow 이름 : " + statusJsonData.metadata.name+'\n'+"Namespace : "+statusJsonData.metadata.namespace+'\n'+"Workflow 생성시간 : "+statusJsonData.metadata.creationTimestamp+'\n'+"Workflow 종료여부 : "+statusJsonData.metadata.labels["workflows.argoproj.io/completed"]+'\n'+"Workflow 성공확인 : "+statusJsonData.metadata.labels["workflows.argoproj.io/phase"]+'\n'+"Workflow 진행도 : "+statusJsonData.status.progress+'\n'+"=======Workflow 각 노드 상태======")
+			for (const key of keys){
+				try{
+					console.log(nodeStatus[key].displayName+' : '+nodeStatus[key].phase)
+				}
+				catch{}
 			}
+		});
+
+
+		// 워크플로우 결과 확인
+		document.getElementById("logButton").addEventListener("click", function() {
 
 			const url = 'http://127.0.0.1:5000/log?workflow_name='+encodeURIComponent(workflowName);
 
@@ -317,11 +345,9 @@
 				.catch(error => {
 					console.error("Error:", error);
 				});
-
-
 		});
 
-
+		// 로컬에서 파일 선택해서 아르고 서버에 제출 -> 워크플로우 실행
 		const fileInput = document.getElementById('fileInput');
 		const submitButton = document.getElementById('submitButton');
 
@@ -339,6 +365,8 @@
 
 		  reader.onload = function(event) {
 			const fileContent = event.target.result;
+			const jsonData = JSON.parse(fileContent);
+			workflowName = jsonData.workflow.metadata.name;
 			executeFunctionWithFileContent(fileContent);
 		  };
 
@@ -346,11 +374,9 @@
 		}
 
 		function executeFunctionWithFileContent(content) {
-		  // 이 부분에서 content를 인자로 받는 함수를 실행하세요.
 			sendFileContentToServer(content);
 		}
 
-		// 서버로 content를 보내는 함수 예시
 		function sendFileContentToServer(content) {
 		  fetch('/submit', {
 			method: 'POST',
@@ -370,6 +396,8 @@
 		  });
 		}
 	</script>
+
+	
 
 
 </html>

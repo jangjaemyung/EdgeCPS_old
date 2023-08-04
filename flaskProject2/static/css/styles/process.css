@@ -814,7 +814,7 @@ fill:#A4A4A4;
   line-height: normal;
   position: absolute;
   top: 50%;
-  right: 25%; /* 오른쪽 여백 조정 */
+  right: 25%;
   transform: translateY(-50%);
 }
 .nav-button .button-icon-run_process_page {
