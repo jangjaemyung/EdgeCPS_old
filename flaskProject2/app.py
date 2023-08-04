@@ -7,8 +7,7 @@ app = Flask(__name__)
 # 임의의 프로젝트 목록 데이터
 projects = [
     {'id': 1, 'name': 'Project 1'},
-    {'id': 2, 'name': 'Project 2'},
-    {'id': 3, 'name': 'Project 3'}
+    {'id': 2, 'name': 'Project 2'}
 ]
 
 mariadb_pool = get_pool_conn()
