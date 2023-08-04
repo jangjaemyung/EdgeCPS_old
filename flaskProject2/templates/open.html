@@ -2,7 +2,9 @@
 <html>
 <head>
     <title>Open Diagram</title>
-    <link rel="stylesheet" type="text/css" href="styles/grapheditor.css" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles/grapheditor.css') }}">
+
+	<script type="text/javascript" src="{{ url_for('static', filename='js/mxgraph-keep_it_alive/javascript/examples/grapheditor/businessprocess/open.js') }}"></script>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 </head>
 <script src = './open.js'></script>
@@ -37,10 +39,10 @@
 	};
 
 	// Reads files locally 0727 민수
-	function processHandleFiles(files)
+	function processHandleFiles(xml,fileName)
 	{
-	
-		window.parent.openFile.setDataProcess(files[0],files[1]); //순우 open
+
+		window.parent.openFile.setData(xml,fileName); //순우 open
 				
 	};
 

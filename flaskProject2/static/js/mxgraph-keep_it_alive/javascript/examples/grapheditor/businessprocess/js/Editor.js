@@ -799,6 +799,7 @@ OpenFile.prototype.setData = function()
 	this.execute();
 };
 
+
 // 0727 민수
 OpenFile.prototype.setDataProcess = function() // 순우 불러오기 자동
 {

@@ -2559,6 +2559,7 @@ mxGraphView.prototype.installListeners = function()
 {
 	var graph = this.graph;
 	var container = graph.container;
+
 	universalGraph = graph;
 
 	if (container != null)

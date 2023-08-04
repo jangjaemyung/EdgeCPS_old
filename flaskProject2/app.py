@@ -137,6 +137,11 @@ def run_process():
 
 
 
+@app.route('/open', methods=['GET', 'POST'])
+def open():
+    return render_template('/open.html')
+
+
 
 
 if __name__ == '__main__':
