@@ -2559,7 +2559,9 @@ mxGraphView.prototype.installListeners = function()
 {
 	var graph = this.graph;
 	var container = graph.container;
-	
+
+	universalGraph = graph;
+
 	if (container != null)
 	{
 		// Support for touch device gestures (eg. pinch to zoom)

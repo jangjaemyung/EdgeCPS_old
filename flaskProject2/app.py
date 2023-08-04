@@ -141,6 +141,7 @@ def run_process():
 
 
 
+<<<<<<< HEAD
 """ 아르고 """
 
 
@@ -238,6 +239,14 @@ def search():
         return jsonify({'images': images}), 200
     else:
         return jsonify({'error': 'Failed to retrieve image list.'}), 500
+=======
+
+@app.route('/open', methods=['GET', 'POST'])
+def open():
+    return render_template('/open.html')
+
+
+>>>>>>> a785458c30a9ce2ef035486cefd91be533f33564
 
 
 if __name__ == '__main__':

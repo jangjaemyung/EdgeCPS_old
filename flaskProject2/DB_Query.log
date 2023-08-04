@@ -14332,3 +14332,5 @@ INFO:werkzeug:127.0.0.1 - - [04/Aug/2023 09:39:47] "[36mGET /static/css/styles/
 INFO:werkzeug:127.0.0.1 - - [04/Aug/2023 09:39:47] "[36mGET /static/css/styles/process.css HTTP/1.1[0m" 304 -
 INFO:werkzeug:127.0.0.1 - - [04/Aug/2023 09:39:47] "[36mGET /static/font/Inter-Regular.ttf HTTP/1.1[0m" 304 -
 INFO:werkzeug:127.0.0.1 - - [04/Aug/2023 09:39:47] "[36mGET /static/font/Inter-ExtraBold.ttf HTTP/1.1[0m" 304 -
+INFO:werkzeug: * Detected change in '/home/kpst/Desktop/cps/web_base_tool/mins/drawio/flaskProject2/app.py', reloading
+INFO:werkzeug: * Restarting with stat
