@@ -4,6 +4,7 @@ import requests
 import urllib3
 import db_query
 from flask_cors import CORS
+import subprocess
 
 urllib3.disable_warnings()
 
@@ -176,6 +177,14 @@ def argo_status_workflow(workflow_name):
     else:
         print(f"FFailed to load status. Status code: {response.status_code}")
         return None
+    
+def search_local_images():
+    output = subprocess.check_output(['docker', 'images', '--format', '{{.Repository}}']).decode().strip()
+
+    # 이미지 이름을 리스트로 변환
+    image_list = output.split('\n')
+
+    return image_list
 
 @app.route('/submit', methods=['POST'])
 def submit_workflow():
@@ -213,6 +222,15 @@ def search():
     if not keyword:
         return jsonify({'error': 'Missing keyword parameter.'}), 400
     images = search_images(keyword)
+    if images:
+        print(images)
+        return jsonify({'images': images}), 200
+    else:
+        return jsonify({'error': 'Failed to retrieve image list.'}), 500
+
+@app.route('/localsearch', methods=['GET'])
+def searchlocal():
+    images = search_local_images()
     if images:
         print(images)
         return jsonify({'images': images}), 200
