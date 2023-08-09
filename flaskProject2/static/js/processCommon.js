@@ -199,28 +199,7 @@ function getWorkflowElement(input, start, end) {
 	// console.log(input, start, end)
 }
 
-/**
- *  도커 검색하는 기능
- */
-var imagename  = {'imagename':'yolov5'}
 
-		function send_data(){
-			fetch('/search?keyword=yolov5', { //
-				method:'GET',
-				mode:'cors',
-				headers:{
-					'Content-TYPE':'application/json',
-
-				},
-				// body: JSON.stringify(imagename),
-			})
-			.then(function(response){return response.json();})
-			.then(function(data){
-				console.log(data);
-				// if (data.req =='1'){get_pod_data();}
-				// if (data.req == '0') { console.log("no data list"); }
-			})
-		}
 
 function getWorkflowObjList(xml){
 	var xmlString = xml;
