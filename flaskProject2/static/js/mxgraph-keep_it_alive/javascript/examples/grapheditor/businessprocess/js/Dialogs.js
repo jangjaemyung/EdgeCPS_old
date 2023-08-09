@@ -4,6 +4,32 @@
 /**
  * Constructs a new open dialog.
  */
+
+/**
+ *  생성된 오브젝트의 edit의 값을 가져오는 민수 이사필요
+ *
+ */
+function getObjectPropertyValue(input,id, mxObjId) {
+	let htmlTag = input.outerHTML;
+
+	let tempElement = document.createElement('div');
+	tempElement.innerHTML = htmlTag;
+
+	let attributes = tempElement.firstChild.attributes;
+
+	let desiredAttributes = [];
+	for (let i = 0; i < attributes.length; i++) {
+	let attribute = attributes[i];
+	if (attribute.name !== 'label') {
+		desiredAttributes.push(attribute.name + '="' + attribute.value + '"');
+	}
+	}
+	objValueDict[id +'_'+ mxObjId] = desiredAttributes
+	// console.log(desiredAttributes); // 민수 edit property값 출력
+	// console.log(objValueDict)
+	// return desiredAttributes
+}
+
 var OpenDialog = function()
 {
 	var iframe = document.createElement('iframe');
@@ -1389,12 +1415,13 @@ var EditDataDialog = function(ui, cell)
 	var temp = [];
 	var isLayer = graph.getModel().getParent(cell) == graph.getModel().getRoot();
 	// DiRoundedRectangle 일 경우 고정 값 넣기 순우
-	if (createDiagramSape.includes('DiRoundedRectangle')){
+	if (DigramClicked.includes('DiRoundedRectangled')){
+		
 		var RoundedRectangleFixProperty = document.createAttribute('Name')
 		RoundedRectangleFixProperty.value = ''
 		var RoundedRectangleFixProperty2 = document.createAttribute('Description')
 		RoundedRectangleFixProperty2.value = ''
-		var RoundedRectangleFixProperty3 = document.createAttribute('Input_informatioㅁn')
+		var RoundedRectangleFixProperty3 = document.createAttribute('Input_information')
 		RoundedRectangleFixProperty3.value = ''
 		var RoundedRectangleFixProperty4 = document.createAttribute('output_information')
 		RoundedRectangleFixProperty4.value = ''
@@ -1404,13 +1431,13 @@ var EditDataDialog = function(ui, cell)
 		attrs.setNamedItem(RoundedRectangleFixProperty4)
 	}
 	// DiDiamond 일 경우 고정 값 넣기 순우
-	if (createDiagramSape.includes('DiDiamond')){
+	if (DigramClicked.includes('DiDiamond')){
 		var DiDiamondFixProperty = document.createAttribute('DiDiamondFixPropertyKey')
 		DiDiamondFixProperty.value = 'DiDiamondFixPropertyValue'
 		attrs.setNamedItem(DiDiamondFixProperty)
 	}
 	// Class 일 경우 고정 값 넣기 순우
-	if (createDiagramSape.includes('Class')){
+	if (DigramClicked.includes('class')){
 		var DiClassFixProperty = document.createAttribute('Name')
 		DiClassFixProperty.value = ''
 		var DiClassFixProperty2 = document.createAttribute('Id')

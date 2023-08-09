@@ -4,7 +4,28 @@
  */
 // import mxGraph from "../view/mxGraph.js";
 
-// document.write('<script src = "../../../examples/grapheditor/businessprocess/open.js"></script>')
+/**
+ * 생성된 다이어그램의 Class Name 생성 기능 카멜 표기법으로 클래스 이름을 생성 해준다. 민수 이사필요
+ */
+function convertToCamelCase(input) { // 단어를 클래스로 변경하기 위한 함수 민수
+	var keyword = "DiShape";
+	var keywordIndex = input.indexOf(keyword);
+
+	if (keywordIndex !== -1) {
+		var remainingText = input.slice(keywordIndex + keyword.length).trim();
+
+	}
+	var words = remainingText.split(' ');
+	for (var i = 0; i < words.length; i++) {
+		var word = words[i];
+		if (word !== '') {
+		words[i] = word.charAt(0).toUpperCase() + word.slice(1);
+		}
+	}
+
+	return 'Di'+ words.join('');
+	}
+
 
 var mxUtils =
 {
@@ -209,18 +230,29 @@ var mxUtils =
 	{
 		return function()
 		{
-			// if(arguments[0]){ todo 이벤트 바인딩 하는 곳 다이어그램 생성 코드 수정 해야한다.
-			// 	console.log( arguments[0].type)
-			// }
+
+			try{
+				if (arguments[0].type == 'pointerup'|| arguments[0].type == 'mousedown' || arguments[0].type == 'pointerdown' ){
+				   if (arguments[0].currentTarget.classList[0] != 'geDiagramContainer' && arguments[0].currentTarget.classList[0] != 'geSidebarContainer'  && arguments[0].currentTarget.classList[0] != 'geFormatSection'){
+					  console.log( '이벤트:  '+ arguments[0].currentTarget.classList[0])
+					  DigramClicked = arguments[0].currentTarget.classList[0]
+					  console.log( '결과 :  '+ DigramClicked)
+		  
+				   }
+				}
+		  }catch (e){
+		  
+		  }
 
 			try
 			{
-				// if (scope.currentElt.className &&  scope.currentElt.className.includes('geItem DiShape') && arguments[0].type == 'pointerdown'){
+
+				// 다이어그램 생성시 사용되는 조건문 민수
 				if (scope.element.className &&  scope.element.className.includes('geItem DiShape') && arguments[0].type != 'mousemove'){
 					// console.log(scope );
 					// console.log(arguments);
 					diagramClsName  = scope.element.className
-					
+
 					createDiagramSape = convertToCamelCase(diagramClsName);
 					// console.log(diagramClsName);
 					return funct.apply(scope, arguments); //민수 이벤트 바인딩 하는 곳
@@ -228,7 +260,7 @@ var mxUtils =
 				}
 
 
-				//
+
 			}
 			catch (e)
 			{

@@ -204,6 +204,7 @@
   <button id="submitButton">Submit</button>
   <button id="logButton">Log</button>
   <button id ="statusButton">Status</button>
+  <button id ="getReqButton">getReq</button>
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <div id="result"></div>
@@ -267,6 +268,39 @@
 		})();
 	</script> -->
 	<script>
+		// req가져오기 테스트
+		
+		document.getElementById("getReqButton").addEventListener("click", function(){
+			const xmlData = '<mxGraphModel><root><mxCell id="0"/><mxCell id="1" parent="0"/><mxCell id="17" value="Classname" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;" vertex="1" parent="1"><mxGeometry x="250" y="140" width="150" height="110" as="geometry"/></mxCell><mxCell id="18" value="+ field: type" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="17"><mxGeometry y="26" width="150" height="84" as="geometry"/></mxCell><object label="Classname" name="df" id="19" text="dfdf"><mxCell style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;" vertex="1" parent="1"><mxGeometry x="350" y="350" width="140" height="52" as="geometry"/></mxCell></object><mxCell id="20" value="+ field: type" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="19"><mxGeometry y="26" width="140" height="26" as="geometry"/></mxCell></root></mxGraphModel>'
+
+			const parser = new DOMParser();
+			const xmlDoc = parser.parseFromString(xmlData, "text/xml");
+
+			const swimlaneList = [];
+
+			// mxCell 태그 선택
+			const objects = xmlDoc.getElementsByTagName("object");
+
+			for (const mxCell of objects) {
+			// mxCell 태그 내부의 object 태그 선택
+			
+			
+		
+				const styleValue = objects[0].getAttribute("style");
+				if (styleValue && styleValue.includes("swimlane")) {
+				// "name"과 "id" 값을 가져오기
+				const nameValue = objects[0].getAttribute("name");
+				const idValue = objects[0].getAttribute("id");
+				swimlaneList.push({ name: nameValue, id: idValue });
+				
+			}
+			}
+
+			console.log(swimlaneList);
+		});
+
+
+
 		// 로컬 이미지 검색
 		document.getElementById("searchLocalButton").addEventListener("click", function(){
 			const url = 'http://127.0.0.1:5000/localsearch';

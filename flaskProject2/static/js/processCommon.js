@@ -123,7 +123,7 @@ function getLatestXml(flowDict,strXml){
  * 클래스들의 마지막 숫자를 가져와서 +1을 해준다. flowdict의 중복된 키를 방지하기 위해
  */
 function getLastIndexOfShape(shapeName){ //민수 마지막숫자를 가져와서 거기에서 +1 추가하는 방식
-	lastIndex = 0
+	var lastIndex = 0
 	var number = 0
 	var ele = document.getElementsByClassName(shapeName);
 	for (let index = 0; index < ele.length; index++) {
@@ -165,30 +165,6 @@ function convertToCamelCase(input) { // 단어를 클래스로 변경하기 위�
 	}
 
 
-/**
- *  생성된 오브젝트의 edit의 값을 가져오는 기능
- *
- */
-function getObjectPropertyValue(input,id, mxObjId) {
-	let htmlTag = input.outerHTML;
-
-	let tempElement = document.createElement('div');
-	tempElement.innerHTML = htmlTag;
-
-	let attributes = tempElement.firstChild.attributes;
-
-	let desiredAttributes = [];
-	for (let i = 0; i < attributes.length; i++) {
-	let attribute = attributes[i];
-	if (attribute.name !== 'label') {
-		desiredAttributes.push(attribute.name + '="' + attribute.value + '"');
-	}
-	}
-	objValueDict[id +'_'+ mxObjId] = desiredAttributes
-	// console.log(desiredAttributes); // 민수 edit property값 출력
-	// console.log(objValueDict)
-	// return desiredAttributes
-}
 
 /**
  *  id , mxobj 로 받을 수 있는지 확인
@@ -246,3 +222,34 @@ function createWorkflowSelectBox(activityCatList){
 		var selectedValue = selectBox.value;
 	});
 };
+
+// requirement 리스트를 뽑아오는 함수
+function extractSwimlaneObjects(xmlData) {
+	const xmlData = '<mxGraphModel><root><mxCell id="0"/><mxCell id="1" parent="0"/><mxCell id="17" value="Classname" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;" vertex="1" parent="1"><mxGeometry x="250" y="140" width="150" height="110" as="geometry"/></mxCell><mxCell id="18" value="+ field: type" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="17"><mxGeometry y="26" width="150" height="84" as="geometry"/></mxCell><object label="Classname" name="df" id="19" text="dfdf"><mxCell style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;" vertex="1" parent="1"><mxGeometry x="350" y="350" width="140" height="52" as="geometry"/></mxCell></object><mxCell id="20" value="+ field: type" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="19"><mxGeometry y="26" width="140" height="26" as="geometry"/></mxCell></root></mxGraphModel>'
+
+	const parser = new DOMParser();
+	const xmlDoc = parser.parseFromString(xmlData, "text/xml");
+	
+	const swimlaneObjects = xmlDoc.querySelectorAll("object[style='swimlane']");
+	
+	const swimlaneList = [];
+	swimlaneObjects.forEach(object => {
+	  const name = object.getAttribute("name");
+	  const id = object.getAttribute("id");
+	  swimlaneList.push({ name, id });
+
+	});
+	console.log(swimlaneList);
+	return swimlaneList;
+  }
+  
+  
+  
+  const swimlaneList = extractSwimlaneObjects(xmlData);
+  console.log(swimlaneList);
+  
+
+
+
+
+
