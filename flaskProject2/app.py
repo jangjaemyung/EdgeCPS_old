@@ -16,7 +16,7 @@ projects = [
     {'id': 2, 'name': 'Project 2'}
 ]
 
-mariadb_pool = get_pool_conn()
+# mariadb_pool = get_pool_conn()
 
 
 @app.route('/', methods=['GET', 'POST'])

@@ -2,6 +2,31 @@
  * Copyright (c) 2006-2015, JGraph Ltd
  * Copyright (c) 2006-2015, Gaudenz Alder
  */
+
+
+ /**
+ * 클래스들의 마지막 숫자를 가져와서 +1을 해준다. flowdict의 중복된 키를 방지하기 위해 민수 이사필요
+ */
+function getLastIndexOfShape(shapeName){ //민수 마지막숫자를 가져와서 거기에서 +1 추가하는 방식
+	var lastIndex = 0
+	var number = 0
+	var ele = document.getElementsByClassName(shapeName);
+	for (let index = 0; index < ele.length; index++) {
+
+		const regex = /[^0-9]/g;
+		const result = ele[index].className.baseVal.replace(regex, "");
+		const number = parseInt(result);
+
+		if (lastIndex == 0 || lastIndex < number ){
+			lastIndex = number
+		}
+
+	}
+
+	return lastIndex +1;
+};
+
+
 /**
  * Class: mxSvgCanvas2D
  *

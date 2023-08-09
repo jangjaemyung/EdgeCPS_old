@@ -2387,7 +2387,7 @@ Sidebar.prototype.addUmlPalettePolicy = function(expand)
 };
 
 
-// 순우 좌측 사이드바 requrement
+// 순우 좌측 사이드바 requrements
 Sidebar.prototype.addUmlPaletteReqirement = function(expand)
 {
 	// Avoids having to bind all functions to "this"
@@ -2405,33 +2405,33 @@ Sidebar.prototype.addUmlPaletteReqirement = function(expand)
 	this.setCurrentSearchEntryLibrary('uml');
 	
 	var fns = [
+		this.createEdgeTemplateEntry('endArrow=none;startArrow=circlePlus;endFill=0;startFill=0;endSize=8;html=1;', 160, 0, '', 'Inner Class', null, 'uml inner class'),
+		
 		this.addEntry(dt + 'section subsection', function()
 		{
-			var cell = new mxCell('Classname', new mxGeometry(0, 0, 140, 110),
+			var cell = new mxCell('<<functional requirement>>', new mxGeometry(0, 0, 200, 110),
 		    	'swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;');
 			cell.vertex = true;
 			cell.insert(field.clone());
-			cell.insert(field.clone());
-			cell.insert(field.clone());
+			// cell.insert(field.clone());
+			// cell.insert(field.clone());
 			
 			return sb.createVertexTemplateFromCells([cell], cell.geometry.width, cell.geometry.height, 'Class 2');
 		}),
-		this.addEntry(lineTags + 'edge title', mxUtils.bind(this, function()
+
+		this.addEntry(dt + 'section subsection', function()
 		{
-			var edge = new mxCell('', new mxGeometry(0, 0, 0, 0), 'endArrow=classic;html=1;');
-			edge.geometry.setTerminalPoint(new mxPoint(0, 0), true);
-			edge.geometry.setTerminalPoint(new mxPoint(100, 0), false);
-			edge.geometry.relative = true;
-			edge.edge = true;
+			var cell = new mxCell('<<non functional requirement>>', new mxGeometry(0, 0, 200, 110),
+		    	'swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;');
+			cell.vertex = true;
+			cell.insert(field.clone());
+			// cell.insert(field.clone());
+			// cell.insert(field.clone());
 			
-	    	var cell0 = new mxCell('&lt;&lt;refine&gt;&gt;', new mxGeometry(0, 0, 0, 0), 'edgeLabel;resizable=0;html=1;align=center;verticalAlign=middle;');
-	    	cell0.geometry.relative = true;
-	    	cell0.setConnectable(false);
-	    	cell0.vertex = true;
-	    	edge.insert(cell0);
-			
-			return this.createEdgeTemplateFromCells([edge], 100, 0, 'Connector with Label satisfy');
-		})),
+			return sb.createVertexTemplateFromCells([cell], cell.geometry.width, cell.geometry.height, 'Class 2');
+		}),
+		
+		
 	];
 	
 	this.addPaletteFunctions('uml', mxResources.get('uml'), expand || false, fns);
