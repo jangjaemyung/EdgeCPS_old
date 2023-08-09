@@ -3,7 +3,7 @@ let processXml = ['overviewProcessXML','requirementsProcessXml','businessProcess
 
 
 /**
- * xml을 화면으로 불러오는 함수
+ * process xml을 화면으로 불러오는 함수
  */
 function uploadXML(){
 	let xml = localStorage.getItem(processXml[current_process]); // 해당 프로세스의 xml을 불러온다.
@@ -39,6 +39,51 @@ function uploadXML(){
 }
 
 /**
+ * workflow에서 xml을 화면으로 불러오는 함수
+ */
+function workflowUploadXML(nowWorkflow , selectedWorkflow, selectedWorkflowXml){
+	let xml = selectedWorkflowXml
+	if (nowWorkflow == selectedWorkflow){
+		return
+	}
+	if (!xml || xml == ''){
+		xml ='<mxGraphModel><root><mxCell id="0"/><mxCell id="1" parent="0"/></root></mxGraphModel>'
+	}
+
+	let doc = mxUtils.parseXml(xml);
+	let codec = new mxCodec(doc);
+
+	if (universalGraph && universalGraph !== '') {
+		codec.decode(doc.documentElement, universalGraph.getModel());
+		let elt = doc.documentElement.firstChild;
+		let cells = [];
+		while (elt != null)
+		{
+			let cell = codec.decode(elt)
+			if(cell != undefined){
+				if(cell.id != undefined && cell.parent != undefined && (cell.id == cell.parent)){
+					elt = elt.nextSibling;
+					continue;
+				}
+				cells.push(cell);
+			}
+			elt = elt.nextSibling;
+		}
+		universalGraph.addCells(cells);
+	}
+
+}
+
+/**
+ * workflow 저장 하는 함수
+ */
+function workflowSaveXML(){
+	const keyName = current_workflow;
+	localStorage.setItem(keyName, processGraphxml);
+}
+
+
+/**
  * 민수 메뉴바에 버튼 추가 하는 방식 다른 자바스크립트 로드 속도 때문에 시간차가 필요하다
  */
 document.addEventListener("DOMContentLoaded", function() {
@@ -64,6 +109,9 @@ document.addEventListener("DOMContentLoaded", function() {
 	function processSaveClick() {
 
 	}
+	function workflowSaveClick(selectedKey, selectedValue) {
+		workflowSaveXML()
+	}
 
 	// 버튼을 감싸는 div
 	var buttonContainer = document.createElement("div");
@@ -71,6 +119,7 @@ document.addEventListener("DOMContentLoaded", function() {
 	buttonContainer.style.marginRight = "10px"; // 오른쪽 여백
 	buttonContainer.appendChild(createButton("process-save", processSaveClick)); // process-save 버튼
 	buttonContainer.appendChild(createButton("process-load", processLoadClick)); // process-load 버튼
+	buttonContainer.appendChild(createButton("workflow-save", workflowSaveClick)); // process-load 버튼
 
 	// 버튼을 추가할 위치의 요소를 선택 (여기서는 "right_sidebar" 클래스를 가진 div)
 	var targetElement = document.querySelector(".geMenubar");
@@ -87,7 +136,6 @@ document.addEventListener("DOMContentLoaded", function() {
 				targetElementRetry.appendChild(buttonContainer);
 			}
 
-			let workflowSelectList = []
 			if (nowPorcess == 'workflowProcess'){
 				workflowSelectList =  getWorkflowObjList(localStorage.getItem(processXml[2]))	// workflow process 일때 Activity 개수 만큼 select box 생성
 				createWorkflowSelectBox(workflowSelectList)
@@ -196,7 +244,6 @@ function getObjectPropertyValue(input,id, mxObjId) {
   */
 function getWorkflowElement(input, start, end) {
 	flowDict[input] = [start, end];
-	// console.log(input, start, end)
 }
 
 
@@ -225,15 +272,37 @@ function getWorkflowObjList(xml){
 }
 
 
+function getNewWorkflow(selectedKey, selectedValue) {
+	let now_current_workflow = current_workflow;
+    current_workflow = selectedKey+'_'+selectedValue;
+	var xml = localStorage.getItem(current_workflow)
+	workflowUploadXML(now_current_workflow, current_workflow, xml)
+
+}
+
+
+
 function createWorkflowSelectBox(activityCatList){
 	let data = activityCatList;
 	var selectBox = document.createElement("select");
-	selectBox.className = "select-box";
+	selectBox.className = "workflow-select-box";
+
+	// 처음에 선택된 항목 없음을 나타내는 옵션 추가
+    var defaultOption = document.createElement("option");
+    defaultOption.disabled = true;
+    defaultOption.selected = true;
+    defaultOption.text = "Select an option";
+    selectBox.appendChild(defaultOption);
 
 	for (var i = 0; i < data.length; i++) {
 		var option = document.createElement("option");
 		option.value = data[i].id;
 		option.text = data[i].value;
+
+
+        option.dataset.key = data[i].id;
+        option.dataset.value = data[i].value;
+
 		selectBox.appendChild(option);
 	}
 
@@ -242,7 +311,11 @@ function createWorkflowSelectBox(activityCatList){
 	geMenubar.style.justifyContent = "flex-end";
 	geMenubar.appendChild(selectBox);
 
-	selectBox.addEventListener("change", function() {
-		var selectedValue = selectBox.value;
-	});
-};
+    selectBox.addEventListener("change", function() {
+        var selectedOption = selectBox.options[selectBox.selectedIndex];
+        var selectedKey = selectedOption.dataset.key;
+        var selectedValue = selectedOption.dataset.value;
+        getNewWorkflow(selectedKey, selectedValue);
+    });
+}
+
