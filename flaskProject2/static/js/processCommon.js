@@ -1,6 +1,5 @@
 let processDict = ['overviewProcess','requirementsProcess','businessProcess','workflowProcess','searchReusablesProcess','workflowImplementationProcess','policyProcess','runProcess']
 let processXml = ['overviewProcessXML','requirementsProcessXml','businessProcessXml','workflowProcessXml','searchReusablesProcessXml','workflowImplementationProcessXml','policyProcessXml','runProcessXml']
-let actionList = [ 'Container', 'Script', 'Resource', 'Sensor', 'Suspend', 'Operator']
 
 /**
  * process xml을 화면으로 불러오는 함수
@@ -99,6 +98,7 @@ document.addEventListener("DOMContentLoaded", function() {
 			if (nowPorcess == 'workflowProcess'){
 				workflowSelectList =  getWorkflowObjList(localStorage.getItem(processXml[2]))	// workflow process 일때 Activity 개수 만큼 select box 생성
 				createWorkflowSelectBox(workflowSelectList)
+				createTypeSelectbox();
 				uploadXML();
 			}else {
 				// 기존 프로세스 값을 불러오냐 오지 않냐
