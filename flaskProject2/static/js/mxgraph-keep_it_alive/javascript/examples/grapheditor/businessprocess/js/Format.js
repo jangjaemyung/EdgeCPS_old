@@ -1884,7 +1884,7 @@ ArrangePanel.prototype.addGroupOps = function(div)
 			mxUtils.br(div);
 		}
 		
-
+		// 우측 사이드바 도커 링크 버튼
 		btn = mxUtils.button(mxResources.get('editLink'), mxUtils.bind(this, function(evt)
 		{
 			this.editorUi.actions.get('editLink').funct();
@@ -1916,6 +1916,25 @@ ArrangePanel.prototype.addGroupOps = function(div)
 		// btn.style.marginLeft = '2px';
 		btn.style.width = '202px';
 		btn.style.marginBottom = '2px';
+		btn.style.marginBottom = '2px';
+		div.appendChild(btn);
+		count++;
+		
+		if (count > 0)// 민수 줄 버튼 띄어 쓰기
+		{
+			mxUtils.br(div);
+		}
+		
+		// 우측 사이드바 requirement 만족 선택 버튼 순우
+		btn = mxUtils.button(mxResources.get('selectReq'), mxUtils.bind(this, function(evt)
+		{
+			this.editorUi.actions.get('selectReq').funct();
+		}));
+		
+		btn.setAttribute('title', mxResources.get('selectReq'));
+		// btn.style.width = '100px';
+		// btn.style.marginLeft = '2px';
+		btn.style.width = '202px';
 		btn.style.marginBottom = '2px';
 		div.appendChild(btn);
 		count++;

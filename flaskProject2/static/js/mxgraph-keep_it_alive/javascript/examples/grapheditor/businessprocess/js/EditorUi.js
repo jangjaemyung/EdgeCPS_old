@@ -4481,6 +4481,14 @@ EditorUi.prototype.showLinkDialog = function(value, btnLabel, fn)
 	dlg.init();
 };
 
+// 순우 req 다이어로그
+EditorUi.prototype.reqDialog = function(value, btnLabel, fn)
+{
+	var dlg = new ReqDialog(this, value, btnLabel, fn);
+	this.showDialog(dlg.container, 420, 90, true, true);
+	dlg.init();
+};
+
 /**
  * Hides the current menu.
  */
@@ -4489,7 +4497,6 @@ EditorUi.prototype.showDataDialog = function(cell)
 	if (cell != null)
 	{
 		var dlg = new EditDataDialog(this, cell);
-		// 순우
 		
 		// console.log(createDiagramSape);
 		this.showDialog(dlg.container, 480, 420, true, false, null, false); // property 여기에 작성된 정보가 저장 된다. 민수
