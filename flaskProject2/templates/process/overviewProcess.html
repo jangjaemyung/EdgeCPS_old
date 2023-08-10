@@ -50,6 +50,7 @@
     <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 	<!--BOOTSTRAP END-->
+	<script type="text/javascript" src="{{ url_for('static', filename='js/overviewProcessJs.js') }}"></script>
 
 
 
@@ -58,7 +59,7 @@
 	</div>
 	<nav class="navbar">
 		<ul class="nav-list">
-			<a class="nav-button" href="{{ url_for('overview_process') }}" onclick="getLatestXml(flowDict, processGraphxml)">
+			<a class="nav-button" href="{{ url_for('overview_process') }}" >
 				<span class="button-icon-Overview_page">
 					<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 32 32">
 						<path d="M5.33342 26.6663C4.60008 26.6663 3.97208 26.405 3.44942 25.8823C2.92675 25.3597 2.66586 24.7321 2.66675 23.9997V7.99968C2.66675 7.26634 2.92808 6.63834 3.45075 6.11568C3.97342 5.59301 4.60097 5.33212 5.33342 5.33301H12.2334C12.589 5.33301 12.9281 5.39968 13.2508 5.53301C13.5734 5.66634 13.8565 5.85523 14.1001 6.09968L16.0001 7.99968H26.6668C27.4001 7.99968 28.0281 8.26101 28.5508 8.78368C29.0734 9.30634 29.3343 9.9339 29.3334 10.6663H14.9001L12.2334 7.99968H5.33342V23.9997L7.96675 15.233C8.14453 14.6552 8.47253 14.1939 8.95075 13.849C9.42897 13.5041 9.95653 13.3321 10.5334 13.333H27.7334C28.6445 13.333 29.3614 13.6943 29.8841 14.417C30.4068 15.1397 30.5454 15.9228 30.3001 16.7663L27.9001 24.7663C27.7223 25.3441 27.3943 25.8055 26.9161 26.1503C26.4379 26.4952 25.9103 26.6672 25.3334 26.6663H5.33342ZM8.13342 23.9997H25.3334L27.7334 15.9997H10.5334L8.13342 23.9997Z"/>
@@ -156,7 +157,7 @@
                     {% endfor %}
                 </select>
             </div>
-            <button type="submit" class="btn btn-primary">Save Project</button>
+            <button type="submit" class="btn btn-primary" onclick="savePorjectInfo()">Save Project</button>
         </form>
     </div>
 

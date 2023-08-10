@@ -1,19 +1,22 @@
 let processDict = ['overviewProcess','requirementsProcess','businessProcess','workflowProcess','searchReusablesProcess','workflowImplementationProcess','policyProcess','runProcess']
 let processXml = ['overviewProcessXML','requirementsProcessXml','businessProcessXml','workflowProcessXml','searchReusablesProcessXml','workflowImplementationProcessXml','policyProcessXml','runProcessXml']
-
+let actionList = [ 'Container', 'Script', 'Resource', 'Sensor', 'Suspend', 'Operator']
 
 /**
  * process xml을 화면으로 불러오는 함수
  */
 function uploadXML(){
-	let xml = localStorage.getItem(processXml[current_process]); // 해당 프로세스의 xml을 불러온다.
-	if (processXml[current_process] == 'businessProcess'){
-		let reqXml = localStorage.getItem('requirementsProcessXml');
-		let businessXml = localStorage.getItem(processXml[current_process]);
+	let xml = ''
+	if (processDict[current_process] == 'workflowProcess'){
+		var xmlKey = localStorage.getItem('nowWorkflow') // 필요하면 워크플로우 프로세스의 항목을 가져온다.
+		xml = localStorage.getItem(xmlKey); // 필요하면 워크플로우 프로세스의 항목을 가져온다.
+	}else {
+		xml = localStorage.getItem(processXml[current_process]); // 해당 프로세스의 xml을 불러온다.
 	}
 
-
-
+	if (xml == ''){
+		return
+	}
 	let doc = mxUtils.parseXml(xml);
 	let codec = new mxCodec(doc);
 
@@ -46,6 +49,10 @@ document.addEventListener("DOMContentLoaded", function() {
 	localStorage.setItem('current_processXml', processXml[current_process]); //현재 작업중인 프로세스 xml저장
 	localStorage.setItem('current_processDict', processDict[current_process]); //현재 작업중인 프로세스 dict저장
 
+	if (processDict[current_process] != 'workflowProcess' ){ // 워크플로우 로컬스토리지 초기화
+		localStorage.setItem('nowWorkflow', '')
+	}
+
 	let nowPorcess = localStorage.getItem('current_processDict') // 현재 프로세스 확인
 
 
@@ -57,6 +64,7 @@ document.addEventListener("DOMContentLoaded", function() {
 		button.addEventListener("click", clickFunc); // 버튼 클릭 이벤트 리스너 추가
 		return button;
 	}
+
 	function processLoadClick() {
 		uploadXML();
 	}
@@ -91,6 +99,7 @@ document.addEventListener("DOMContentLoaded", function() {
 			if (nowPorcess == 'workflowProcess'){
 				workflowSelectList =  getWorkflowObjList(localStorage.getItem(processXml[2]))	// workflow process 일때 Activity 개수 만큼 select box 생성
 				createWorkflowSelectBox(workflowSelectList)
+				uploadXML();
 			}else {
 				// 기존 프로세스 값을 불러오냐 오지 않냐
 				let storedXml = localStorage.getItem(processXml[current_process]);
@@ -225,24 +234,63 @@ function getWorkflowObjList(xml){
 }
 
 
+function getNewWorkflow(selectedKey, selectedValue) {
+	console.log("Selected Key:", selectedKey);
+	console.log("Selected Value:", selectedValue);
+
+}
+
 function createWorkflowSelectBox(activityCatList){
-	let data = activityCatList;
-	var selectBox = document.createElement("select");
-	selectBox.className = "select-box";
+	let workflowXML = []
+    let data = activityCatList;
+    var selectBox = document.createElement("select");
+    selectBox.className = "workflow-select-box";
 
-	for (var i = 0; i < data.length; i++) {
-		var option = document.createElement("option");
-		option.value = data[i].id;
-		option.text = data[i].value;
-		selectBox.appendChild(option);
-	}
+    // 처음에 선택된 항목 없음을 나타내는 옵션 추가
+    var defaultOption = document.createElement("option");
+    defaultOption.disabled = true;
+    defaultOption.selected = true;
+    defaultOption.text = "Select an option";
+    selectBox.appendChild(defaultOption);
 
-	var geMenubar = document.querySelector(".geToolbarContainer");
-	geMenubar.style.display = "flex";
-	geMenubar.style.justifyContent = "flex-end";
-	geMenubar.appendChild(selectBox);
+	let nowWorkflow = localStorage.getItem('nowWorkflow');
+    for (var i = 0; i < data.length; i++) {
+        var option = document.createElement("option");
+        option.value = data[i].id;
+        option.text = data[i].value;
 
-	selectBox.addEventListener("change", function() {
-		var selectedValue = selectBox.value;
-	});
+        // 선택한 옵션의 key와 value를 data-* 속성으로 저장
+        option.dataset.key = data[i].id;
+        option.dataset.value = data[i].value;
+		workflowXML.push(data[i].id + '#' + data[i].value) // 로컬 스토리지
+        selectBox.appendChild(option);
+
+		if (nowWorkflow === data[i].id + '#' + data[i].value) {
+            option.selected = true; // 일치하는 경우 선택됨으로 표시
+
+        }
+    }
+
+    var geMenubar = document.querySelector(".geToolbarContainer");
+    geMenubar.style.display = "flex";
+    geMenubar.style.justifyContent = "flex-end";
+    geMenubar.appendChild(selectBox);
+
+	// 전부 완료 되면 로컬 스토리지에 저장
+	var workflowXMLList = JSON.stringify(workflowXML);
+	localStorage.setItem('workflowXML',workflowXMLList);
+
+    selectBox.addEventListener("change", function() {
+
+		localStorage.setItem(localStorage.getItem('nowWorkflow') , processGraphxml); // 기존 선택된 워크 플로우 xml
+        var selectedOption = selectBox.options[selectBox.selectedIndex];
+        var selectedKey = selectedOption.dataset.key;
+        var selectedValue = selectedOption.dataset.value;
+		localStorage.setItem('nowWorkflow' ,selectedKey + '#' + selectedValue); // 현재 작업중이던 워크플로우
+
+
+		location.reload(true);
+
+        getNewWorkflow(selectedKey, selectedValue);
+    });
 };
