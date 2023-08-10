@@ -102,6 +102,7 @@ editDiagram=Edit Diagram
 editImage=Edit Image
 editLink=Edit EdgeCPS Docker Link
 runWorkFlow=Run ArgoWorkFlow
+selectReq=Select Requirement Satisfaction
 editStyle=Edit Style
 editTooltip=Edit Tooltip
 enterGroup=Enter Group

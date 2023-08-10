@@ -225,11 +225,8 @@ function createWorkflowSelectBox(activityCatList){
 
 // 현재xml에서 클릭한 오브젝트 id의 attribute 추출
 function extractObjects(id) {
-	// 찾을 문자열
 	const inputString = processGraphxml
 	const searchString = 'id="'+id;
-
-	// 찾은 문자열의 인덱스를 찾음
 	const index = inputString.indexOf(searchString);
 
 	if (index !== -1) {
@@ -237,7 +234,6 @@ function extractObjects(id) {
 		const startIndex = inputString.lastIndexOf('<', index);
 		
 		if (startIndex !== -1) {
-			// 왼쪽의 문자열을 추출
 			const extractedString = inputString.substring(startIndex +1, index);
 			console.log(extractedString);
 			return(extractedString);
@@ -245,6 +241,61 @@ function extractObjects(id) {
 	}
   }
 
+// req 정보를 xml에서 추출하기
+function extractReq(){
+	const inputString = window.localStorage.getItem('requirementsProcessXml')
+	// var startIndex = inputString.indexOf("functional requirement");
+	// if (startIndex !== -1) {
+	// const leftBracketIndex = inputString.lastIndexOf("<", startIndex);
+	// const rightBracketIndex = inputString.indexOf(">", startIndex);
+	
+	// if (leftBracketIndex !== -1 && rightBracketIndex !== -1 && leftBracketIndex < rightBracketIndex) {
+	// 	var extractedText = inputString.substring(leftBracketIndex + 1, rightBracketIndex);
+	// 	console.log(extractedText);
+	// 	} 
+	// }	
+	const pattern = /<object label="&lt;&lt;(functional|non functional) requirement&gt;&gt;".*?>/g;
+
+	const matches = inputString.match(pattern);
+
+	const resultArray = [];
+
+	if (matches) {
+	for (const match of matches) {
+		const endIndex = match.indexOf(">");
+		if (endIndex !== -1) {
+		resultArray.push(match.substring(0, endIndex + 1));
+		}
+	}
+	}
+	console.log(resultArray);
+
+	var reqArray = []
+	for (i=0 ; i<resultArray.length; i++){
+		var string = resultArray[i]
+		const openingTag = '&lt;&lt;';
+		const closingTag = '&gt;&gt;';
+
+
+		const startIndex = string.indexOf(openingTag) + openingTag.length;
+		const endIndex = string.indexOf(closingTag);
+
+		if (startIndex !== -1 && endIndex !== -1) {
+		const capturedText = string.substring(startIndex, endIndex);
+
+		const remainingText = string.substring(endIndex + closingTag.length);
+		const attributeArray = remainingText.split(' ').filter(attribute => attribute !== '');;
+
+		const resultArray = [capturedText, ...attributeArray];
+		const indexToRemove = resultArray.indexOf('"');
+		if (indexToRemove !== -1) {
+			resultArray.splice(indexToRemove, 1);
+		}
+		console.log(resultArray);
+		reqArray.push(resultArray);
+		} 
+	}
+}	
   
 
 

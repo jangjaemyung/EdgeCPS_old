@@ -239,15 +239,16 @@
 	  
 
 	<!--순우 캔버스 위에 있는 다이어그램 목록 가져오기 위한 버튼 생성 및 함수 호출-->
-	<!-- <div><button id="myButton">Get Activity class list</button></div>
+	<div><button id="myButton">Get Requirement list</button></div>
 	<script>
 		var button = document.getElementById('myButton');
 		
 		button.addEventListener('click', function(){
-			var view = new mxGraphView();
-			var classList = view.getRectangleList();
-			console.log(classList)
-			localStorage.setItem('actlist', JSON.stringify(classList)); // 순우 캔버스 위에 그려진 roundedrectangle 리스트 로컬스토리지에 저장 
+			// var view = new mxGraphView();
+			// var classList = view.getRectangleList();
+			// console.log(classList)
+			// localStorage.setItem('actlist', JSON.stringify(classList)); // 순우 캔버스 위에 그려진 roundedrectangle 리스트 로컬스토리지에 저장 
+			extractReq()
 		});
 	</script>
 
@@ -258,7 +259,7 @@
 			<div class="buttons-container"></div>
 		  </div>
 		</div>
-	  </div> -->
+	  </div>
 	
 	
 	

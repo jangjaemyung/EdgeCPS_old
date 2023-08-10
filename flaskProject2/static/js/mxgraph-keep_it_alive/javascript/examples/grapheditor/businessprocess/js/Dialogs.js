@@ -1755,6 +1755,66 @@ EditDataDialog.getDisplayIdForCell = function(ui, cell)
  * Optional help link.
  */
 EditDataDialog.placeholderHelpLink = null;
+// 순우 req 다이어로그
+var ReqDialog = function(editorUi, initialValue, btnLabel, fn)
+{
+	var div = document.createElement('div');
+	mxUtils.write(div, mxResources.get('selectReq'));
+	
+	var inner = document.createElement('div');
+	inner.className = 'geTitle';
+	inner.style.backgroundColor = 'transparent';
+	inner.style.borderColor = 'transparent';
+	inner.style.whiteSpace = 'nowrap';
+	inner.style.textOverflow = 'clip';
+	inner.style.cursor = 'default';
+	
+	if (!mxClient.IS_VML)
+	{
+		inner.style.paddingRight = '20px';
+	}
+	  // Create a select box
+	  var selectBox = document.createElement('select');
+	  selectBox.options.add(new Option('Option 1', 'option1'));
+	  selectBox.options.add(new Option('Option 2', 'option2'));
+	  // Add more options as needed
+	
+	  // Append the select box to the inner div
+	  inner.appendChild(selectBox);
+	
+	  // Create OK button
+	  var okButton = mxUtils.button(mxResources.get('ok'), function() {
+		// Get the selected option from the select box
+		var selectedOption = selectBox.options[selectBox.selectedIndex].value;
+		
+		// Call the provided function with the selected option
+		// fn(selectedOption);
+		mxEvent.release(okButton);
+	  });
+	
+	  // Create Cancel button
+	  var cancelButton = mxUtils.button(mxResources.get('cancel'), function() {
+		editorUi.hideDialog();
+		mxEvent.release(cancelButton);
+	  });
+	
+	  // Append buttons to the inner div
+	  inner.appendChild(okButton);
+	  inner.appendChild(cancelButton);
+	
+	  // Append inner div to the main div
+	  div.appendChild(inner);
+	
+	  // Show the dialog
+	  editorUi.showDialog(div, 300, 150, true, true);
+	  editorUi.dialog.container.style.overflow = 'hidden';
+	  mxEvent.addListener(window, 'resize', function() {
+		editorUi.dialog.container.style.overflow = 'hidden';
+	  });
+	
+	  selectBox.focus();
+};
+
 
 /**
  * Constructs a new link dialog.
