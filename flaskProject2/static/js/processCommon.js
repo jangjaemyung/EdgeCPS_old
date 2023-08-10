@@ -3,7 +3,7 @@ let processXml = ['overviewProcessXML','requirementsProcessXml','businessProcess
 
 
 /**
- * xml을 화면으로 불러오는 함수
+ * process xml을 화면으로 불러오는 함수
  */
 function uploadXML(){
 	let xml = localStorage.getItem(processXml[current_process]); // 해당 프로세스의 xml을 불러온다.
@@ -123,7 +123,7 @@ function getLatestXml(flowDict,strXml){
  * 클래스들의 마지막 숫자를 가져와서 +1을 해준다. flowdict의 중복된 키를 방지하기 위해
  */
 function getLastIndexOfShape(shapeName){ //민수 마지막숫자를 가져와서 거기에서 +1 추가하는 방식
-	var lastIndex = 0
+	lastIndex = 0
 	var number = 0
 	var ele = document.getElementsByClassName(shapeName);
 	for (let index = 0; index < ele.length; index++) {
@@ -165,6 +165,30 @@ function convertToCamelCase(input) { // 단어를 클래스로 변경하기 위�
 	}
 
 
+/**
+ *  생성된 오브젝트의 edit의 값을 가져오는 기능
+ *
+ */
+function getObjectPropertyValue(input,id, mxObjId) {
+	let htmlTag = input.outerHTML;
+
+	let tempElement = document.createElement('div');
+	tempElement.innerHTML = htmlTag;
+
+	let attributes = tempElement.firstChild.attributes;
+
+	let desiredAttributes = [];
+	for (let i = 0; i < attributes.length; i++) {
+	let attribute = attributes[i];
+	if (attribute.name !== 'label') {
+		desiredAttributes.push(attribute.name + '="' + attribute.value + '"');
+	}
+	}
+	objValueDict[id +'_'+ mxObjId] = desiredAttributes
+	// console.log(desiredAttributes); // 민수 edit property값 출력
+	// console.log(objValueDict)
+	// return desiredAttributes
+}
 
 /**
  *  id , mxobj 로 받을 수 있는지 확인
@@ -222,6 +246,7 @@ function createWorkflowSelectBox(activityCatList){
 		var selectedValue = selectBox.value;
 	});
 };
+<<<<<<< HEAD
 
 // 현재xml에서 클릭한 오브젝트 id의 attribute 추출
 function extractObjects(id) {
@@ -302,3 +327,5 @@ function extractReq(){
 
 
 
+=======
+>>>>>>> e6c0edd0e0e9e7447857bacb2610f0b1ad36c7a6
