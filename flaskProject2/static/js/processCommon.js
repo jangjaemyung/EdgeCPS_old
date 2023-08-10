@@ -223,30 +223,28 @@ function createWorkflowSelectBox(activityCatList){
 	});
 };
 
-// requirement 리스트를 뽑아오는 함수
-function extractSwimlaneObjects(xmlData) {
-	const xmlData = '<mxGraphModel><root><mxCell id="0"/><mxCell id="1" parent="0"/><mxCell id="17" value="Classname" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;" vertex="1" parent="1"><mxGeometry x="250" y="140" width="150" height="110" as="geometry"/></mxCell><mxCell id="18" value="+ field: type" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="17"><mxGeometry y="26" width="150" height="84" as="geometry"/></mxCell><object label="Classname" name="df" id="19" text="dfdf"><mxCell style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;" vertex="1" parent="1"><mxGeometry x="350" y="350" width="140" height="52" as="geometry"/></mxCell></object><mxCell id="20" value="+ field: type" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="19"><mxGeometry y="26" width="140" height="26" as="geometry"/></mxCell></root></mxGraphModel>'
+// 현재xml에서 클릭한 오브젝트 id의 attribute 추출
+function extractObjects(id) {
+	// 찾을 문자열
+	const inputString = processGraphxml
+	const searchString = 'id="'+id;
 
-	const parser = new DOMParser();
-	const xmlDoc = parser.parseFromString(xmlData, "text/xml");
-	
-	const swimlaneObjects = xmlDoc.querySelectorAll("object[style='swimlane']");
-	
-	const swimlaneList = [];
-	swimlaneObjects.forEach(object => {
-	  const name = object.getAttribute("name");
-	  const id = object.getAttribute("id");
-	  swimlaneList.push({ name, id });
+	// 찾은 문자열의 인덱스를 찾음
+	const index = inputString.indexOf(searchString);
 
-	});
-	console.log(swimlaneList);
-	return swimlaneList;
+	if (index !== -1) {
+	// 찾은 문자열의 왼쪽으로 < 문자를 찾음
+		const startIndex = inputString.lastIndexOf('<', index);
+		
+		if (startIndex !== -1) {
+			// 왼쪽의 문자열을 추출
+			const extractedString = inputString.substring(startIndex +1, index);
+			console.log(extractedString);
+			return(extractedString);
+		} 
+	}
   }
-  
-  
-  
-  const swimlaneList = extractSwimlaneObjects(xmlData);
-  console.log(swimlaneList);
+
   
 
 
