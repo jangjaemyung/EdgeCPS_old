@@ -60,6 +60,31 @@ function createTypeSelectbox(){ // mxutil 에 넣어야함
  * let doc = mxUtils.parseXml(xml);
  * let codec = new mxCodec(doc);
  * let cell =  codec.decode(doc.documentElement, universalGraph.getModel()).cells[3];
+ * universalGraph.model.setValue(cell, 'kid');
+ *
  * 값 가져오는 방식
  * 문제는 실행시 클릭을 한번 해야만 데이터가 업데이트 된다. 왜그러지....
+ *
+ *
+ * 이건 초기화 하는 과정(미 완벅)
+ *
+ * universalGraph.getChildVertices(universalGraph.getDefaultParent())
+ *
+ *
+ * universalGraph.getModel().beginUpdate();
+ * universalGraph.removeCells(universalGraph.getChildVertices(universalGraph.getDefaultParent()));
+ * universalGraph.getModel().endUpdate();
+ *
+ *
+ * universalGraph.getSelectionCells()
+ *
+ *
+ *
+ * xml = processGraphxml;
+ * doc = mxUtils.parseXml(xml);
+ * codec = new mxCodec(doc);
+ * codec.decode(doc.documentElement, universalGraph.getModel()).cells
+ *
+ *
+ * Object.values(graph.getModel().cells)
  */

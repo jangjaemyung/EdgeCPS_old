@@ -4477,7 +4477,7 @@ EditorUi.prototype.showImageDialog = function(title, value, fn, ignoreExisting)
 EditorUi.prototype.showLinkDialog = function(value, btnLabel, fn)
 {
 	var dlg = new LinkDialog(this, value, btnLabel, fn);
-	this.showDialog(dlg.container, 420, 90, true, true);
+	this.showDialog(dlg.container, 480, 590, true, true);
 	dlg.init();
 };
 
@@ -4485,7 +4485,7 @@ EditorUi.prototype.showLinkDialog = function(value, btnLabel, fn)
 EditorUi.prototype.reqDialog = function(value, btnLabel, fn)
 {
 	var dlg = new ReqDialog(this, value, btnLabel, fn);
-	this.showDialog(dlg.container, 420, 90, true, true);
+	this.showDialog(dlg.container, 420, 590, true, true);
 	dlg.init();
 };
 
