@@ -145,6 +145,7 @@ def run_process():
 #############""" 아르고 """#########
 NAMESPACE = 'argo'
 ARGO_SERVER_URL = 'https://localhost:2746'
+activity_dic = {}
 
 def search_images(keyword):
     url = f'https://hub.docker.com/v2/search/repositories'
@@ -186,6 +187,7 @@ def search_local_images():
 
     return image_list
 
+activity_dic
 @app.route('/submit', methods=['POST'])
 def submit_workflow():
     try:
@@ -208,12 +210,14 @@ def submit_workflow():
 def logs_workflow():
     workflow_name = request.args.get('workflow_name')
     logs = argo_logs_workflow(workflow_name)
+    activity_dic[workflow_name+'_log'] = logs
     return logs
 
 @app.route('/status', methods = ['GET'])
 def staus_workflow():
     workflow_name = request.args.get('workflow_name')
     status = argo_status_workflow(workflow_name)
+    activity_dic[workflow_name+'_status'] = status
     return status
 
 @app.route('/search', methods=['GET', 'POST'])
