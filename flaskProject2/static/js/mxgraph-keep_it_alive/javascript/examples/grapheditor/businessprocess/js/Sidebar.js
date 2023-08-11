@@ -1262,8 +1262,63 @@ Sidebar.prototype.addGeneralPaletteWorkflow = function(expand)
 	var dt = 'uml static class ';
 
 	var fns = [
-	 	this.createVertexTemplateEntry('rounded=0;whiteSpace=wrap;html=1;', 120, 60, '', 'Rectangl', null, null, 'rect rectangle box'),
-	 	this.createVertexTemplateEntry('rounded=1;whiteSpace=wrap;html=1;', 120, 60, '', 'Rounded Rectangle', null, null, 'rounded rect rectangle box'),//uml꺼 훔쳐오기
+		
+		this.createVertexTemplateEntry(
+			'rounded=1;whiteSpace=wrap;html=1;',
+			120, 60,
+			'<div style="font-weight:bold;">&lt;&lt;Container&gt;&gt;</div>',
+			'Rounded Rectangle with Activity',
+			null,
+			null,
+			'rounded rect rectangle box'
+		  ),
+		  this.createVertexTemplateEntry(
+			'rounded=1;whiteSpace=wrap;html=1;',
+			120, 60,
+			'<div style="font-weight:bold;">&lt;&lt;Script&gt;&gt;</div>',
+			'Rounded Rectangle with Activity',
+			null,
+			null,
+			'rounded rect rectangle box'
+		  ),
+		  this.createVertexTemplateEntry(
+			'rounded=1;whiteSpace=wrap;html=1;',
+			120, 60,
+			'<div style="font-weight:bold;">&lt;&lt;Resource&gt;&gt;</div>',
+			'Rounded Rectangle with Activity',
+			null,
+			null,
+			'rounded rect rectangle box'
+		  ),
+		  this.createVertexTemplateEntry(
+			'rounded=1;whiteSpace=wrap;html=1;',
+			120, 60,
+			'<div style="font-weight:bold;">&lt;&lt;Sensor&gt;&gt;</div>',
+			'Rounded Rectangle with Activity',
+			null,
+			null,
+			'rounded rect rectangle box'
+		  ),
+		  this.createVertexTemplateEntry(
+			'rounded=1;whiteSpace=wrap;html=1;',
+			120, 60,
+			'<div style="font-weight:bold;">&lt;&lt;Suspend&gt;&gt;</div>',
+			'Rounded Rectangle with Activity',
+			null,
+			null,
+			'rounded rect rectangle box'
+		  ),
+		  this.createVertexTemplateEntry(
+			'rounded=1;whiteSpace=wrap;html=1;',
+			120, 60,
+			'<div style="font-weight:bold;">&lt;&lt;Operator&gt;&gt;</div>',
+			'Rounded Rectangle with Activity',
+			null,
+			null,
+			'rounded rect rectangle box'
+		  ),
+	 	this.createVertexTemplateEntry('rounded=0;whiteSpace=wrap;html=1;', 120, 60, '', 'Rectangle', null, null, 'rect rectangle box'),
+	 	// this.createVertexTemplateEntry('rounded=1;whiteSpace=wrap;html=1;', 120, 60, '', 'Rounded Rectangle', null, null, 'rounded rect rectangle box'),//uml꺼 훔쳐오기
 		this.createVertexTemplateEntry('ellipse;fillColor=#000000;strokeColor=none;', 30, 30, '', 'Initial state', null, null, dt + 'initial state'),	//uml꺼 훔쳐오기
 		this.createVertexTemplateEntry('html=1;points=[];perimeter=orthogonalPerimeter;fillColor=#000000;strokeColor=none;', 5, 80, '', 'Join/Fork', null, null, dt + 'join fork'),//uml꺼 훔쳐오기
 		this.createVertexTemplateEntry('shape=sumEllipse;perimeter=ellipsePerimeter;whiteSpace=wrap;html=1;backgroundOutline=1;', 30, 30,'', 'Exit Point', null, null, dt + 'exit point'),//uml꺼 훔쳐오기
