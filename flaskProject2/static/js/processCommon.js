@@ -246,7 +246,7 @@ function createWorkflowSelectBox(activityCatList){
 		var selectedValue = selectBox.value;
 	});
 };
-<<<<<<< HEAD
+
 
 // 현재xml에서 클릭한 오브젝트 id의 attribute 추출
 function extractObjects(id) {
@@ -326,6 +326,3 @@ function extractReq(){
 
 
 
-
-=======
->>>>>>> e6c0edd0e0e9e7447857bacb2610f0b1ad36c7a6
