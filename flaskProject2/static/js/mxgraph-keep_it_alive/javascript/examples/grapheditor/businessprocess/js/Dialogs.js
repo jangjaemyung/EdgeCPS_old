@@ -1416,40 +1416,45 @@ var EditDataDialog = function(ui, cell)
 	var isLayer = graph.getModel().getParent(cell) == graph.getModel().getRoot();
 	// DiRoundedRectangle 일 경우 고정 값 넣기 순우
 	var extracted = extractObjects(id)
-	if (extracted=='object label="" '|| extracted =='mxCell '){
-		if (DigramClicked.includes('DiRoundedRectangle')){
-			var RoundedRectangleFixProperty = document.createAttribute('Name')
-			RoundedRectangleFixProperty.value = ''
-			var RoundedRectangleFixProperty2 = document.createAttribute('Description')
-			RoundedRectangleFixProperty2.value = ''
-			var RoundedRectangleFixProperty3 = document.createAttribute('Input_information')
-			RoundedRectangleFixProperty3.value = ''
-			var RoundedRectangleFixProperty4 = document.createAttribute('output_information')
-			RoundedRectangleFixProperty4.value = ''
-			attrs.setNamedItem(RoundedRectangleFixProperty)
-			attrs.setNamedItem(RoundedRectangleFixProperty2)
-			attrs.setNamedItem(RoundedRectangleFixProperty3)
-			attrs.setNamedItem(RoundedRectangleFixProperty4)
+	try{
+		if (extracted=='object label="" '|| extracted =='mxCell '){
+			if (DigramClicked.includes('DiRoundedRectangle')){
+				var RoundedRectangleFixProperty = document.createAttribute('Name')
+				RoundedRectangleFixProperty.value = ''
+				var RoundedRectangleFixProperty2 = document.createAttribute('Description')
+				RoundedRectangleFixProperty2.value = ''
+				var RoundedRectangleFixProperty3 = document.createAttribute('Input_information')
+				RoundedRectangleFixProperty3.value = ''
+				var RoundedRectangleFixProperty4 = document.createAttribute('output_information')
+				RoundedRectangleFixProperty4.value = ''
+				attrs.setNamedItem(RoundedRectangleFixProperty)
+				attrs.setNamedItem(RoundedRectangleFixProperty2)
+				attrs.setNamedItem(RoundedRectangleFixProperty3)
+				attrs.setNamedItem(RoundedRectangleFixProperty4)
+			}
+			// DiDiamond 일 경우 고정 값 넣기 순우
+			else if (DigramClicked.includes('DiDiamond')){
+				var DiDiamondFixProperty = document.createAttribute('DiDiamondFixPropertyKey')
+				DiDiamondFixProperty.value = 'DiDiamondFixPropertyValue'
+				attrs.setNamedItem(DiDiamondFixProperty)
+			}
+			// Class 일 경우 고정 값 넣기 순우
+			else if (DigramClicked.includes('Class')){
+				var DiClassFixProperty = document.createAttribute('Name')
+				DiClassFixProperty.value = ''
+				var DiClassFixProperty2 = document.createAttribute('Id')
+				DiClassFixProperty2.value = ''
+				var DiClassFixProperty3 = document.createAttribute('Text')
+				DiClassFixProperty3.value = ''
+				attrs.setNamedItem(DiClassFixProperty)
+				attrs.setNamedItem(DiClassFixProperty2)
+				attrs.setNamedItem(DiClassFixProperty3)
+			}
 		}
-		// DiDiamond 일 경우 고정 값 넣기 순우
-		else if (DigramClicked.includes('DiDiamond')){
-			var DiDiamondFixProperty = document.createAttribute('DiDiamondFixPropertyKey')
-			DiDiamondFixProperty.value = 'DiDiamondFixPropertyValue'
-			attrs.setNamedItem(DiDiamondFixProperty)
-		}
-		// Class 일 경우 고정 값 넣기 순우
-		else if (DigramClicked.includes('Class')){
-			var DiClassFixProperty = document.createAttribute('Name')
-			DiClassFixProperty.value = ''
-			var DiClassFixProperty2 = document.createAttribute('Id')
-			DiClassFixProperty2.value = ''
-			var DiClassFixProperty3 = document.createAttribute('Text')
-			DiClassFixProperty3.value = ''
-			attrs.setNamedItem(DiClassFixProperty)
-			attrs.setNamedItem(DiClassFixProperty2)
-			attrs.setNamedItem(DiClassFixProperty3)
-		}
+	}catch{
+		console.log('edit error')
 	}
+	
 	clicked.push(id)
 
 

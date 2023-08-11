@@ -334,12 +334,12 @@ function extractReq(){
 	const resultArray = [];
 
 	if (matches) {
-	for (const match of matches) {
-		const endIndex = match.indexOf(">");
-		if (endIndex !== -1) {
-		resultArray.push(match.substring(0, endIndex + 1));
+		for (const match of matches) {
+			const endIndex = match.indexOf(">");
+			if (endIndex !== -1) {
+				resultArray.push(match.substring(0, endIndex + 1));
+			}
 		}
-	}
 	}
 	console.log(resultArray);
 

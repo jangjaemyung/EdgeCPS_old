@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
+
     <meta charset="UTF-8">
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -14,7 +16,82 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles/grapheditor.css') }}">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles/process.css')}}"> <!--순우 css 추가-->
+	<meta charset="UTF-8">
 
+	<!-- 순우 run 화면 레이아웃 -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<title>Bootstrap Layout Example</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	<style>
+		body, html {
+		height: 100%;
+		margin: 0;
+		padding: 0;
+		overflow: hidden;
+		}
+		.sidebar {
+		background-color: #f8f9fa;
+		height: 65%;
+		width: 10%;
+		position: fixed;
+		top: 20;
+		right: 0;
+		}
+		.main-content {
+		width: 90%;
+		float: left;
+		height: 65%;
+		overflow: auto;
+		}
+		.footer {
+		height: 4%;
+		width: 100%;
+		background-color: #343a40;
+		color: white;
+		text-align: center;
+		position: fixed;
+		bottom:186px;
+		left: 0;
+		/* overflow: auto; */
+		}
+		.sub-content {
+		width: 33.33%;
+		float: left;
+		height: 100%;
+		background-color: #f0f0f0;
+		border: 1px solid #ddd;
+		padding: 10px;
+		overflow: auto;
+		}
+		
+		.logContainer {
+		/* flex: 1; */
+		background-color: #000;
+		color: #fff;
+		font-family: monospace;
+		font-size: 14px;
+		padding: 10px;
+		position: fixed; 
+		top: 81%;
+		width: 100%;
+		bottom:0;
+		overflow: auto;
+		}
+		.logContainer2 {
+		/* flex: 1; */
+		background-color: #ffffff;
+		color: #000000;
+		font-family: monospace;
+		font-size: 14px;
+		padding: 10px;
+		position: fixed; 
+		top: 21%;
+		width: 560px;
+		bottom:227px;
+		overflow: auto;
+		}
+	</style>
 
 	<script>
 		/**
@@ -203,130 +280,78 @@
 	</nav>
 	
 	
-  <input type="file" id="fileInput">
-  <button id="submitButton">Submit</button>
-  <button id="logButton">Log</button>
-  <button id ="statusButton">Status</button>
-  <button id ="getReqButton">getReq</button>
+  
+  <!-- <button id ="getReqButton">getReq</button> -->
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <div id="result"></div>
 
-   <!-- 순우 도커 이미지 검색 키워드  -->
-<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-<input type="text" id="searchInput" placeholder="Insert Keyword">
-<button id="searchButton">Search Hub</button>
-<button id="searchLocalButton">Search Local</button>
+
+
+
+
+
+
 
 </body>
-
-<!-- <script type="text/javascript">
-		// Extends EditorUi to update I/O action states based on availability of backend
-		(function()
-		{
-			var editorUiInit = EditorUi.prototype.init;
-
-			EditorUi.prototype.init = function()
-			{
-				editorUiInit.apply(this, arguments);
-				this.actions.get('export').setEnabled(false);
-
-				// Updates action states which require a backend
-				if (!Editor.useLocalStorage)
-				{
-					mxUtils.post(OPEN_URL, '', mxUtils.bind(this, function(req)
-					{
-						var enabled = req.getStatus() != 404;
-						this.actions.get('open').setEnabled(enabled || Graph.fileSupport);
-						this.actions.get('import').setEnabled(enabled || Graph.fileSupport);
-						this.actions.get('save').setEnabled(enabled);
-						this.actions.get('saveAs').setEnabled(enabled);
-						this.actions.get('export').setEnabled(enabled);
-					}));
-				}
-			};
-
-			// Adds required resources (disables loading of fallback properties, this can only
-			// be used if we know that all keys are defined in the language specific file)
-			mxResources.loadDefaultBundle = false;
-			var bundle = mxResources.getDefaultBundle(RESOURCE_BASE, mxLanguage) ||
-				mxResources.getSpecialBundle(RESOURCE_BASE, mxLanguage);
-
-			// Fixes possible asynchronous requests
-			mxUtils.getAll([bundle, STYLE_PATH + '/default.xml'], function(xhr)
-			{
-				// Adds bundle text to resources
-				mxResources.parse(xhr[0].getText());
-
-				// Configures the default graph theme
-				var themes = new Object();
-				themes[Graph.prototype.defaultThemeName] = xhr[1].getDocumentElement();
-
-				// Main
-				new EditorUi(new Editor(urlParams['chrome'] == '0', themes));
-			}, function()
-			{
-				document.body.innerHTML = '<center style="margin-top:10%;">Error loading resource files. Please check browser console.</center>';
+	<div class="sidebar">
+		<h2>Sidebar</h2>
+		<p>This is the sidebar content.</p>
+		<input type="file" id="fileInput">
+		<button id="submitButton">Submit</button>
+		<button id="logButton">Log</button>
+		<button id ="statusButton">Status</button>
+	</div>
+  	<div class="main-content">
+    <div class="sub-content">
+      <h2>Sub Content 1</h2>
+      <p>This is sub content area 1.</p>
+	  <div id="buttonContainer"></div>
+	  <script>
+		// 순우 workflow에서 작성한 activity 리스트 버튼만들기
+		var activity_list = getWorkflowObjList(localStorage.getItem(processXml[2]));
+		var activity_name_array = [];
+		for (i=0;i<activity_list.length;i++){
+			activity_name_array.push(activity_list[i].value)
+		};
+		var container = document.getElementById("buttonContainer");
+		for (let name of activity_name_array){
+			var button = document.createElement("button");
+			button.textContent = name;
+			container.appendChild(button)
+			// 클릭 이벤트리스너
+			button.addEventListener("click", function() {
+          	handleClick(name);
 			});
-		})();
-	</script> -->
-	<script>
-		// req가져오기 테스트
-		
-		document.getElementById("getReqButton").addEventListener("click", function(){
-			const xmlData = '<mxGraphModel><root><mxCell id="0"/><mxCell id="1" parent="0"/><mxCell id="17" value="Classname" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;" vertex="1" parent="1"><mxGeometry x="250" y="140" width="150" height="110" as="geometry"/></mxCell><mxCell id="18" value="+ field: type" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="17"><mxGeometry y="26" width="150" height="84" as="geometry"/></mxCell><object label="Classname" name="df" id="19" text="dfdf"><mxCell style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;" vertex="1" parent="1"><mxGeometry x="350" y="350" width="140" height="52" as="geometry"/></mxCell></object><mxCell id="20" value="+ field: type" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="19"><mxGeometry y="26" width="140" height="26" as="geometry"/></mxCell></root></mxGraphModel>'
 
-			const parser = new DOMParser();
-			const xmlDoc = parser.parseFromString(xmlData, "text/xml");
-
-			const swimlaneList = [];
-
-			// mxCell 태그 선택
-			const objects = xmlDoc.getElementsByTagName("object");
-
-			for (const mxCell of objects) {
-			// mxCell 태그 내부의 object 태그 선택
-			
-			
-		
-				const styleValue = objects[0].getAttribute("style");
-				if (styleValue && styleValue.includes("swimlane")) {
-				// "name"과 "id" 값을 가져오기
-				const nameValue = objects[0].getAttribute("name");
-				const idValue = objects[0].getAttribute("id");
-				swimlaneList.push({ name: nameValue, id: idValue });
-				
+			function handleClick(label) {
+				alert("Button clicked: " + label);
 			}
-			}
-
-			console.log(swimlaneList);
-		});
-
-
-
-		// 로컬 이미지 검색
-		document.getElementById("searchLocalButton").addEventListener("click", function(){
-			const url = 'http://127.0.0.1:5000/localsearch';
-			fetch(url)
-				.then(response => response.text())  // 응답의 텍스트 데이터를 받아옴
-				.then(data => {
-					workflowStatus = data
-					const resultElement = document.getElementById("result");
-					const logs = data.split('\n');
-
-				})
-				.catch(error => {
-					console.error("Error:", error);
-				});
-		});
-
-		// 도커 허브 이미지 검색
-		document.addEventListener("DOMContentLoaded", function() {
-			const searchButton = document.getElementById("searchButton");
-
-			searchButton.addEventListener("click", function() {
-				const searchInput = document.getElementById("searchInput").value;
-				const url = 'http://127.0.0.1:5000/search?keyword='+encodeURIComponent(searchInput);
+		}
+	  </script>
+    </div>
+    <div class="sub-content">
+      <h2>Sub Content 2</h2>
+      <p>This is sub content area 2.</p>
+    </div>
+    <div class="sub-content">
+      <h2>Status</h2>
+      <p>This is sub content area 3.</p>
+	
+	  <div class="logContainer2">
+		<script>
+			// 워크플로우 상태 확인
+			document.getElementById("statusButton").addEventListener("click", function(){
+				// HTML 요소 찾기
+			var logContainer2 = document.querySelector('.logContainer2');
+			
+			// console.log를 오버라이드해서 화면에 로그 출력
+			console.log = function(message) {
+			var logEntry = document.createElement('div');
+			logEntry.textContent = message;
+			logContainer2.appendChild(logEntry);
+			logContainer2.scrollTop = logContainer2.scrollHeight; // 스크롤 맨 아래로 이동
+			};
+				const url = 'http://127.0.0.1:5000/status?workflow_name='+encodeURIComponent(workflowName);
 				fetch(url)
 					.then(response => response.text())  // 응답의 텍스트 데이터를 받아옴
 					.then(data => {
@@ -339,113 +364,126 @@
 					.catch(error => {
 						console.error("Error:", error);
 					});
+				//각 노드 상태 확인
+				var statusJsonData = JSON.parse(workflowStatus);
+				var nodeStatus = statusJsonData.status.nodes
+				var keys = Object.keys(nodeStatus)
+
+				console.log("Workflow 이름 : " + statusJsonData.metadata.name);
+				console.log("Namespace : "+statusJsonData.metadata.namespace);
+				console.log("Workflow 생성시간 : "+statusJsonData.metadata.creationTimestamp);console.log("Workflow 종료여부 : "+statusJsonData.metadata.labels["workflows.argoproj.io/completed"])
+				console.log("Workflow 성공확인 : "+statusJsonData.metadata.labels["workflows.argoproj.io/phase"]);
+				console.log("Workflow 진행도 : "+statusJsonData.status.progress);
+				console.log("=======Workflow 각 노드 상태======")
+				for (const key of keys){
+					if (nodeStatus[key].type == 'Pod'){
+						console.log(nodeStatus[key].displayName+' : '+nodeStatus[key].phase)
+						if(nodeStatus[key].phase != 'Succeeded'){
+							console.log(nodeStatus[key].message)
+						}
+					}
+				}
+			});
+		</script>
+      </div>
+	</div>
+  </div>
+
+
+  <div class="footer">
+    <h3>Result</h3>
+  </div>
+  <div class="logContainer">
+	<script>
+		var workflowName=''
+		var workflowStatus = ''
+		//워크플로우 전체 로그 출력 순우
+		document.getElementById("logButton").addEventListener("click", function() {
+		// HTML 요소 찾기
+		var logContainer = document.querySelector('.logContainer');
+
+		// console.log를 오버라이드해서 화면에 로그 출력
+		console.log = function(message) {
+			var logEntry = document.createElement('div');
+			logEntry.textContent = message;
+			logContainer.appendChild(logEntry);
+			logContainer.scrollTop = logContainer.scrollHeight; // 스크롤 맨 아래로 이동
+		};
+		const url = 'http://127.0.0.1:5000/log?workflow_name='+encodeURIComponent(workflowName);
+
+		fetch(url)
+			.then(response => response.text())  // 응답의 텍스트 데이터를 받아옴
+			.then(data => {
+				console.log(data);  // 받아온 데이터를 콘솔에 출력
+				const resultElement = document.getElementById("result");
+				const logs = data.split('\n');
+
+			})
+			.catch(error => {
+				console.error("Error:", error);
 			});
 		});
 
-		var workflowName=''
-		var workflowStatus = ''
-		// 워크플로우 상태 확인
-		document.getElementById("statusButton").addEventListener("click", function(){
-			const url = 'http://127.0.0.1:5000/status?workflow_name='+encodeURIComponent(workflowName);
-			fetch(url)
-				.then(response => response.text())  // 응답의 텍스트 데이터를 받아옴
-				.then(data => {
-					// console.log(data);  // 받아온 데이터를 콘솔에 출력
-					workflowStatus = data
-					const resultElement = document.getElementById("result");
-					const logs = data.split('\n');
-
-				})
-				.catch(error => {
-					console.error("Error:", error);
-				});
-
-
-
-			const statusJsonData = JSON.parse(workflowStatus);
-			//각 노드 상태 확인
-			var nodeStatus = statusJsonData.status.nodes
-			const keys = Object.keys(nodeStatus)
-
-			console.log("Workflow 이름 : " + statusJsonData.metadata.name+'\n'+"Namespace : "+statusJsonData.metadata.namespace+'\n'+"Workflow 생성시간 : "+statusJsonData.metadata.creationTimestamp+'\n'+"Workflow 종료여부 : "+statusJsonData.metadata.labels["workflows.argoproj.io/completed"]+'\n'+"Workflow 성공확인 : "+statusJsonData.metadata.labels["workflows.argoproj.io/phase"]+'\n'+"Workflow 진행도 : "+statusJsonData.status.progress+'\n'+"=======Workflow 각 노드 상태======")
-			for (const key of keys){
-				if (nodeStatus[key].type == 'Pod'){
-					console.log(nodeStatus[key].displayName+' : '+nodeStatus[key].phase)
-					if(nodeStatus[key].phase != 'Succeeded'){
-						console.log(nodeStatus[key].message)
-					}
-				}
-			}
-		});
-
-
-		// 워크플로우 결과 확인
-		document.getElementById("logButton").addEventListener("click", function() {
-
-			const url = 'http://127.0.0.1:5000/log?workflow_name='+encodeURIComponent(workflowName);
-
-			fetch(url)
-				.then(response => response.text())  // 응답의 텍스트 데이터를 받아옴
-				.then(data => {
-					console.log(data);  // 받아온 데이터를 콘솔에 출력
-					const resultElement = document.getElementById("result");
-					const logs = data.split('\n');
-
-				})
-				.catch(error => {
-					console.error("Error:", error);
-				});
-		});
-
-		// 로컬에서 파일 선택해서 아르고 서버에 제출 -> 워크플로우 실행
-		const fileInput = document.getElementById('fileInput');
-		const submitButton = document.getElementById('submitButton');
-
-		submitButton.addEventListener('click', () => {
-		  if (fileInput.files.length > 0) {
-			const selectedFile = fileInput.files[0];
-			readFileContent(selectedFile);
-		  } else {
-			alert('Please select a file.');
-		  }
-		});
-
-		function readFileContent(file) {
-		  const reader = new FileReader();
-
-		  reader.onload = function(event) {
-			const fileContent = event.target.result;
-			const jsonData = JSON.parse(fileContent);
-			workflowName = jsonData.workflow.metadata.name;
-			executeFunctionWithFileContent(fileContent);
-		  };
-
-		  reader.readAsText(file);
-		}
-
-		function executeFunctionWithFileContent(content) {
-			sendFileContentToServer(content);
-		}
-
-		function sendFileContentToServer(content) {
-		  fetch('/submit', {
-			method: 'POST',
-			headers: {
-			  'Content-Type': 'application/json'
-			},
-			body: content
-			// body: JSON.stringify({ content: content })
-		  })
-		  .then(response => response.json())
-		  .then(data => {
-			console.log(data);
-			// 서버 응답 처리
-		  })
-		  .catch(error => {
-			console.error('Error:', error);
-		  });
-		}
 	</script>
+</div>
+
+
+
+</body>
+<script>
+	// 로컬에서 파일 선택해서 아르고 서버에 제출 -> 워크플로우 실행
+	var workflowName=''
+	var workflowStatus = ''
+	const fileInput = document.getElementById('fileInput');
+	const submitButton = document.getElementById('submitButton');
+
+	submitButton.addEventListener('click', () => {
+	  if (fileInput.files.length > 0) {
+		const selectedFile = fileInput.files[0];
+		readFileContent(selectedFile);
+	  } else {
+		alert('Please select a file.');
+	  }
+	});
+
+	function readFileContent(file) {
+	  const reader = new FileReader();
+
+	  reader.onload = function(event) {
+		const fileContent = event.target.result;
+		const jsonData = JSON.parse(fileContent);
+		workflowName = jsonData.workflow.metadata.name;
+		executeFunctionWithFileContent(fileContent);
+	  };
+
+	  reader.readAsText(file);
+	}
+
+	function executeFunctionWithFileContent(content) {
+		sendFileContentToServer(content);
+	}
+
+	function sendFileContentToServer(content) {
+	  fetch('/submit', {
+		method: 'POST',
+		headers: {
+		  'Content-Type': 'application/json'
+		},
+		body: content
+		// body: JSON.stringify({ content: content })
+	  })
+	  .then(response => response.json())
+	  .then(data => {
+		console.log(data);
+		// 서버 응답 처리
+	  })
+	  .catch(error => {
+		console.error('Error:', error);
+	  });
+	}
+</script>
+
+	
 
 	
 
