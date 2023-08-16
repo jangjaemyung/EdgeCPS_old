@@ -1,4 +1,3 @@
-js/mxgraphReference.js/js/mxgraphReference.js js/mxgraphReference.js
 /**
  *  생성된 오브젝트의 edit의 값을 가져오는 민수 이사필요
  *

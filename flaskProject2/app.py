@@ -1,3 +1,6 @@
+import glob
+import os
+
 from flask import Flask, render_template, request, redirect, url_for, jsonify
 from db_conn import get_pool_conn
 import requests
@@ -5,16 +8,13 @@ import urllib3
 import db_query
 from flask_cors import CORS
 import subprocess
-
+import json
 urllib3.disable_warnings()
 
 app = Flask(__name__)
 CORS(app)
 # 임의의 프로젝트 목록 데이터
-projects = [
-    {'id': 1, 'name': 'Project 1'},
-    {'id': 2, 'name': 'Project 2'}
-]
+
 
 # mariadb_pool = get_pool_conn()
 
@@ -33,7 +33,7 @@ def index():
             실패 : 다시 로그인
         """
     if request.method == 'POST':
-        return redirect(url_for('project_list')) # todo 로그인 없이 되도록
+        return redirect(url_for('project_list',loginUserInfo ='tempUser')) # todo 로그인 없이 되도록
         userid = request.form['userid']
         password = request.form['password']
         login = db_query.login(mariadb_pool,id = userid,pwd = password )
@@ -46,21 +46,45 @@ def index():
     return render_template('index.html', login_msg='')
 
 
-@app.route('/project/projectsList')
+@app.route('/project/projectsList', methods=['GET', 'POST'])
 def project_list():
+    loginUserInfo = request.args.get('loginUserInfo')
+    pj_dir = glob.glob('project_file/*')
+    projects = [ ]
+    idx = 1
+    for file_path in pj_dir:
+        pj_info = file_path.split('/')[-1]
+        pj_user = pj_info.split('_')[-1]
+        pj_name = pj_info.split('_')[:-1]
+        result = '_'.join(pj_name)
+        projects.append({'id': idx, 'name': result, 'user': pj_user})
+        idx += 1
+
 
     # todo 프로젝트 리스트 정보 조회하는 기능 필요
-    return render_template('projectList.html', projects=projects)
+    return render_template('projectList.html', projects=projects, loginUserInfo=loginUserInfo)
 
 
 @app.route('/projects/delete/<int:project_id>', methods=['POST'])
 def delete_project(project_id): # todo 프로젝트 삭제 기능
+    pj_dir = glob.glob('project_file/*')
+    projects = []
+    idx = 1
+    for file_path in pj_dir:
+        pj_info = file_path.split('/')[-1]
+        pj_user = pj_info.split('_')[-1]
+        pj_name = pj_info.split('_')[:-1]
+        result = '_'.join(pj_name)
+        projects.append({'id': idx, 'name': result, 'user': pj_user})
+        idx += 1
 
-    # todo 회원의 소속 확인, 회원의 프로젝트인지 확인 필요
+    # # todo 회원의 소속 확인, 회원의 프로젝트인지 확인 필요
     for project in projects:
         if project['id'] == project_id:
-            projects.remove(project)
+            rm_dir_name = '_'.join([project['name'],project['user']])
+            os.rmdir('project_file/'+rm_dir_name)
             break
+
     return redirect(url_for('project_list'))
 
 
@@ -73,8 +97,25 @@ def open_project(project_id):
 
 
 
+"""
+프로젝트 전체 저장 페이지
+"""
+@app.route('/saveProject', methods=['POST'])
+def save_project():
+    try:
+        data = request.json
+        proj_name =data['projectName']+'.json'
 
+        file_name = '/home/minsoo/Downloads/EdgeCPS_git/project_file/'+proj_name
 
+        with open(file_name, 'w') as file:
+            json.dump(data, file)
+
+        response = {"status": "success", "message": "Project data saved successfully."}
+        return jsonify(response), 200
+    except Exception as e:
+        response = {"status": "error", "message": str(e)}
+        return jsonify(response), 500
 
 
 
@@ -94,50 +135,64 @@ def overview_process():
     catlist = ['java', 'python']
     active_overview = True
 
-    if request.method == 'POST':
+    if request.method == 'POST': # 프로젝트 생성
         project_name = request.form.get('project_name')
         project_description = request.form.get('project_description')
         project_category = request.form.get('project_category')
-        len(projects) +1
-        return redirect(url_for('requirements_process'))
+        return redirect(url_for('requirements_process', project_name=project_name))
 
-    return render_template('process/overviewProcess.html', active_overview=active_overview,categories = catlist)
+    if request.method == 'GET': #최초이동
+        new_pj = request.args.get('newPj')
+        project_name = request.args.get('projectName')
+        return render_template('process/overviewProcess.html', active_overview=active_overview, categories=catlist, new_pj=new_pj,project_name=project_name)
+
+    # return render_template('process/overviewProcess.html', active_overview=active_overview,categories = catlist)
 
 
 @app.route('/process/requirementsProcess', methods=['GET', 'POST'])
 def requirements_process():
     active_requirements = True
-    return render_template('process/requirementsProcess.html', active_requirements=active_requirements)
+
+    if request.method == 'GET':
+        project_name = request.args.get('project_name')
+        if not project_name:
+            project_name = request.args.get('projectName')
+            if not project_name:
+                return redirect(url_for('overview_process', newPj=True))
+
+
+        return render_template('process/requirementsProcess.html', active_requirements=active_requirements , project_name=project_name)
+
+    # return render_template('process/requirementsProcess.html', active_requirements=active_requirements)
+
 
 @app.route('/process/businessProcess', methods=['GET', 'POST'])
 def business_process():
     active_process = True
-    return render_template('process/businessProcess.html', active_process=active_process)
+    if request.method == 'GET':
+        project_name = request.args.get('projectName')
+        return render_template('process/businessProcess.html', active_process=active_process, project_name=project_name)
 
 @app.route('/process/workflowProcess', methods=['GET', 'POST'])
 def workflow_process():
     active_workflow = True
-    return render_template('process/workflowProcess.html', active_workflow=active_workflow)
-
-@app.route('/process/searchReusablesProcess', methods=['GET', 'POST'])
-def search_reusables_process():
-    active_reusables = True
-    return render_template('process/searchReusablesProcess.html', active_reusables=active_reusables)
-
-@app.route('/process/workflowImplementationProcess', methods=['GET', 'POST'])
-def workflow_implementation_process():
-    active_implementation = True
-    return render_template('process/workflowImplementationProcess.html', active_implementation=active_implementation)
+    if request.method == 'GET':
+        project_name = request.args.get('projectName')
+        return render_template('process/workflowProcess.html', active_workflow=active_workflow, project_name=project_name)
 
 @app.route('/process/policyProcess', methods=['GET', 'POST'])
 def policy_process():
     active_policy = True
-    return render_template('process/policyProcess.html', active_policy=active_policy)
+    if request.method == 'GET':
+        project_name = request.args.get('projectName')
+        return render_template('process/policyProcess.html', active_policy=active_policy, project_name=project_name)
 
 @app.route('/process/runProcess', methods=['GET', 'POST'])
 def run_process():
     active_run = True
-    return render_template('process/runProcess.html', active_run=active_run)
+    if request.method == 'GET':
+        project_name = request.args.get('projectName')
+        return render_template('process/runProcess.html', active_run=active_run, project_name=project_name)
 
 
 

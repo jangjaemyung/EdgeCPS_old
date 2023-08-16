@@ -6,6 +6,13 @@
     <title>Project List</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 </head>
+<script>
+    var loginUserInfo = '{{ loginUserInfo }}';
+
+    if (loginUserInfo){
+        localStorage.setItem('loginUserInfo',loginUserInfo)
+    }
+</script>
 <body>
     <div class="container">
         <h2 class="mt-5">Project List</h2>
@@ -14,8 +21,9 @@
                 <tr>
                     <th>ID</th>
                     <th>Project Name</th>
-                    <th></th>
-                    <th></th>
+                    <th>작성자</th>
+                    <th style="text-align:center" >삭 제</th>
+                    <th style="text-align:center" >열 기</th>
                 </tr>
             </thead>
             <tbody>
@@ -23,13 +31,14 @@
                 <tr>
                     <td>{{ project.id }}</td>
                     <td>{{ project.name }}</td>
-                    <td>
+                    <td>{{ project.user }}</td>
+                    <td style="text-align:center" >
                         <form method="post" action="{{ url_for('delete_project', project_id=project.id) }}">
                             <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                         </form>
 
                     </td>
-                    <td>
+                    <td style="text-align:center" >
                             <form method="post" action="{{ url_for('open_process', project_id=project.id) }}">
                                 <button type="submit" class="btn btn-primary btn-sm">Open Project</button>
                             </form>
@@ -39,7 +48,7 @@
             </tbody>
         </table>
         <div class="text-right mt-4">
-            <a href="{{ url_for('overview_process') }}" class="btn btn-primary">Create Project</a>
+            <a href="{{ url_for('overview_process', newPj=true)}}" class="btn btn-primary">Create Project</a>
         </div>
     </div>
 </body>

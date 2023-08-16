@@ -5,12 +5,13 @@ let processXml = ['overviewProcessXML','requirementsProcessXml','businessProcess
  * process xml을 화면으로 불러오는 함수
  */
 function uploadXML(){
+	// console.log('다녀감')
 	let xml = ''
 	if (processDict[current_process] == 'workflowProcess'){
-		var xmlKey = localStorage.getItem('nowWorkflow') // 필요하면 워크플로우 프로세스의 항목을 가져온다.
+		var xmlKey = localStorage.getItem(projectName+'_nowWorkflow') // 필요하면 워크플로우 프로세스의 항목을 가져온다.
 		xml = localStorage.getItem(xmlKey); // 필요하면 워크플로우 프로세스의 항목을 가져온다.
 	}else {
-		xml = localStorage.getItem(processXml[current_process]); // 해당 프로세스의 xml을 불러온다.
+		xml = localStorage.getItem(projectName+'_'+processXml[current_process]); // 해당 프로세스의 xml을 불러온다.
 	}
 
 	if (xml == ''){
@@ -41,18 +42,77 @@ function uploadXML(){
 }
 
 /**
+ * 모든 프로세스를 모아서 프로젝트 저장
+ */
+function saveAllProject() {
+	let data = {};
+	let processData = {};
+	let workflowData = {};
+
+	// 프로세스 저장
+	for (var i = 0; i < processXml.length; i++) {
+		var key = processXml[i];
+		var value = localStorage.getItem(projectName + '_' + key);
+		processData[key] = value;
+	}
+
+	//워크플로우 저장
+	var workflowXMLValue = localStorage.getItem(projectName + '_workflowXML');
+	if (workflowXMLValue) {
+		var valueArray = JSON.parse(workflowXMLValue);
+		for (var i = 0; i < valueArray.length; i++) {
+			var key = valueArray[i];
+			var value = localStorage.getItem(projectName + '_' + key);
+			workflowData[key] = value;
+		}
+	}
+	data['projectName'] = projectName;
+	data['processData'] = processData;
+	data['workflowData'] = workflowData;
+	var jsonData = JSON.stringify(data);
+
+	// Flask의 saveProject 함수 호출
+	fetch('/saveProject', {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		body: jsonData
+	})
+		.then(response => response.json())
+		.then(data => {
+			console.log(data); // 서버에서 반환된 데이터 출력
+		})
+		.catch(error => {
+			console.error('Error:', error);
+		});
+
+}
+
+/**
  * 민수 메뉴바에 버튼 추가 하는 방식 다른 자바스크립트 로드 속도 때문에 시간차가 필요하다
  */
 document.addEventListener("DOMContentLoaded", function() {
+	//로그인 정보 표시
 
-	localStorage.setItem('current_processXml', processXml[current_process]); //현재 작업중인 프로세스 xml저장
-	localStorage.setItem('current_processDict', processDict[current_process]); //현재 작업중인 프로세스 dict저장
+	// Get the element with the class name 'userLogin'
+	var userLoginElement = document.querySelector('.userLogin');
+
+	// Create a login information HTML
+	var loginInfo = localStorage.getItem('loginUserInfo'); // Replace 'Username' with actual username
+
+	// Insert the login information into the userLogin element
+	userLoginElement.innerHTML = loginInfo;
+	// e
+
+	localStorage.setItem(projectName+'_current_processXml', processXml[current_process]); //현재 작업중인 프로세스 xml저장
+	localStorage.setItem(projectName+'_current_processDict', processDict[current_process]); //현재 작업중인 프로세스 dict저장
 
 	if (processDict[current_process] != 'workflowProcess' ){ // 워크플로우 로컬스토리지 초기화
-		localStorage.setItem('nowWorkflow', '')
+		localStorage.setItem(projectName+'_nowWorkflow', '')
 	}
 
-	let nowPorcess = localStorage.getItem('current_processDict') // 현재 프로세스 확인
+	let nowPorcess = localStorage.getItem(projectName+'_current_processDict') // 현재 프로세스 확인
 
 
 	// 민수 process 버튼 생성 메뉴 버튼 생성 함수
@@ -69,14 +129,14 @@ document.addEventListener("DOMContentLoaded", function() {
 	}
 
 	function processSaveClick() {
-
+		saveAllProject()
 	}
 
 	// 버튼을 감싸는 div
 	var buttonContainer = document.createElement("div");
 	buttonContainer.style.float = "right"; // 오른쪽으로 정렬
 	buttonContainer.style.marginRight = "10px"; // 오른쪽 여백
-	buttonContainer.appendChild(createButton("process-save", processSaveClick)); // process-save 버튼
+	buttonContainer.appendChild(createButton("Save All", processSaveClick)); // process-save 버튼
 	buttonContainer.appendChild(createButton("process-load", processLoadClick)); // process-load 버튼
 
 	// 버튼을 추가할 위치의 요소를 선택 (여기서는 "right_sidebar" 클래스를 가진 div)
@@ -96,13 +156,13 @@ document.addEventListener("DOMContentLoaded", function() {
 
 			let workflowSelectList = []
 			if (nowPorcess == 'workflowProcess'){
-				workflowSelectList =  getWorkflowObjList(localStorage.getItem(processXml[2]))	// workflow process 일때 Activity 개수 만큼 select box 생성
+				workflowSelectList =  getWorkflowObjList(localStorage.getItem(projectName+'_'+processXml[2]))	// workflow process 일때 Activity 개수 만큼 select box 생성
 				createWorkflowSelectBox(workflowSelectList)
 				createTypeSelectbox();
 				uploadXML();
 			}else {
 				// 기존 프로세스 값을 불러오냐 오지 않냐
-				let storedXml = localStorage.getItem(processXml[current_process]);
+				let storedXml = localStorage.getItem(projectName+'_'+processXml[current_process]);
 				if (!storedXml || storedXml == '' || storedXml == '<mxGraphModel><root><mxCell id="0"/><mxCell id="1" parent="0"/></root></mxGraphModel>') {
 					console.log('no xml value')
 				}else {
@@ -124,8 +184,9 @@ document.addEventListener("DOMContentLoaded", function() {
  * 페이지 이동시 xml, flowdict 저장 하는 함수
  */
 function getLatestXml(flowDict,strXml){
-	localStorage.setItem(localStorage.getItem('current_processXml'),strXml) // xml 저장
-	localStorage.setItem(localStorage.getItem('current_processDict'),flowDict) // dict 저장
+	localStorage.setItem(projectName+'_'+localStorage.getItem(projectName+'_current_processXml'),strXml) // xml 저장
+	localStorage.setItem(projectName+'_'+localStorage.getItem(projectName+'_current_processDict'),flowDict) // dict 저장
+
 }
 
 /**
@@ -253,7 +314,7 @@ function createWorkflowSelectBox(activityCatList){
     defaultOption.text = "Select an option";
     selectBox.appendChild(defaultOption);
 
-	let nowWorkflow = localStorage.getItem('nowWorkflow');
+	let nowWorkflow = localStorage.getItem(projectName+'_nowWorkflow');
     for (var i = 0; i < data.length; i++) {
         var option = document.createElement("option");
         option.value = data[i].id;
@@ -265,7 +326,7 @@ function createWorkflowSelectBox(activityCatList){
 		workflowXML.push(data[i].id + '#' + data[i].value) // 로컬 스토리지
         selectBox.appendChild(option);
 
-		if (nowWorkflow === data[i].id + '#' + data[i].value) {
+		if (nowWorkflow === projectName+'_'+data[i].id + '#' + data[i].value) {
             option.selected = true; // 일치하는 경우 선택됨으로 표시
 
         }
@@ -278,15 +339,15 @@ function createWorkflowSelectBox(activityCatList){
 
 	// 전부 완료 되면 로컬 스토리지에 저장
 	var workflowXMLList = JSON.stringify(workflowXML);
-	localStorage.setItem('workflowXML',workflowXMLList);
+	localStorage.setItem(projectName+'_workflowXML',workflowXMLList);
 
     selectBox.addEventListener("change", function() {
 
-		localStorage.setItem(localStorage.getItem('nowWorkflow') , processGraphxml); // 기존 선택된 워크 플로우 xml
+		localStorage.setItem(localStorage.getItem(projectName+'_nowWorkflow') , processGraphxml); // 기존 선택된 워크 플로우 xml
         var selectedOption = selectBox.options[selectBox.selectedIndex];
         var selectedKey = selectedOption.dataset.key;
         var selectedValue = selectedOption.dataset.value;
-		localStorage.setItem('nowWorkflow' ,selectedKey + '#' + selectedValue); // 현재 작업중이던 워크플로우
+		localStorage.setItem(projectName+'_nowWorkflow' ,projectName+'_'+selectedKey + '#' + selectedValue); // 현재 작업중이던 워크플로우
 
 
 		location.reload(true);
@@ -316,7 +377,7 @@ function extractObjects(id) {
 
 // req 정보를 xml에서 추출하기
 function extractReq(){
-	const inputString = window.localStorage.getItem('requirementsProcessXml')
+	const inputString = window.localStorage.getItem(projectName+'_requirementsProcessXml')
 	// var startIndex = inputString.indexOf("functional requirement");
 	// if (startIndex !== -1) {
 	// const leftBracketIndex = inputString.lastIndexOf("<", startIndex);
