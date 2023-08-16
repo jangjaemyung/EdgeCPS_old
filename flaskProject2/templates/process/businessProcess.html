@@ -41,7 +41,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> -->
 	<!--BOOTSTRAP END-->
-
+	
 
 	<script type="text/javascript">
 		// Parses URL parameters. Supported parameters are:
@@ -152,9 +152,15 @@
 	</script>
 
 
-
+<style>
+	/* 스타일을 지정하여 링크가 보라색으로 변하는 효과를 없앰 */
+	a.home {
+		color: inherit; 
+		text-decoration: none; 
+	}
+</style>
 	<div id = "title" class="title" style="height: 50px; margin-top:1%">
-		<h2>EdgeCPS</h2>
+		<h2> <a class="home" href="http://localhost:5000/project/projectsList">EdgeCPS</a></h2>
 	</div>
 
 	<nav class="navbar">
@@ -253,7 +259,14 @@
 			extractReq()
 		});
 	</script>
+<!-- <script>
+	document.getElementById("link").addEventListener("click", function() {
+		var targetLink = "http://localhost:5000/project/projectsList"; 
 
+		// 새 탭에서 링크를 열기 위해 window.open을 사용합니다.
+		// window.open(targetLink, "_blank");
+	});
+</script> -->
 
 	<div class="container">
 		<div class="row">

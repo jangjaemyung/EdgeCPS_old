@@ -242,7 +242,7 @@ def search_local_images():
 
     return image_list
 
-activity_dic
+# activity_dic
 @app.route('/submit', methods=['POST'])
 def submit_workflow():
     try:
@@ -260,6 +260,43 @@ def submit_workflow():
         error_message = str(e)
         return f"Error: {error_message}", 500
 
+@app.route('/stop', methods=['PUT'])
+def stop_workflow():
+    data = request.get_json()
+    workflow_name = data.get('workflowName')
+    response = requests.put(f"{ARGO_SERVER_URL}/api/v1/workflows/{NAMESPACE}/"+workflow_name+'/stop', verify=False)
+    if response.status_code == 200:
+        print("Workflow stop successfully")
+        return "Workflow stop successfully", 200
+    else:
+        print("Workflow stop failed")
+        return "Workflow stop failed", 500
+        
+    
+@app.route('/terminate', methods=['PUT'])
+def terminate_workflow():
+    data = request.get_json()
+    workflow_name = data.get('workflowName')
+    response = requests.put(f"{ARGO_SERVER_URL}/api/v1/workflows/{NAMESPACE}/"+workflow_name+'/terminate', verify=False)
+    if response.status_code == 200:
+        print('Workflow terminated successfully')
+        return "Workflow terminated successfully", 200
+    else:
+        print("Workflow terminated failed")
+        return "Workflow terminated failed", 500
+    
+@app.route('/delete', methods=['DELETE'])
+def delete_workflow():
+    data = request.get_json()
+    workflow_name = data.get('workflowName')
+    response = requests.delete(f"{ARGO_SERVER_URL}/api/v1/workflows/{NAMESPACE}/"+workflow_name, verify=False)
+    if response.status_code == 200:
+        print('Workflow deleted successfully')
+        return "Workflow deleted successfully", 200
+    else:
+        print("Workflow deleted failed")
+        return "Workflow deleted failed", 500
+    
 
 @app.route('/log', methods=['GET'])
 def logs_workflow():
