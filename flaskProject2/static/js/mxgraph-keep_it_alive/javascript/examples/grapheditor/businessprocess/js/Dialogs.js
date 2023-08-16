@@ -1450,6 +1450,72 @@ var EditDataDialog = function(ui, cell)
 				attrs.setNamedItem(DiClassFixProperty2)
 				attrs.setNamedItem(DiClassFixProperty3)
 			}
+			else if (DigramClicked.includes('DiRectangle')){
+				var DiClassFixProperty = document.createAttribute('Input')
+				DiClassFixProperty.value = ''
+				var DiClassFixProperty2 = document.createAttribute('Output')
+				DiClassFixProperty2.value = ''
+				
+				attrs.setNamedItem(DiClassFixProperty)
+				attrs.setNamedItem(DiClassFixProperty2)
+			}
+			else if (DigramClicked.includes('Container')){
+				var DiClassFixProperty = document.createAttribute('image')
+				DiClassFixProperty.value = ''
+				var DiClassFixProperty2 = document.createAttribute('command')
+				DiClassFixProperty2.value = ''
+				var DiClassFixProperty3 = document.createAttribute('args')
+				DiClassFixProperty3.value = ''
+				var DiClassFixProperty4 = document.createAttribute('resource')
+				DiClassFixProperty4.value = ''
+				var DiClassFixProperty5 = document.createAttribute('volumeMount')
+				DiClassFixProperty5.value = ''
+				var DiClassFixProperty6 = document.createAttribute('environment')
+				DiClassFixProperty6.value = ''
+				
+				attrs.setNamedItem(DiClassFixProperty)
+				attrs.setNamedItem(DiClassFixProperty2)
+				attrs.setNamedItem(DiClassFixProperty3)
+				attrs.setNamedItem(DiClassFixProperty4)
+				attrs.setNamedItem(DiClassFixProperty5)
+				attrs.setNamedItem(DiClassFixProperty6)
+			}
+			else if (DigramClicked.includes('Script')){
+				var DiClassFixProperty = document.createAttribute('interpreter')
+				DiClassFixProperty.value = ''
+				var DiClassFixProperty2 = document.createAttribute('source')
+				DiClassFixProperty2.value = ''
+				var DiClassFixProperty3 = document.createAttribute('command')
+				DiClassFixProperty3.value = ''
+				var DiClassFixProperty4 = document.createAttribute('args')
+				DiClassFixProperty4.value = ''
+				
+				attrs.setNamedItem(DiClassFixProperty)
+				attrs.setNamedItem(DiClassFixProperty2)
+				attrs.setNamedItem(DiClassFixProperty3)
+				attrs.setNamedItem(DiClassFixProperty4)
+			}
+			else if (DigramClicked.includes('Resource')){
+				var DiClassFixProperty = document.createAttribute('action')
+				DiClassFixProperty.value = ''
+				var DiClassFixProperty2 = document.createAttribute('manifest')
+				DiClassFixProperty2.value = ''
+				
+				attrs.setNamedItem(DiClassFixProperty)
+				attrs.setNamedItem(DiClassFixProperty2)
+			}
+			else if (DigramClicked.includes('Sensor')){
+				var DiClassFixProperty = document.createAttribute('eventSpecification')
+				DiClassFixProperty.value = ''
+				
+				attrs.setNamedItem(DiClassFixProperty)
+			}
+			else if (DigramClicked.includes('Suspend')){
+				var DiClassFixProperty = document.createAttribute('duration')
+				DiClassFixProperty.value = ''
+				
+				attrs.setNamedItem(DiClassFixProperty)
+			}
 		}
 	}catch{
 		console.log('edit error')

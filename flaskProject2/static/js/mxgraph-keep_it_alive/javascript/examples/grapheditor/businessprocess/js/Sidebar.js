@@ -1267,7 +1267,7 @@ Sidebar.prototype.addGeneralPaletteWorkflow = function(expand)
 			'rounded=1;whiteSpace=wrap;html=1;',
 			120, 60,
 			'<div style="font-weight:bold;">&lt;&lt;Container&gt;&gt;</div>',
-			'Rounded Rectangle with Activity',
+			'Action Container',
 			null,
 			null,
 			'rounded rect rectangle box'
@@ -1276,7 +1276,7 @@ Sidebar.prototype.addGeneralPaletteWorkflow = function(expand)
 			'rounded=1;whiteSpace=wrap;html=1;',
 			120, 60,
 			'<div style="font-weight:bold;">&lt;&lt;Script&gt;&gt;</div>',
-			'Rounded Rectangle with Activity',
+			'Action Script',
 			null,
 			null,
 			'rounded rect rectangle box'
@@ -1285,7 +1285,7 @@ Sidebar.prototype.addGeneralPaletteWorkflow = function(expand)
 			'rounded=1;whiteSpace=wrap;html=1;',
 			120, 60,
 			'<div style="font-weight:bold;">&lt;&lt;Resource&gt;&gt;</div>',
-			'Rounded Rectangle with Activity',
+			'Action Resource',
 			null,
 			null,
 			'rounded rect rectangle box'
@@ -1294,7 +1294,7 @@ Sidebar.prototype.addGeneralPaletteWorkflow = function(expand)
 			'rounded=1;whiteSpace=wrap;html=1;',
 			120, 60,
 			'<div style="font-weight:bold;">&lt;&lt;Sensor&gt;&gt;</div>',
-			'Rounded Rectangle with Activity',
+			'Action Sensor',
 			null,
 			null,
 			'rounded rect rectangle box'
@@ -1303,20 +1303,20 @@ Sidebar.prototype.addGeneralPaletteWorkflow = function(expand)
 			'rounded=1;whiteSpace=wrap;html=1;',
 			120, 60,
 			'<div style="font-weight:bold;">&lt;&lt;Suspend&gt;&gt;</div>',
-			'Rounded Rectangle with Activity',
+			'Action Suspend',
 			null,
 			null,
 			'rounded rect rectangle box'
 		  ),
-		  this.createVertexTemplateEntry(
-			'rounded=1;whiteSpace=wrap;html=1;',
-			120, 60,
-			'<div style="font-weight:bold;">&lt;&lt;Operator&gt;&gt;</div>',
-			'Rounded Rectangle with Activity',
-			null,
-			null,
-			'rounded rect rectangle box'
-		  ),
+		//   this.createVertexTemplateEntry(
+		// 	'rounded=1;whiteSpace=wrap;html=1;',
+		// 	120, 60,
+		// 	'<div style="font-weight:bold;">&lt;&lt;Operator&gt;&gt;</div>',
+		// 	'Action Operator',
+		// 	null,
+		// 	null,
+		// 	'rounded rect rectangle box'
+		//   ),
 	 	this.createVertexTemplateEntry('rounded=0;whiteSpace=wrap;html=1;', 120, 60, '', 'Rectangle', null, null, 'rect rectangle box'),
 	 	// this.createVertexTemplateEntry('rounded=1;whiteSpace=wrap;html=1;', 120, 60, '', 'Rounded Rectangle', null, null, 'rounded rect rectangle box'),//uml꺼 훔쳐오기
 		this.createVertexTemplateEntry('ellipse;fillColor=#000000;strokeColor=none;', 30, 30, '', 'Initial state', null, null, dt + 'initial state'),	//uml꺼 훔쳐오기
@@ -2798,7 +2798,7 @@ Sidebar.prototype.createItem = function(cells, title, showLabel, showTitle, widt
 	elt.style.width = (this.thumbWidth + border) + 'px';
 	elt.style.height = (this.thumbHeight + border) + 'px';
 	elt.style.padding = this.thumbPadding + 'px';
-	elt.className = 'geItem DiShape  '+title; //사이드바 메뉴 생성 되는 곳 클래스 이름 정의 민수 
+	elt.className = 'geItem DiShape sss '+title; //사이드바 메뉴 생성 되는 곳 클래스 이름 정의 민수 
 
 	if (mxClient.IS_IE6)
 	{
