@@ -9,6 +9,60 @@
  *  생성된 오브젝트의 edit의 값을 가져오는 민수 이사필요
  *
  */
+function searchDockerImage(){
+    var searchInput = document.querySelector('.keyword'); // 검색 입력 필드의 클래스 이름에 맞게 선택자 설정
+    var inputValue = searchInput.value;
+
+    var selectBox = document.querySelector('.searchType');
+    var selectedValue = selectBox.value;
+	let url = ''
+
+	if (selectedValue == 'docker'){
+		url = '/search'
+	}else {
+		url = '/localsearch'
+	}
+
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ inputValue, selectedValue }),
+    })
+    .then(response => response.json())
+    .then(data => {
+
+        var dockerSearchResult = document.querySelector('.dockerSearchResult');
+
+        var selectBox = document.createElement('select');
+        selectBox.className = 'docker-select-box';
+		selectBox.style.width = '400px';
+        data.images.forEach(function(image) {
+            var option = document.createElement('option');
+            option.value = image;
+            option.text = image;
+            selectBox.appendChild(option);
+        });
+
+        // 이미 동일한 클래스를 가진 select box가 있으면 제거
+        var existingSelectBox = dockerSearchResult.querySelector('.docker-select-box');
+        if (existingSelectBox) {
+            dockerSearchResult.removeChild(existingSelectBox);
+        }
+
+        dockerSearchResult.appendChild(selectBox);
+
+        selectBox.addEventListener('change', function() {
+            var selectedImage = selectBox.value;
+            var dockerLinkInput = document.querySelector('.dockerLink');
+            dockerLinkInput.value = selectedImage;
+        });
+    })
+    .catch(error => {
+        alert('검색 실패',);
+    });
+}
 function getObjectPropertyValue(input,id, mxObjId) {
 	let htmlTag = input.outerHTML;
 
@@ -1896,7 +1950,7 @@ var LinkDialog = function(editorUi, initialValue, btnLabel, fn)
 	mxUtils.write(div, mxResources.get('editLink') + ':');
 	
 	var inner = document.createElement('div');
-	inner.className = 'geTitle';
+	inner.className = 'geTitle dockerHubLink'; // 민수 도커허브
 	inner.style.backgroundColor = 'transparent';
 	inner.style.borderColor = 'transparent';
 	inner.style.whiteSpace = 'nowrap';
@@ -1918,7 +1972,8 @@ var LinkDialog = function(editorUi, initialValue, btnLabel, fn)
 	linkInput.style.backgroundRepeat = 'no-repeat';
 	linkInput.style.backgroundPosition = '100% 50%';
 	linkInput.style.paddingRight = '14px';
-	
+	linkInput.className = 'dockerLink';
+
 	var cross = document.createElement('div');
 	cross.setAttribute('title', mxResources.get('reset'));
 	cross.style.position = 'relative';
@@ -1939,11 +1994,60 @@ var LinkDialog = function(editorUi, initialValue, btnLabel, fn)
 		linkInput.value = '';
 		linkInput.focus();
 	});
-	
+
+	var searchInput = document.createElement('input');
+	searchInput.setAttribute('placeholder', '검색어를 입력하시오');
+	searchInput.setAttribute('type', 'text');
+	searchInput.style.marginTop = '6px';
+	searchInput.style.marginRight = '10px';
+	searchInput.style.width = '200px';
+	searchInput.style.opacity = '0.5'; // 투명도 설정
+	searchInput.className = 'keyword'; // 클래스 이름 설정
+
+	var selectBox = document.createElement('select');
+	selectBox.style.marginTop = '6px';
+	selectBox.style.marginRight = '6px';
+	selectBox.style.width = '100px';
+	selectBox.className = 'searchType';
+
+	var option1 = document.createElement('option');
+	option1.text = 'docker';
+	option1.value = 'docker';
+	option1.className = 'docker';
+	selectBox.appendChild(option1);
+
+	var option2 = document.createElement('option');
+	option2.text = 'local';
+	option2.value = 'local';
+	option1.className = 'local';
+	selectBox.appendChild(option2);
+
+	var searchButton = document.createElement('button');
+	searchButton.innerHTML = '검색';
+	searchButton.style.marginTop = '6px';
+	searchButton.style.marginRight = '6px';
+	searchButton.style.marginLeft = '10px';
+	searchButton.className = 'geBtn gePrimaryBtn';
+	searchButton.onclick = searchDockerImage; // 클릭 이벤트 설정
+
+
+	var newDiv = document.createElement('div');
+	newDiv.className = 'new-container'; // 클래스 이름 설정
+	// 검색 결과
+	var newDiv2 = document.createElement('div');
+	newDiv2.className = 'dockerSearchResult'; // 클래스 이름 설정
+
 	inner.appendChild(linkInput);
 	inner.appendChild(cross);
+
+	newDiv.appendChild(searchInput);
+	newDiv.appendChild(selectBox);
+	newDiv.appendChild(searchButton);
+
 	div.appendChild(inner);
-	
+	div.appendChild(newDiv);
+	div.appendChild(newDiv2);
+
 	this.init = function()
 	{
 		linkInput.focus();

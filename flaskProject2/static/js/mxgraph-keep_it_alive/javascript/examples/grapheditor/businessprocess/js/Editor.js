@@ -940,7 +940,7 @@ function Dialog(editorUi, elt, w, h, modal, closable, onClose, noScroll, transpa
 
 		img.setAttribute('src', Dialog.prototype.closeImage);	
 		img.setAttribute('title', mxResources.get('close'));
-		img.className = 'geDialogClose';
+		// img.className = 'geDialogClose';
 		img.style.top = (top + 14) + 'px';
 		img.style.left = (left + w + 38 - dx) + 'px';
 		img.style.zIndex = this.zIndex;

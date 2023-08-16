@@ -257,9 +257,12 @@ def staus_workflow():
     activity_dic[workflow_name+'_status'] = status
     return status
 
-@app.route('/search', methods=['GET'])
+@app.route('/search', methods=['GET', 'POST'])
 def search():
-    keyword = request.args.get('keyword')
+    data = request.get_json()
+    inputValue = data['inputValue']
+
+    keyword = inputValue
     if not keyword:
         return jsonify({'error': 'Missing keyword parameter.'}), 400
     images = search_images(keyword)
@@ -269,8 +272,9 @@ def search():
     else:
         return jsonify({'error': 'Failed to retrieve image list.'}), 500
 
-@app.route('/localsearch', methods=['GET'])
+@app.route('/localsearch', methods=['GET', 'POST'])
 def searchlocal():
+
     images = search_local_images()
     if images:
         print(images)
