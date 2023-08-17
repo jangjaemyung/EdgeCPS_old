@@ -95,7 +95,8 @@
 	<script type="text/javascript" src="{{ url_for('static', filename='js/mxgraph-keep_it_alive/javascript/examples/grapheditor/businessprocess/js/Dialogs.js', projectName=project_name) }}"></script>
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles/process.css')}}"> <!--순우 css 추가-->
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@800&display=swap">
-	<script type="text/javascript" src="{{ url_for('static', filename='js/processCommon.js', projectName=project_name) }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/processCommon.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/userManagement.js')}}"></script>
 
 </head>
 <body class="geEditor">
@@ -155,8 +156,15 @@
 
 	<div id = "title" class="title" style="height: 50px; margin-top:1%">
 		<div>
-			<h2 style="float: left;">EdgeCPS</h2>
-			<button style="float: right;" onclick="processHandleSubmit()">call_button</button>
+			<div style="float: left;">
+				<h2 >EdgeCPS</h2>
+			</div>
+			<div style="float: right" >
+				{% if session["userid"] %}
+					<p style => ID : {{session["userid"]}}  <a class="nav-link" href="{{ url_for('logout') }}">로그아웃 </a> <a class="nav-link" href="{{ url_for('logout') }}">내정보 </a></p>
+				{% endif %}
+			</div>
+
 		</div>
 	</div>
 	<nav class="navbar">
