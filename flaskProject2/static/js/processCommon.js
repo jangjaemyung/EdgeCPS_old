@@ -93,17 +93,6 @@ function saveAllProject() {
  * 민수 메뉴바에 버튼 추가 하는 방식 다른 자바스크립트 로드 속도 때문에 시간차가 필요하다
  */
 document.addEventListener("DOMContentLoaded", function() {
-	//로그인 정보 표시
-
-	// // Get the element with the class name 'userLogin'
-	// var userLoginElement = document.querySelector('.userLogin');
-	//
-	// // Create a login information HTML
-	// var loginInfo = localStorage.getItem('loginUserInfo'); // Replace 'Username' with actual username
-	//
-	// // Insert the login information into the userLogin element
-	// userLoginElement.innerHTML = loginInfo;
-	// // e
 
 	localStorage.setItem(projectName+'_current_processXml', processXml[current_process]); //현재 작업중인 프로세스 xml저장
 	localStorage.setItem(projectName+'_current_processDict', processDict[current_process]); //현재 작업중인 프로세스 dict저장
@@ -137,7 +126,7 @@ document.addEventListener("DOMContentLoaded", function() {
 	buttonContainer.style.float = "right"; // 오른쪽으로 정렬
 	buttonContainer.style.marginRight = "10px"; // 오른쪽 여백
 	buttonContainer.appendChild(createButton("Save All", processSaveClick)); // process-save 버튼
-	buttonContainer.appendChild(createButton("process-load", processLoadClick)); // process-load 버튼
+	// buttonContainer.appendChild(createButton("process-load", processLoadClick)); // process-load 버튼
 
 	// 버튼을 추가할 위치의 요소를 선택 (여기서는 "right_sidebar" 클래스를 가진 div)
 	var targetElement = document.querySelector(".geMenubar");
