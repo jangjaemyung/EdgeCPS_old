@@ -10,7 +10,7 @@
 <body>
     <div class="container mt-5">
         <h1 class="text-center">회원가입</h1>
-        <form action="http://localhost:5000/register" method="post">
+        <form action="/signup" method="post">
             <div class="form-group">
                 <label for="name">이름:</label>
                 <input type="text" class="form-control" id="name" name="name" required>
@@ -32,7 +32,7 @@
                 <input type="date" class="form-control" id="birthdate" name="birthdate" required>
             </div>
             <button type="submit" class="btn btn-primary">가입</button>
-            <a href="http://localhost:5000//cancel" class="btn btn-secondary">취소</a>
+            <a href="/cancel" class="btn btn-secondary">취소</a>
         </form>
         
     </div>

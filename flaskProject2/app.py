@@ -97,22 +97,21 @@ def delete_project(project_id): # todo 프로젝트 삭제 기능
     return redirect(url_for('project_list'))
 
 
-@app.route('/projects/open/<int:project_id>')
-def open_project(project_id):
-    # todo 프로젝트 열기 -> 무조건 첫번째는 overview 혹은 Requirement
 
-    return redirect(url_for('project', project_id=project_id))
+@app.route('/signup', methods=['GET','POST'])
+def signup():
 
+    if request.method == 'GET':
+        return render_template('signup.html')
 
-@app.route('/register', methods=['POST'])
-def register():
-    name = request.form.get('name')
-    username = request.form.get('username')
-    password = request.form.get('password')
-    email = request.form.get('email')
-    birthdate = request.form.get('birthdate')
+    if request.method == 'POST':
+        name = request.form.get('name')
+        username = request.form.get('username')
+        password = request.form.get('password')
+        email = request.form.get('email')
+        birthdate = request.form.get('birthdate')
 
-    # 여기서 데이터를 처리하거나 저장하는 로직을 추가하세요
+        #todo 여기서 데이터를 처리하거나 저장하는 로직을 추가하세요
     return render_template('index.html', name=name, username=username, password=password, email=email, birthdate=birthdate)
 
     # return redirect(url_for('success'))
@@ -160,10 +159,32 @@ def save_project():
 프로세스 페이지
 """
 
-@app.route('/projects/open_process/<int:project_id>', methods=['GET', 'POST'])
-def open_process(project_id):
+@app.route('/projects/open_process/<int:project_id>/<project_name>/<project_user>', methods=['GET', 'POST'])
+def open_process(project_id,project_name,project_user):
     # overview process
     active_overview = True
+
+    # todo 프로젝트 열기 -> 무조건 첫번째는 overview 혹은 Requirement
+
+    pj_dir = glob.glob('project_file/*')
+    projects = []
+    idx = 1
+
+    for file_path in pj_dir:
+        pj_info = file_path.split('/')[-1]
+        pj_user = pj_info.split('_')[-1]
+        pj_name = pj_info.split('_')[:-1]
+        result = '_'.join(pj_name)
+        projects.append({'id': idx, 'name': result, 'user': pj_user})
+        idx += 1
+
+    # # todo 회원의 소속 확인, 회원의 프로젝트인지 확인 필요
+    for project in projects:
+        if project['id'] == project_id:
+            rm_dir_name = '_'.join([project['name'],project['user']])
+            break
+
+
     return render_template('process/requirementsProcess.html', project_id=project_id, active_overview=active_overview)
 
 
