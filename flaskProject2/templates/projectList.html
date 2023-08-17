@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Project List</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+	<script type="text/javascript" src="{{ url_for('static', filename='js/userManagement.js')}}"></script>
 </head>
 <script>
     let loginUserInfo =  '{{ loginUserInfo }}';
@@ -14,8 +15,20 @@
     }
 </script>
 <body>
+
+
     <div class="container">
-        <h2 class="mt-5">Project List</h2>
+          <div style="float: right;" >
+			{% if session["userid"] %}
+				<p> ID : {{session["userid"]}} <button onclick="logout()">logout</button> <button>my info</button> </p>
+			{% endif %}
+		</div>
+
+        <div>
+            <h2 class="mt-5">Project List</h2>
+        </div>
+
+
         <table class="table table-striped">
             <thead>
                 <tr>

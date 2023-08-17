@@ -1,7 +1,7 @@
 import glob
 import os
 
-from flask import Flask, render_template, request, redirect, url_for, jsonify
+from flask import Flask, render_template, request, redirect, url_for, jsonify, session
 from db_conn import get_pool_conn
 import requests
 import urllib3
@@ -13,6 +13,9 @@ urllib3.disable_warnings()
 
 app = Flask(__name__)
 CORS(app)
+app.secret_key = 'EdgeCPS_workflow'
+
+
 # 임의의 프로젝트 목록 데이터
 
 
@@ -33,18 +36,24 @@ def index():
             실패 : 다시 로그인
         """
     if request.method == 'POST':
+        session['userid'] = 'tempUser' # todo 로그인 없이 되도록
         return redirect(url_for('project_list',loginUserInfo ='tempUser')) # todo 로그인 없이 되도록
+
         userid = request.form['userid']
         password = request.form['password']
         login = db_query.login(mariadb_pool,id = userid,pwd = password )
 
         if login['login']:
+            session['userId'] = userid
             return redirect(url_for('project_list'))
         else:
             return render_template('index.html',login_msg='로그인 실패. 일치하는 회원이 없습니다.' )
 
     return render_template('index.html', login_msg='')
-
+@app.route('/logout', methods=['GET'])
+def logout():
+    session.clear()
+    return render_template('index.html')
 
 @app.route('/project/projectsList', methods=['GET', 'POST'])
 def project_list():
@@ -106,10 +115,19 @@ def save_project():
         data = request.json
         proj_name =data['projectName']+'.json'
 
-        file_name = '/home/minsoo/Downloads/EdgeCPS_git/project_file/'+proj_name
+        pj_root_pth = 'project_file'
+        if os.path.exists(pj_root_pth):
+            pj_pth = os.path.join(pj_root_pth ,session['userid'] +'_'+data['projectName'])
+            os.makedirs(pj_pth)
+        else:
+            response = {"status": "Downlaod error", "message": 'Project path dose not exist'}
+            return jsonify(response), 500
 
-        with open(file_name, 'w') as file:
-            json.dump(data, file)
+
+        full_pth = os.path.join(pj_pth,proj_name)
+
+        with open(full_pth, 'w', encoding='utf-8') as file:
+            json.dump(data, file, indent="\t", ensure_ascii=False)
 
         response = {"status": "success", "message": "Project data saved successfully."}
         return jsonify(response), 200
@@ -338,7 +356,7 @@ def searchlocal():
         return jsonify({'error': 'Failed to retrieve image list.'}), 500
 
 @app.route('/open', methods=['GET', 'POST'])
-def open():
+def projectOpen():
     return render_template('/open.html')
 
 

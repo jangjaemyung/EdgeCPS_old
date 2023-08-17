@@ -173,7 +173,8 @@
 	<script type="text/javascript" src="{{ url_for('static', filename='js/mxgraph-keep_it_alive/javascript/examples/grapheditor/businessprocess/js/Dialogs.js') }}"></script>
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles/process.css')}}"> <!--순우 css 추가-->
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@800&display=swap">
-		<script type="text/javascript" src="{{ url_for('static', filename='js/processCommon.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/processCommon.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/userManagement.js')}}"></script>
 
 </head>
 <body class="geEditor">
@@ -189,7 +190,13 @@
 	</style>
 		<div id = "title" class="title" style="height: 50px; margin-top:1%">
 			<h2> <a class="home" href="http://localhost:5000/project/projectsList">EdgeCPS</a></h2>
+			<div style="float: right;" >
+				{% if session["userid"] %}
+					<p> ID : {{session["userid"]}} <button onclick="logout()">logout</button> <button>my info</button> </p>
+				{% endif %}
+			</div>
 		</div>
+
 	<nav class="navbar">
 		<ul class="nav-list">
 
