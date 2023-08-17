@@ -66,6 +66,11 @@
 		<div id = "title" class="title" style="height: 50px; margin-top:1%">
 			<h2> <a class="home" href="http://localhost:5000/project/projectsList">EdgeCPS</a></h2>
 		</div>
+		<div style="float: right" >
+			{% if session["userid"] %}
+				<p style => ID : {{session["userid"]}}  <a class="nav-link" href="{{ url_for('logout') }}">로그아웃 </a> <a class="nav-link" href="{{ url_for('logout') }}">내정보 </a></p>
+			{% endif %}
+		</div>
 	<nav class="navbar">
 		<ul class="nav-list">
 			<a class="nav-button" >

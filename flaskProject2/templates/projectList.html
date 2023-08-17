@@ -18,11 +18,15 @@
 
 
     <div class="container">
-          <div style="float: right;" >
-			{% if session["userid"] %}
-				<p> ID : {{session["userid"]}} <button onclick="logout()">logout</button> <button>my info</button> </p>
-			{% endif %}
-		</div>
+    <div style="float: right" >
+        {% if session["userid"] %}
+    <div class="nav-links">
+        <h6>ID: {{ session["userid"] }}</h6>
+        <a class="nav-link" href="{{ url_for('logout') }}">로그아웃</a>
+        <a class="nav-link" href="{{ url_for('logout') }}">내정보</a>
+    </div>
+        {% endif %}
+    </div>
 
         <div>
             <h2 class="mt-5">Project List</h2>
