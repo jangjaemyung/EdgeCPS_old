@@ -95,15 +95,15 @@ function saveAllProject() {
 document.addEventListener("DOMContentLoaded", function() {
 	//로그인 정보 표시
 
-	// Get the element with the class name 'userLogin'
-	var userLoginElement = document.querySelector('.userLogin');
-
-	// Create a login information HTML
-	var loginInfo = localStorage.getItem('loginUserInfo'); // Replace 'Username' with actual username
-
-	// Insert the login information into the userLogin element
-	userLoginElement.innerHTML = loginInfo;
-	// e
+	// // Get the element with the class name 'userLogin'
+	// var userLoginElement = document.querySelector('.userLogin');
+	//
+	// // Create a login information HTML
+	// var loginInfo = localStorage.getItem('loginUserInfo'); // Replace 'Username' with actual username
+	//
+	// // Insert the login information into the userLogin element
+	// userLoginElement.innerHTML = loginInfo;
+	// // e
 
 	localStorage.setItem(projectName+'_current_processXml', processXml[current_process]); //현재 작업중인 프로세스 xml저장
 	localStorage.setItem(projectName+'_current_processDict', processDict[current_process]); //현재 작업중인 프로세스 dict저장
