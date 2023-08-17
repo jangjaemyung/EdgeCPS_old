@@ -156,8 +156,15 @@
 
 	<div id = "title" class="title" style="height: 50px; margin-top:1%">
 		<div>
-			<div style="float: left;">
-				<h2 >EdgeCPS</h2>
+			<style>
+				/* 스타일을 지정하여 링크가 보라색으로 변하는 효과를 없앰 */
+				a.home {
+					color: inherit;
+					text-decoration: none;
+				}
+			</style>
+			<div id = "title" class="title" style="height: 50px; margin-top:1%">
+				<h2> <a class="home" href="http://localhost:5000/project/projectsList">EdgeCPS</a></h2>
 			</div>
 			<div style="float: right" >
 				{% if session["userid"] %}

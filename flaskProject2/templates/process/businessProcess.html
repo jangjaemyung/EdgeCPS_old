@@ -95,7 +95,7 @@
 
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles/process.css')}}"> <!--순우 css 추가-->
 	<script type="text/javascript" src="{{ url_for('static', filename='js/processCommon.js') }}"></script>
-	<script type="text/javascript" src="{{ url_for('static', filename='js/userManagement.js')}}"></script>
+
 	<!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@800&display=swap">  -->
 	<!--폰트 로드 -->
 </head>
@@ -152,21 +152,26 @@
 	</script>
 
 
-<style>
-	/* 스타일을 지정하여 링크가 보라색으로 변하는 효과를 없앰 */
-	a.home {
-		color: inherit; 
-		text-decoration: none; 
-	}
-</style>
-	<div id = "title" class="title" style="height: 50px; margin-top:1%">
-		<h2> <a class="home" href="http://localhost:5000/project/projectsList">EdgeCPS</a></h2>
+<div id = "title" class="title" style="height: 50px; margin-top:1%">
+	<div>
+		<style>
+			/* 스타일을 지정하여 링크가 보라색으로 변하는 효과를 없앰 */
+			a.home {
+				color: inherit;
+				text-decoration: none;
+			}
+		</style>
+		<div id = "title" class="title" style="height: 50px; margin-top:1%">
+			<h2> <a class="home" href="http://localhost:5000/project/projectsList">EdgeCPS</a></h2>
+		</div>
 		<div style="float: right" >
 			{% if session["userid"] %}
 				<p style => ID : {{session["userid"]}}  <a class="nav-link" href="{{ url_for('logout') }}">로그아웃 </a> <a class="nav-link" href="{{ url_for('logout') }}">내정보 </a></p>
 			{% endif %}
 		</div>
+
 	</div>
+</div>
 
 	<nav class="navbar">
 		<ul class="nav-list">
