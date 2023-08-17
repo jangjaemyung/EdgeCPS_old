@@ -81,7 +81,7 @@ function saveAllProject() {
 	})
 		.then(response => response.json())
 		.then(data => {
-			console.log(data); // 서버에서 반환된 데이터 출력
+			alert(data); // 서버에서 반환된 데이터 출력
 		})
 		.catch(error => {
 			console.error('Error:', error);

@@ -63,7 +63,7 @@
 
                     </td>
                     <td style="text-align:center" >
-                            <form method="post" action="{{ url_for('open_process', project_id=project.id) }}">
+                            <form method="post" action="{{ url_for('open_process', project_id=project.id, project_name=project.name,project_user=project.user ) }}">
                                 <button type="submit" class="btn btn-primary btn-sm">Open Project</button>
                             </form>
                     </td>

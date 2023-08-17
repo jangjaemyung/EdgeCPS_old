@@ -1,6 +1,7 @@
 import glob
 import os
-
+import shutil
+import html
 from flask import Flask, render_template, request, redirect, url_for, jsonify, session
 from db_conn import get_pool_conn
 import requests
@@ -20,6 +21,19 @@ app.secret_key = 'EdgeCPS_workflow'
 
 
 # mariadb_pool = get_pool_conn()
+
+def getProjectDict():
+    pj_dir = glob.glob('project_file/*')
+    projects = [ ]
+    idx = 1
+    for file_path in pj_dir:
+        pj_info = file_path.split('/')[-1]
+        pj_user = pj_info.split('@')[-1]
+        pj_name_list = pj_info.split('@')[:-1]
+        pj_name = '@'.join(pj_name_list)
+        projects.append({'id': idx, 'name': pj_name, 'user': pj_user})
+        idx += 1
+    return projects
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -58,16 +72,8 @@ def logout():
 @app.route('/project/projectsList', methods=['GET', 'POST'])
 def project_list():
     loginUserInfo = request.args.get('loginUserInfo')
-    pj_dir = glob.glob('project_file/*')
-    projects = [ ]
-    idx = 1
-    for file_path in pj_dir:
-        pj_info = file_path.split('/')[-1]
-        pj_user = pj_info.split('_')[-1]
-        pj_name = pj_info.split('_')[:-1]
-        result = '_'.join(pj_name)
-        projects.append({'id': idx, 'name': result, 'user': pj_user})
-        idx += 1
+
+    projects = getProjectDict()
 
 
     # todo 프로젝트 리스트 정보 조회하는 기능 필요
@@ -76,22 +82,13 @@ def project_list():
 
 @app.route('/projects/delete/<int:project_id>', methods=['POST'])
 def delete_project(project_id): # todo 프로젝트 삭제 기능
-    pj_dir = glob.glob('project_file/*')
-    projects = []
-    idx = 1
-    for file_path in pj_dir:
-        pj_info = file_path.split('/')[-1]
-        pj_user = pj_info.split('_')[-1]
-        pj_name = pj_info.split('_')[:-1]
-        result = '_'.join(pj_name)
-        projects.append({'id': idx, 'name': result, 'user': pj_user})
-        idx += 1
+    projects = getProjectDict()
 
     # # todo 회원의 소속 확인, 회원의 프로젝트인지 확인 필요
     for project in projects:
         if project['id'] == project_id:
-            rm_dir_name = '_'.join([project['name'],project['user']])
-            os.rmdir('project_file/'+rm_dir_name)
+            rm_dir_name = '@'.join([project['name'],project['user']])
+            shutil.rmtree('project_file/'+rm_dir_name)
             break
 
     return redirect(url_for('project_list'))
@@ -135,7 +132,7 @@ def save_project():
 
         pj_root_pth = 'project_file'
         if os.path.exists(pj_root_pth):
-            pj_pth = os.path.join(pj_root_pth ,session['userid'] +'_'+data['projectName'])
+            pj_pth = os.path.join(pj_root_pth ,data['projectName'] +'@'+session['userid'])
             os.makedirs(pj_pth)
         else:
             response = {"status": "Downlaod error", "message": 'Project path dose not exist'}
@@ -145,7 +142,8 @@ def save_project():
         full_pth = os.path.join(pj_pth,proj_name)
 
         with open(full_pth, 'w', encoding='utf-8') as file:
-            json.dump(data, file, indent="\t", ensure_ascii=False)
+            json.dump(data, file, indent="\t")
+            # json.dump(data, file, indent="\t", ensure_ascii=False)
 
         response = {"status": "success", "message": "Project data saved successfully."}
         return jsonify(response), 200
@@ -156,42 +154,46 @@ def save_project():
 
 
 """
-프로세스 페이지
+프로젝트 프로세스 오픈 하는 과정 페이지
 """
 
 @app.route('/projects/open_process/<int:project_id>/<project_name>/<project_user>', methods=['GET', 'POST'])
-def open_process(project_id,project_name,project_user):
+def open_process(project_id,project_user,project_name):
     # overview process
     active_overview = True
 
     # todo 프로젝트 열기 -> 무조건 첫번째는 overview 혹은 Requirement
 
-    pj_dir = glob.glob('project_file/*')
-    projects = []
-    idx = 1
-
-    for file_path in pj_dir:
-        pj_info = file_path.split('/')[-1]
-        pj_user = pj_info.split('_')[-1]
-        pj_name = pj_info.split('_')[:-1]
-        result = '_'.join(pj_name)
-        projects.append({'id': idx, 'name': result, 'user': pj_user})
-        idx += 1
+    projects = getProjectDict()
 
     # # todo 회원의 소속 확인, 회원의 프로젝트인지 확인 필요
     for project in projects:
-        if project['id'] == project_id:
-            rm_dir_name = '_'.join([project['name'],project['user']])
-            break
+        if project['id'] == project_id and project['name'] == project_name and project['user'] == project_user:
+            # 제이슨을 읽어와서 실행 한다.
+            root_pth = 'project_file'
+            pj_pth = os.path.join(root_pth,  project_name+ '@' +project_user )
+            file_name = project_name+'.json'
 
+            with open(os.path.join(pj_pth,file_name), 'r') as json_file:
+                data = json.load(json_file)
+                str_json = json.dumps(data)
+                project_name = data['projectName']
+                xml_process= data['processData']
+                workflow_xml = data['workflowData']
 
-    return render_template('process/requirementsProcess.html', project_id=project_id, active_overview=active_overview)
+                return redirect(url_for('overview_process', active_overview=active_overview, project_data = str_json))
+
+    return redirect(url_for('project_list'))
 
 
 @app.route('/process/overviewProcess', methods=['GET', 'POST'])
 def overview_process():
     catlist = ['java', 'python']
     active_overview = True
+
+    data = request.args.get('project_data')
+    if data:
+        return render_template('process/overviewProcess.html', active_overview=active_overview, categories=catlist,  project_data = data, open_project = 'True')
 
     if request.method == 'POST': # 프로젝트 생성
         project_name = request.form.get('project_name')

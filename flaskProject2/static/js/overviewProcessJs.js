@@ -20,3 +20,6 @@ function savePorjectInfo(){
 }
 
 
+function setAllProjectProcess(){
+
+}

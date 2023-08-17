@@ -33,6 +33,9 @@
 
 		let projectName = "{{ project_name }}";
 
+		let projectData = "{{ project_data }}"; // 블러오기된 프로젝트 데이터
+		let openProject = "{{ open_project }}"; // 불러온것인지 확인
+
 	</script>
 
 
@@ -200,7 +203,16 @@
 			}
 		}
 
+		if(openProject == 'True'){
+			// div 요소 생성 및 HTML 문자열로 설정
+			var div = document.createElement('div');
+			div.innerHTML = projectData;
 
+			// div 요소의 내용을 다시 문자열로 얻음
+			var decodedData = div.textContent || div.innerText;
+
+			console.log(decodedData);
+		}
 
 	}
 </script>

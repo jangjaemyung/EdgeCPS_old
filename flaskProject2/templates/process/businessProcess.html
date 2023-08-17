@@ -161,13 +161,14 @@
 				text-decoration: none;
 			}
 		</style>
-		<div id = "title" class="title" style="height: 50px; margin-top:1%">
+		<div >
 			<h2> <a class="home" href="http://localhost:5000/project/projectsList">EdgeCPS</a></h2>
+			{% if session["userid"] %}
+				<button  style="float: right"> ID : {{session["userid"]}}  <a class="nav-link" href="{{ url_for('logout') }}">로그아웃 </a> <a class="nav-link" href="{{ url_for('logout') }}">내정보 </a></button>
+			{% endif %}
 		</div>
 		<div style="float: right" >
-			{% if session["userid"] %}
-				<p style => ID : {{session["userid"]}}  <a class="nav-link" href="{{ url_for('logout') }}">로그아웃 </a> <a class="nav-link" href="{{ url_for('logout') }}">내정보 </a></p>
-			{% endif %}
+
 		</div>
 
 	</div>
