@@ -79,7 +79,7 @@
 		overflow: auto;
 		}
 		.logContainer2 {
-		/* flex: 1; */
+		flex: 1;
 		background-color: #ffffff;
 		color: #000000;
 		font-family: monospace;
@@ -297,16 +297,42 @@
 		<h2>Sidebar</h2>
 		<p>This is the sidebar content.</p>
 		
-		<input type="file" id="fileInput">
+		<!-- <input type="file" id="fileInput">
 		<button id="submitButton">Submit</button>
 		<button id="logButton">Log</button>
 		<button id ="statusButton">Status</button>
-		<button id ="stopButton">Stop</button>
-		<button id ="terminateButton">Terminate</button>
+
 		<button id ="deleteButton">Delete</button>
-		<button id ="exportButton">Export yaml</button>
-	  
-		 
+		<button id ="exportButton">Export yaml</button> -->
+		<div class="container d-flex justify-content-center align-items-center">
+			<div class="row text-center">
+				<div class="col-md-12 mb-2">
+					<input type="file" class="form-control" id="fileInput">
+				</div>
+				<div class="col-md-12 mb-2">
+					<button class="btn btn-primary btn-block" id="submitButton">Submit</button>
+				</div>
+				<div class="col-md-12 mb-2">
+					<button class="btn btn-primary btn-block" id="logButton">Log</button>
+				</div>
+				<div class="col-md-12 mb-2">
+					<button class="btn btn-primary btn-block" id="statusButton">Status</button>
+				</div>
+				<div class="col-md-12 mb-2">
+					<button class="btn btn-primary btn-block" id="deleteButton">Delete</button>
+				</div>
+				<div class="col-md-12 mb-2">
+					<button class="btn btn-primary btn-block" id="exportButton">Export yaml</button>
+				</div>
+			</div>
+		</div>
+		<!-- 부트스트랩 스크립트 추가 -->
+		<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+
 		<script>
 			// 로컬에서 파일 선택해서 아르고 서버에 제출 -> 워크플로우 실행
 			var workflowName=''
@@ -360,43 +386,43 @@
 			}
 
 			// stop 버튼
-			document.getElementById("stopButton").addEventListener("click", function() {
-				fetch('/stop', {
-				method: 'PUT',
-				headers: {
-				  'Content-Type': 'application/json'
-				},
-				body:  JSON.stringify({ 'workflowName': workflowName })
-				// body: JSON.stringify({ content: content })
-			  })
-			  .then(response => response.json())
-			  .then(data => {
-				console.log(data);
-				// 서버 응답 처리
-			  })
-			  .catch(error => {
-				console.error('Error:', error);
-			  });
-        });
+		// 	document.getElementById("stopButton").addEventListener("click", function() {
+		// 		fetch('/stop', {
+		// 		method: 'PUT',
+		// 		headers: {
+		// 		  'Content-Type': 'application/json'
+		// 		},
+		// 		body:  JSON.stringify({ 'workflowName': workflowName })
+		// 		// body: JSON.stringify({ content: content })
+		// 	  })
+		// 	  .then(response => response.json())
+		// 	  .then(data => {
+		// 		console.log(data);
+		// 		// 서버 응답 처리
+		// 	  })
+		// 	  .catch(error => {
+		// 		console.error('Error:', error);
+		// 	  });
+        // });
 			// terminate 버튼
-			document.getElementById("terminateButton").addEventListener("click", function() {
-				fetch('/terminate', {
-				method: 'PUT',
-				headers: {
-				  'Content-Type': 'application/json'
-				},
-				body:  JSON.stringify({ 'workflowName': workflowName })
-				// body: JSON.stringify({ content: content })
-			  })
-			  .then(response => response.json())
-			  .then(data => {
-				console.log(data);
-				// 서버 응답 처리
-			  })
-			  .catch(error => {
-				console.error('Error:', error);
-			  });
-			});
+			// document.getElementById("terminateButton").addEventListener("click", function() {
+			// 	fetch('/terminate', {
+			// 	method: 'PUT',
+			// 	headers: {
+			// 	  'Content-Type': 'application/json'
+			// 	},
+			// 	body:  JSON.stringify({ 'workflowName': workflowName })
+			// 	// body: JSON.stringify({ content: content })
+			//   })
+			//   .then(response => response.json())
+			//   .then(data => {
+			// 	console.log(data);
+			// 	// 서버 응답 처리
+			//   })
+			//   .catch(error => {
+			// 	console.error('Error:', error);
+			//   });
+			// });
 
 			// delete 버튼
 			document.getElementById("deleteButton").addEventListener("click", function() {
