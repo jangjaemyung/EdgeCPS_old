@@ -104,7 +104,26 @@ def open_project(project_id):
     return redirect(url_for('project', project_id=project_id))
 
 
+@app.route('/register', methods=['POST'])
+def register():
+    name = request.form.get('name')
+    username = request.form.get('username')
+    password = request.form.get('password')
+    email = request.form.get('email')
+    birthdate = request.form.get('birthdate')
 
+    # 여기서 데이터를 처리하거나 저장하는 로직을 추가하세요
+    return render_template('index.html', name=name, username=username, password=password, email=email, birthdate=birthdate)
+
+    # return redirect(url_for('success'))
+
+@app.route('/success')
+def success():
+    return "가입이 완료되었습니다!"
+
+@app.route('/cancel')
+def cancel():
+    return redirect('/')  # 원하는 주소로 변경
 
 """
 프로젝트 전체 저장 페이지
