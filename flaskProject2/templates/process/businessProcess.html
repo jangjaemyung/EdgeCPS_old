@@ -30,7 +30,7 @@
     <title>EdgeCPS</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles/grapheditor.css') }}">
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles/grapheditor.css', projectName=project_name) }}">
 	
 
 	<!--BOOTSTRAP START 순우-->
@@ -161,14 +161,13 @@
 				text-decoration: none;
 			}
 		</style>
-		<div >
+		<div id = "title" class="title" style="height: 50px; margin-top:1%">
 			<h2> <a class="home" href="http://localhost:5000/project/projectsList">EdgeCPS</a></h2>
-			{% if session["userid"] %}
-				<button  style="float: right"> ID : {{session["userid"]}}  <a class="nav-link" href="{{ url_for('logout') }}">로그아웃 </a> <a class="nav-link" href="{{ url_for('logout') }}">내정보 </a></button>
-			{% endif %}
 		</div>
 		<div style="float: right" >
-
+			{% if session["userid"] %}
+				<p style => ID : {{session["userid"]}}  <a class="nav-link" href="{{ url_for('logout') }}">로그아웃 </a> <a class="nav-link" href="{{ url_for('logout') }}">내정보 </a></p>
+			{% endif %}
 		</div>
 
 	</div>

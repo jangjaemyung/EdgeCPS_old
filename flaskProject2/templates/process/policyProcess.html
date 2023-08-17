@@ -154,18 +154,33 @@
 <style>
 	/* 스타일을 지정하여 링크가 보라색으로 변하는 효과를 없앰 */
 	a.home {
-		color: inherit; 
-		text-decoration: none; 
+		color: inherit;
+		text-decoration: none;
+	}
+	
+	.title {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		height: 50px;
+		margin-top: 1%;
+		padding: 0 20px;
 	}
 </style>
-	<div id = "title" class="title" style="height: 50px; margin-top:1%">
+<div>
+	<div id="title" class="title">
 		<h2> <a class="home" href="http://localhost:5000/project/projectsList">EdgeCPS</a></h2>
-		<div style="float: right" >
+
+		<div>
 			{% if session["userid"] %}
-				<p style => ID : {{session["userid"]}}  <a class="nav-link" href="{{ url_for('logout') }}">로그아웃 </a> <a class="nav-link" href="{{ url_for('logout') }}">내정보 </a></p>
+				<p>ID: {{session["userid"]}}
+					<a class="nav-link" href="{{ url_for('logout') }}">로그아웃</a>
+					<a class="nav-link" href="{{ url_for('logout') }}">내정보</a>
+				</p>
 			{% endif %}
 		</div>
 	</div>
+</div>
 	<nav class="navbar">
 		<ul class="nav-list">
 		  <a class="nav-button" href="{{ url_for('overview_process', projectName=project_name) }}" onclick="getLatestXml(flowDict, processGraphxml)">
