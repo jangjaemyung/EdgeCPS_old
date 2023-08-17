@@ -113,11 +113,11 @@ def open_project(project_id):
 def save_project():
     try:
         data = request.json
-        proj_name =data['projectName']++'.json'
+        proj_name =data['projectName']+'.json'
 
         pj_root_pth = 'project_file'
         if os.path.exists(pj_root_pth):
-            pj_pth = os.path.join(pj_root_pth ,data['projectName'])
+            pj_pth = os.path.join(pj_root_pth ,session['userid'] +'_'+data['projectName'])
             os.makedirs(pj_pth)
         else:
             response = {"status": "Downlaod error", "message": 'Project path dose not exist'}
