@@ -232,33 +232,19 @@ var mxUtils =
 		{
 
 			try{
-				// console.log(arguments[0].type)
-				// console.log(arguments[0].currentTarget.classList[0])
-
-				// if (arguments[0].type == 'pointerup'|| arguments[0].type == 'mousedown' || arguments[0].type == 'pointerdown' || arguments[0].type == 'mouseup'){
-				//    if (arguments[0].currentTarget.classList[0] != 'geDiagramContainer' && arguments[0].currentTarget.classList[0] != 'geSidebarContainer'  && arguments[0].currentTarget.classList[0] != 'geFormatSection'){
-				// 		if(arguments[0].currentTarget.classList[0] !='undefined'){
-				// 			  console.log( '이벤트:  '+ arguments[0].currentTarget.classList[0])
-				// 			DigramClicked = arguments[0].currentTarget.classList[0]
-				// 			  console.log( '결과 :  '+ DigramClicked)
-				// 		}
-				//    }
-				// }
-				
 				if (arguments[0].currentTarget.classList[0] != 'geDiagramContainer' && arguments[0].currentTarget.classList[0] != 'geSidebarContainer'  && arguments[0].currentTarget.classList[0] != 'geFormatSection'){
 					if (arguments[0].type == 'pointerup'|| arguments[0].type == 'mousedown' || arguments[0].type == 'pointerdown' || arguments[0].type == 'mouseup'){
 						if(arguments[0].currentTarget.classList[0]){
 							DigramClicked = arguments[0].currentTarget.classList[0]
 							console.log( '선택 다이어그램 :  '+ DigramClicked)
-						}else if (!arguments[0].currentTarget.classList[0]){
+						}
+						else if (!arguments[0].currentTarget.classList[0]){
 							DigramClicked = arguments[0].currentTarget.parentElement.firstChild.classList[0]
 							console.log( '선택 다이어그램 :  '+ DigramClicked)
 						}
-							
-
-						}		
-					}	
-				
+					}		
+				}	
+			
 					
 		  }catch (e){
 		  

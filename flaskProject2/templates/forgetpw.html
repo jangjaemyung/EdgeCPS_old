@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Password Reset Page</title>
+  <!-- 부트스트랩 CSS 링크 추가 -->
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+  <div class="container mt-5">
+    <h1 class="mb-4">Password Reset</h1>
+    <form id="resetForm">
+      <div class="form-group">
+        <label for="name">Name:</label>
+        <input type="text" class="form-control" id="name" name="name" required>
+        <small id="nameError" class="text-danger"></small>
+      </div>
+      <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="email" class="form-control" id="email" name="email" required>
+        <small id="emailError" class="text-danger"></small>
+      </div>
+      <div class="form-group">
+        <label for="username">Username:</label>
+        <input type="text" class="form-control" id="username" name="username" required>
+        <small id="usernameError" class="text-danger"></small>
+      </div>
+      <button type="button" class="btn btn-primary" id="confirmBtn">Confirm</button>
+      <a class="btn btn-secondary" href="/">Cancel</a>
+    </form>
+  </div>
+
+  <!-- 부트스트랩 JS 및 jQuery 링크 추가 -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const confirmBtn = document.getElementById('confirmBtn');
+      const nameError = document.getElementById('nameError');
+      const emailError = document.getElementById('emailError');
+      const usernameError = document.getElementById('usernameError');
+
+      confirmBtn.addEventListener('click', function () {
+        const name = document.getElementById('name').value;
+        const email = document.getElementById('email').value;
+        const username = document.getElementById('username').value;
+
+        nameError.textContent = "";
+        emailError.textContent = "";
+        usernameError.textContent = "";
+
+        let hasError = false;
+
+        if (name === "") {
+          nameError.textContent = "Name is required.";
+          hasError = true;
+        }
+
+        if (email === "") {
+          emailError.textContent = "Email is required.";
+          hasError = true;
+        }
+
+        if (username === "") {
+          usernameError.textContent = "Username is required.";
+          hasError = true;
+        }
+
+        if (!hasError) {
+          // 여기에 서버로 정보를 전송하고, 서버에서 응답을 받는 로직을 추가
+          $.ajax({
+            url: '/check_user', // 서버로 보낼 URL
+            method: 'POST',     // 요청 메소드
+            data: { name, email, username }, // 전송할 데이터
+            success: function(response) {
+              if (response === 'not_found') {
+                showError("User not found in the database.");
+              } else {
+                // 여기에 성공 시 동작을 추가하면 됩니다.
+                // 예시: resetPassword(name, email, username);
+              }
+            },
+            error: function() {
+              showError("An error occurred while processing the request.");
+            }
+          });
+        }
+      });
+
+      function showError(errorMessage) {
+        const errorDiv = document.createElement("div");
+        errorDiv.classList.add("alert", "alert-danger");
+        errorDiv.textContent = errorMessage;
+        document.querySelector(".container").appendChild(errorDiv);
+      }
+    });
+  </script>
+</body>
+</html>

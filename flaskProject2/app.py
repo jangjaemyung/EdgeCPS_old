@@ -55,6 +55,16 @@ def logout():
     session.clear()
     return render_template('index.html')
 
+@app.route('/forgetid', methods=['GET'])
+def forgetid():
+    session.clear()
+    return render_template('forgetid.html')
+
+@app.route('/forgetpw', methods=['GET'])
+def forgetpw():
+    session.clear()
+    return render_template('forgetpw.html')
+
 @app.route('/project/projectsList', methods=['GET', 'POST'])
 def project_list():
     loginUserInfo = request.args.get('loginUserInfo')

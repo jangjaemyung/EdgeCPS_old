@@ -168,6 +168,7 @@
 	}
 </style>
 <div>
+	
 	<div id="title" class="title">
 		<h2> <a class="home" href="http://localhost:5000/project/projectsList">EdgeCPS</a></h2>
 
@@ -181,7 +182,6 @@
 		</div>
 	</div>
 </div>
-
 	<nav class="navbar">
 		<ul class="nav-list">
 			<a class="nav-button" href="{{ url_for('overview_process', projectName=project_name) }}" onclick="getLatestXml(flowDict, processGraphxml)">
@@ -220,7 +220,7 @@
 				<li class="nav-item-separator">
 					<span class="dot"></span>
 					<span class="dot"></span>
-					<span class="dot"></span>
+					<span class="dot"></span> 
 				  </li>
 			<a class="nav-button" href="{{ url_for('workflow_process', projectName=project_name) }}" onclick="getLatestXml(flowDict, processGraphxml)">
 				<span class="button-icon-workflow_process">
@@ -265,8 +265,8 @@
 	</nav>
 	  
 
-	<!-- 순우 캔버스 위에 있는 다이어그램 목록 가져오기 위한 버튼 생성 및 함수 호출
-	<div><button id="myButton">Get Requirement list</button></div> -->
+	<!-- 순우 캔버스 위에 있는 다이어그램 목록 가져오기 위한 버튼 생성 및 함수 호출-->
+	<div><button id="myButton">Get Requirement list</button></div> 
 	<script>
 		var button = document.getElementById('myButton');
 		
