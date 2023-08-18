@@ -36,6 +36,15 @@
 		let projectData = "{{ project_data }}"; // 블러오기된 프로젝트 데이터
 		let openProject = "{{ open_project }}"; // 불러온것인지 확인
 
+		let project_name = "{{ project_name }}"; // 불러온것인지 확인
+		let xml_process = "{{ xml_process }}"; // 불러온것인지 확인
+		let workflow_xml = "{{ workflow_xml }}"; // 불러온것인지 확인
+
+        let sessiondata = "{{ session['data'] }}"
+        let sessionstr_json = "{{ session['str_json'] }}"
+        let sessionproject_name = "{{ session['project_name'] }}"
+        let sessionxml_process = "{{ session['xml_process'] }}"
+        let sessionworkflow_xml = "{{ session['workflow_xml'] }}"
 	</script>
 
 
@@ -219,14 +228,27 @@
 		}
 
 		if(openProject == 'True'){
-			// div 요소 생성 및 HTML 문자열로 설정
 			var div = document.createElement('div');
-			div.innerHTML = projectData;
+			div.innerHTML = projectData.replace(/&#39;/g, "\"");
+			projectData = div.textContent || div.innerText;
 
-			// div 요소의 내용을 다시 문자열로 얻음
-			var decodedData = div.textContent || div.innerText;
+			var div = document.createElement('div');
+			div.innerHTML = project_name.replace(/&#39;/g, "\"");;
+			project_name = div.textContent || div.innerText;
 
-			console.log(decodedData);
+			var div = document.createElement('div');
+			div.innerHTML = xml_process.replace(/&#39;/g, "\"");;
+			xml_process = div.textContent || div.innerText;
+
+			var div = document.createElement('div');
+			div.innerHTML = workflow_xml.replace(/&#39;/g, "\"");;
+			workflow_xml = div.textContent || div.innerText;
+
+
+
+
+
+
 		}
 
 	}

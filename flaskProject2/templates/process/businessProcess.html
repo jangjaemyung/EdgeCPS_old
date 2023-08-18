@@ -152,8 +152,7 @@
 	</script>
 
 
-<div id = "title" class="title" style="height: 50px; margin-top:1%">
-	<div>
+	<div id = "title" class="title" style="height: 50px; margin-top:1%">
 		<style>
 			/* 스타일을 지정하여 링크가 보라색으로 변하는 효과를 없앰 */
 			a.home {
@@ -161,18 +160,17 @@
 				text-decoration: none;
 			}
 		</style>
-			<h2> <a class="home" href="http://localhost:5000/project/projectsList">EdgeCPS</a></h2>
-		</div>
+		<h2> <a class="home" href="http://localhost:5000/project/projectsList">EdgeCPS</a> </h2>
+		<p > ID : {{session["userid"]}}  <a  class="nav-link" href="{{ url_for('logout') }}">로그아웃 </a> <a class="nav-link" href="{{ url_for('logout') }}">내정보 </a></p>
 		<div style="float: right" >
 			{% if session["userid"] %}
-				<p style => ID : {{session["userid"]}}  <a class="nav-link" href="{{ url_for('logout') }}">로그아웃 </a> <a class="nav-link" href="{{ url_for('logout') }}">내정보 </a></p>
+
 			{% endif %}
 		</div>
-
 	</div>
-</div>
 
-	<nav class="navbar">
+
+		<nav class="navbar">
 		<ul class="nav-list">
 		  <a class="nav-button" href="{{ url_for('overview_process') }}">
 			<span class="button-icon-Overview">
@@ -226,9 +224,9 @@
 					<span class="dot"></span>
 					<span class="dot"></span>
 				  </li>
-			
+
 				</a>
-				
+
 			<a class="nav-button" href="{{ url_for('policy_process', projectName=project_name) }}" onclick="getLatestXml(flowDict, processGraphxml)">
 				<span class="button-icon-policy_process">
 					<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 32 32">
@@ -253,18 +251,20 @@
 			<span class="button-text-run_process">Run</span></a>
 		</ul>
 	</nav>
-	  
+
+</div>
+
 
 	<!--순우 캔버스 위에 있는 다이어그램 목록 가져오기 위한 버튼 생성 및 함수 호출-->
 	<div><button id="myButton">Get Requirement list</button></div>
 	<script>
 		var button = document.getElementById('myButton');
-		
+
 		button.addEventListener('click', function(){
 			// var view = new mxGraphView();
 			// var classList = view.getRectangleList();
 			// console.log(classList)
-			// localStorage.setItem('actlist', JSON.stringify(classList)); // 순우 캔버스 위에 그려진 roundedrectangle 리스트 로컬스토리지에 저장 
+			// localStorage.setItem('actlist', JSON.stringify(classList)); // 순우 캔버스 위에 그려진 roundedrectangle 리스트 로컬스토리지에 저장
 			extractReq()
 		});
 	</script>
@@ -277,15 +277,6 @@
 	});
 </script> -->
 
-	<div class="container">
-		<div class="row">
-		  <div class="col-12">
-			<div class="buttons-container"></div>
-		  </div>
-		</div>
-	  </div>
-	
-	
 	
 
 

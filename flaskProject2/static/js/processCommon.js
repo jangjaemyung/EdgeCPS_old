@@ -53,31 +53,41 @@ function saveAllProject() {
 	for (var i = 0; i < processXml.length; i++) {
 		var key = processXml[i];
 		var value = localStorage.getItem(projectName + '_' + key);
+		if(!value){
+			value = ''
+		}
 		processData[key] = value;
 	}
 
 	//워크플로우 저장
 	var workflowXMLValue = localStorage.getItem(projectName + '_workflowXML');
+	workflowXMLValue = JSON.parse(workflowXMLValue);
+
 	if (workflowXMLValue) {
-		var valueArray = JSON.parse(workflowXMLValue);
-		for (var i = 0; i < valueArray.length; i++) {
-			var key = valueArray[i];
+		for (var i = 0; i < workflowXMLValue.length; i++) {
+			var key = workflowXMLValue[i];
 			var value = localStorage.getItem(projectName + '_' + key);
 			workflowData[key] = value;
 		}
 	}
 	data['projectName'] = projectName;
-	data['processData'] = processData;
-	data['workflowData'] = workflowData;
-	var jsonData = JSON.stringify(data);
 
+	var projectNamejsonData = data;
+	var processDatajsonData = processData;
+	var workflowDatajsonData = workflowData;
+
+	var dataToSend = {
+		  projectNamejsonData: projectNamejsonData,
+		  processDatajsonData: processDatajsonData,
+		  workflowDatajsonData: workflowDatajsonData
+		};
 	// Flask의 saveProject 함수 호출
 	fetch('/saveProject', {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json'
 		},
-		body: jsonData
+		body: JSON.stringify(dataToSend)
 	})
 		.then(response => response.json())
 		.then(data => {

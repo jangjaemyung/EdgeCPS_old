@@ -128,21 +128,21 @@ def cancel():
 def save_project():
     try:
         data = request.json
-        proj_name =data['projectName']+'.json'
+        proj_name =data['projectNamejsonData']['projectName']
 
         pj_root_pth = 'project_file'
         if os.path.exists(pj_root_pth):
-            pj_pth = os.path.join(pj_root_pth ,data['projectName'] +'@'+session['userid'])
+            pj_pth = os.path.join(pj_root_pth ,proj_name +'@'+session['userid'])
             os.makedirs(pj_pth)
         else:
             response = {"status": "Downlaod error", "message": 'Project path dose not exist'}
             return jsonify(response), 500
 
 
-        full_pth = os.path.join(pj_pth,proj_name)
+        full_pth = os.path.join(pj_pth,proj_name+'.json')
 
         with open(full_pth, 'w', encoding='utf-8') as file:
-            json.dump(data, file, indent="\t")
+            json.dump(data, file)
             # json.dump(data, file, indent="\t", ensure_ascii=False)
 
         response = {"status": "success", "message": "Project data saved successfully."}
@@ -177,11 +177,22 @@ def open_process(project_id,project_user,project_name):
             with open(os.path.join(pj_pth,file_name), 'r') as json_file:
                 data = json.load(json_file)
                 str_json = json.dumps(data)
-                project_name = data['projectName']
-                xml_process= data['processData']
-                workflow_xml = data['workflowData']
+                project_name = data['projectNamejsonData']['projectName']
+                xml_process= data['processDatajsonData']
+                workflow_xml = data['workflowDatajsonData']
+                print(data)
+                print(str_json)
+                print(project_name)
+                print(xml_process)
+                print(workflow_xml)
+                session['data'] = data
+                session['str_json'] = str_json
+                session['project_name'] = project_name
+                session['xml_process'] = xml_process
+                session['workflow_xml'] = workflow_xml
 
-                return redirect(url_for('overview_process', active_overview=active_overview, project_data = str_json))
+                return redirect(url_for('overview_process', active_overview=active_overview, project_data = data, project_name=project_name ,xml_process=xml_process, workflow_xml=workflow_xml))
+                # return redirect(url_for('overview_process', active_overview=active_overview, project_data = data, project_name=project_name ,xml_process=json.dumps(xml_process), workflow_xml=json.dumps(workflow_xml)))
 
     return redirect(url_for('project_list'))
 
@@ -193,7 +204,11 @@ def overview_process():
 
     data = request.args.get('project_data')
     if data:
-        return render_template('process/overviewProcess.html', active_overview=active_overview, categories=catlist,  project_data = data, open_project = 'True')
+        project_name = request.args.get('project_name')
+        xml_process = request.args.get('xml_process')
+        workflow_xml = request.args.get('workflow_xml')
+
+        return render_template('process/overviewProcess.html', active_overview=active_overview, categories=catlist,  project_data = data, open_project = 'True', project_name=project_name ,xml_process=xml_process, workflow_xml=workflow_xml)
 
     if request.method == 'POST': # 프로젝트 생성
         project_name = request.form.get('project_name')
