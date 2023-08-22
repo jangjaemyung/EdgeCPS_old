@@ -240,6 +240,9 @@ var mxUtils =
 						}
 						else if (!arguments[0].currentTarget.classList[0]){
 							DigramClicked = arguments[0].currentTarget.parentElement.firstChild.classList[0]
+							if (!DigramClicked){
+								DigramClicked = convertToCamelCase(arguments[0].view.diagramClsName)
+							}
 							console.log( '선택 다이어그램 :  '+ DigramClicked)
 						}
 					}		

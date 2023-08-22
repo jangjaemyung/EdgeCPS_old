@@ -171,16 +171,20 @@
 </style>
 <div>
 	
-	<div id="title" class="title">
-		<h2> <a class="home" href="http://localhost:5000/project/projectsList">EdgeCPS</a></h2>
+	<div>
+        <div id="title" class="title">
+            <h2> <a class="home" href="http://localhost:5000/project/projectsList">EdgeCPS</a></h2>
 
-		<div>
-			{% if session["userid"] %}
-
-			{% endif %}
-		</div>
-	</div>
-</div>
+            <div>
+                {% if session["userid"] %}
+                    <p>ID: {{session["userid"]}}
+                        <a class="nav-link" href="{{ url_for('logout') }}">로그아웃</a>
+                        <!-- <a class="nav-link" href="{{ url_for('logout') }}">내정보</a> -->
+                    </p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
 	<nav class="navbar">
 		<ul class="nav-list">
 		  <a class="nav-button" href="{{ url_for('overview_process') }}">

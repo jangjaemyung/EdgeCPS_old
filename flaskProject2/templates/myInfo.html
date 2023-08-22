@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Profile</title>
+  <!-- 부트스트랩 CSS 링크 추가 -->
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+  <div class="container mt-5">
+    <h1 class="mb-4">Edit Profile</h1>
+    <form id="editForm">
+      <div class="form-group">
+        <label for="name">UserName:</label>
+        <input type="text" class="form-control" id="name" name="name" value="John Doe">
+        <small id="nameError" class="text-danger"></small>
+      </div>
+      <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="email" class="form-control" id="email" name="email" value="johndoe@example.com">
+        <small id="emailError" class="text-danger"></small>
+      </div>
+      <div class="form-group">
+        <label for="password">Password:</label>
+        <input type="password" class="form-control" id="password" name="password" value="********">
+        <small id="passwordError" class="text-danger"></small>
+      </div>
+      <a href="#" class="btn btn-primary" id="confirmBtn">Confirm</a>
+      <!-- 순우 고정주소 -->
+      <a class="btn btn-secondary" href="http://localhost:5000/project/projectsList">Cancel</a>
+    </form>
+  </div>
+
+  <!-- 부트스트랩 JS 및 jQuery 링크 추가 -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const confirmBtn = document.getElementById('confirmBtn');
+      const nameError = document.getElementById('nameError');
+      const emailError = document.getElementById('emailError');
+      const passwordError = document.getElementById('passwordError');
+
+      confirmBtn.addEventListener('click', function () {
+        const name = document.getElementById('name').value;
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+
+        nameError.textContent = "";
+        emailError.textContent = "";
+        passwordError.textContent = "";
+
+        let hasError = false;
+
+        if (name === "") {
+          nameError.textContent = "Name is required.";
+          hasError = true;
+        }
+
+        if (email === "") {
+          emailError.textContent = "Email is required.";
+          hasError = true;
+        }
+
+        if (password === "") {
+          passwordError.textContent = "Password is required.";
+          hasError = true;
+        }
+
+        if (!hasError) {
+          // 여기에 수정된 정보를 서버로 전송하는 로직 추가
+          // 예시: updateProfile(name, email, password);
+
+         //순우 고정주소
+          window.location.href = "/project/projectsList";
+        }
+      });
+    });
+  </script>
+</body>
+</html>

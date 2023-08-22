@@ -15,7 +15,7 @@ urllib3.disable_warnings()
 app = Flask(__name__)
 CORS(app)
 app.secret_key = 'EdgeCPS_workflow'
-
+# session['userid'] = ''
 
 # 임의의 프로젝트 목록 데이터
 
@@ -51,7 +51,7 @@ def index():
         """
     if request.method == 'POST':
         session['userid'] = 'tempUser' # todo 로그인 없이 되도록
-        return redirect(url_for('project_list',loginUserInfo ='tempUser')) # todo 로그인 없이 되도록
+        return redirect(url_for('project_list',loginUserInfo =session['userid'])) # todo 로그인 없이 되도록
 
         userid = request.form['userid']
         password = request.form['password']
@@ -78,6 +78,21 @@ def forgetid():
 def forgetpw():
     session.clear()
     return render_template('forgetpw.html')
+
+@app.route('/myinfo', methods=['GET'])
+def myinfo():
+    session.clear()
+    return render_template('myInfo.html')
+
+@app.route('/usermanagement', methods=['GET'])
+def userManagement():
+    session.clear()
+    return render_template('userManagement.html')
+
+@app.route('/usermanagement2', methods=['GET'])
+def userManagement2():
+    session.clear()
+    return render_template('userManagement2.html')
 
 @app.route('/project/projectsList', methods=['GET', 'POST'])
 def project_list():

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Member</title>
+  <!-- 부트스트랩 CSS 링크 추가 -->
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+  <div class="container mt-5">
+    <h1 class="mb-4">Edit Member</h1>
+    <!-- 순우 표시 되는 값들 지금은 고정 값 그냥 출력 되는 중. -->
+    <form id="editForm">
+      <div class="form-group">
+        <label for="name">Name:</label>
+        <input type="text" class="form-control" id="name" name="name" value="John Doe">
+      </div>
+      <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="email" class="form-control" id="email" name="email" value="johndoe@example.com">
+      </div>
+      <div class="form-group">
+        <label for="id">ID:</label>
+        <input type="text" class="form-control" id="id" name="id" value="johndoe123" readonly>
+      </div>
+      <button type="button" class="btn btn-primary" id="confirmBtn">Confirm</button>
+      <a class="btn btn-secondary" href="{{ url_for('userManagement') }}">Cancel</a>
+    </form>
+  </div>
+
+  <!-- 부트스트랩 JS 및 jQuery 링크 추가 -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const confirmBtn = document.getElementById('confirmBtn');
+
+      confirmBtn.addEventListener('click', function () {
+        const name = document.getElementById('name').value;
+        const email = document.getElementById('email').value;
+        const id = document.getElementById('id').value;
+        
+        // 여기에 수정된 정보를 서버로 전송하는 로직 추가
+        // 예시: updateMemberInfo(name, email, id);
+
+        // 수정된 정보 저장 후 회원 목록 페이지로 이동
+        window.location.href ="{{ url_for('userManagement') }}";
+      });
+    });
+  </script>
+</body>
+</html>

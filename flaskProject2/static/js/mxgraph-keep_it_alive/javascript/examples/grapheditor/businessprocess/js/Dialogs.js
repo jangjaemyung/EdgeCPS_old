@@ -1472,7 +1472,7 @@ var EditDataDialog = function(ui, cell)
 	var extracted = extractObjects(id)
 	try{
 		if (extracted=='object label="" '|| extracted =='mxCell '){
-			if (DigramClicked.includes('DiRoundedRectangle')){
+			if (DigramClicked.includes('RoundedRectangle')){
 				var RoundedRectangleFixProperty = document.createAttribute('Name')
 				RoundedRectangleFixProperty.value = ''
 				var RoundedRectangleFixProperty2 = document.createAttribute('Description')
