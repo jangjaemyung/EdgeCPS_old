@@ -18,10 +18,7 @@
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles/process.css')}}"> <!--순우 css 추가-->
 	<meta charset="UTF-8">
 
-	<!-- 순우 run 화면 레이아웃 -->
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-	<title>Bootstrap Layout Example</title>
+	<title>EdgeCPS</title>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 	<style>
 		body, html {
@@ -56,6 +53,15 @@
 		/* overflow: auto; */
 		}
 		.sub-content {
+		width: 33.33%;
+		float: left;
+		height: 100%;
+		background-color: #f0f0f0;
+		border: 1px solid #ddd;
+		padding: 10px;
+		overflow: auto;
+		}
+		.sub-content1 {
 		width: 33.33%;
 		float: left;
 		height: 100%;
@@ -100,6 +106,8 @@
 		let universalGraph; // 페이지가 열릴때 GraphView 에서 할당하기 위한 변수(로컬스토리지에 저장된 프로세스를 불러오는 기능중 하나)
 
 		let processGraphxml = ''; // 실시간으로 xml을 불러와서 저장한다.
+
+		
 
 		let current_process = 7
 
@@ -174,7 +182,13 @@
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles/process.css')}}"> <!--순우 css 추가-->
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@800&display=swap">
 	<script type="text/javascript" src="{{ url_for('static', filename='js/processCommon.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/runProcess.js') }}"></script>
 	<script type="text/javascript" src="{{ url_for('static', filename='js/userManagement.js')}}"></script>
+
+	<!-- 부트스트랩 스크립트 추가 -->
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 </head>
 <body class="geEditor">
@@ -283,7 +297,7 @@
 					<span class="dot"></span>
 				  </li>
 
-		  <a class="nav-button" href="{{ url_for('run_process', projectName=project_name) }}" onclick="getLatestXml(flowDict, processGraphxml)">
+		  <a class="nav-button" href="{{ url_for('run_process', projectName=project_name) }}" onclick="getRunData(flowDict, runData)">
 			<span class="button-icon-run_process_page">
 				<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 32 32">
 					<path d="M13.3336 18.1337L21.2002 10.2671C21.4447 10.0226 21.7558 9.90039 22.1336 9.90039C22.5113 9.90039 22.8224 10.0226 23.0669 10.2671C23.3113 10.5115 23.4336 10.8226 23.4336 11.2004C23.4336 11.5782 23.3113 11.8893 23.0669 12.1337L14.2669 20.9337C14.0002 21.2004 13.6891 21.3337 13.3336 21.3337C12.978 21.3337 12.6669 21.2004 12.4002 20.9337L8.93356 17.4671C8.68912 17.2226 8.56689 16.9115 8.56689 16.5337C8.56689 16.1559 8.68912 15.8448 8.93356 15.6004C9.17801 15.3559 9.48912 15.2337 9.86689 15.2337C10.2447 15.2337 10.5558 15.3559 10.8002 15.6004L13.3336 18.1337Z"/>
@@ -293,32 +307,10 @@
 			<span class="button-text-run_process_page">Run</span></a>
 		</ul>
 	</nav>
-	
-	
-  
-  <!-- <button id ="getReqButton">getReq</button> -->
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-
-
-
-
-
-
-
-</body>
 	<div class="sidebar">
 		<h2>Sidebar</h2>
 		<p>This is the sidebar content.</p>
-		
-		<!-- <input type="file" id="fileInput">
-		<button id="submitButton">Submit</button>
-		<button id="logButton">Log</button>
-		<button id ="statusButton">Status</button>
-
-		<button id ="deleteButton">Delete</button>
-		<button id ="exportButton">Export yaml</button> -->
 		<div class="container d-flex justify-content-center align-items-center">
 			<div class="row text-center">
 				<div class="col-md-12 mb-2">
@@ -344,12 +336,6 @@
 				</div>
 			</div>
 		</div>
-		<!-- 부트스트랩 스크립트 추가 -->
-		<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-		<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
-
 
 		<script>
 			// 로컬에서 파일 선택해서 아르고 서버에 제출 -> 워크플로우 실행
@@ -359,245 +345,167 @@
 			const submitButton = document.getElementById('submitButton');
 		
 			submitButton.addEventListener('click', () => {
-			  if (fileInput.files.length > 0) {
-				const selectedFile = fileInput.files[0];
-				readFileContent(selectedFile);
-			  } else {
-				alert('Please select a file.');
-			  }
+				const shouldExecute = confirm('Argo Workflow에 전송하시겠습니까?');
+				if (shouldExecute){
+					if (fileInput.files.length > 0) {
+						const selectedFile = fileInput.files[0];
+						readFileContent(selectedFile);
+					}else {
+						alert('Please select a file.');
+					}
+				}else{
+					console.log('사용자가 취소함');
+				}
 			});
-		
-			function readFileContent(file) {
-			  const reader = new FileReader();
-		
-			  reader.onload = function(event) {
-				const fileContent = event.target.result;
-				const jsonData = JSON.parse(fileContent);
-				workflowName = jsonData.workflow.metadata.name;
-				executeFunctionWithFileContent(fileContent);
-			  };
-		
-			  reader.readAsText(file);
-			}
-		
-			function executeFunctionWithFileContent(content) {
-				sendFileContentToServer(content);
-			}
-		
-			function sendFileContentToServer(content) {
-			  fetch('/submit', {
-				method: 'POST',
-				headers: {
-				  'Content-Type': 'application/json'
-				},
-				body: content
-				// body: JSON.stringify({ content: content })
-			  })
-			  .then(response => response.json())
-			  .then(data => {
-				console.log(data);
-				// 서버 응답 처리
-			  })
-			  .catch(error => {
-				console.error('Error:', error);
-			  });
-			}
-
-			// stop 버튼
-		// 	document.getElementById("stopButton").addEventListener("click", function() {
-		// 		fetch('/stop', {
-		// 		method: 'PUT',
-		// 		headers: {
-		// 		  'Content-Type': 'application/json'
-		// 		},
-		// 		body:  JSON.stringify({ 'workflowName': workflowName })
-		// 		// body: JSON.stringify({ content: content })
-		// 	  })
-		// 	  .then(response => response.json())
-		// 	  .then(data => {
-		// 		console.log(data);
-		// 		// 서버 응답 처리
-		// 	  })
-		// 	  .catch(error => {
-		// 		console.error('Error:', error);
-		// 	  });
-        // });
-			// terminate 버튼
-			// document.getElementById("terminateButton").addEventListener("click", function() {
-			// 	fetch('/terminate', {
-			// 	method: 'PUT',
-			// 	headers: {
-			// 	  'Content-Type': 'application/json'
-			// 	},
-			// 	body:  JSON.stringify({ 'workflowName': workflowName })
-			// 	// body: JSON.stringify({ content: content })
-			//   })
-			//   .then(response => response.json())
-			//   .then(data => {
-			// 	console.log(data);
-			// 	// 서버 응답 처리
-			//   })
-			//   .catch(error => {
-			// 	console.error('Error:', error);
-			//   });
-			// });
 
 			// delete 버튼
 			document.getElementById("deleteButton").addEventListener("click", function() {
-				fetch('/delete', {
-				method: 'DELETE',
-				headers: {
-				  'Content-Type': 'application/json'
-				},
-				body:  JSON.stringify({ 'workflowName': workflowName })
-				// body: JSON.stringify({ content: content })
-			  })
-			  .then(response => response.json())
-			  .then(data => {
-				console.log(data);
-				// 서버 응답 처리
-			  })
-			  .catch(error => {
-				console.error('Error:', error);
-			  });
-			});
-			
-		</script>
-	</div>
-  	<div class="main-content">
-    <div class="sub-content">
-      <h2>Sub Content 1</h2>
-      <p>This is sub content area 1.</p>
-	  <div id="buttonContainer"></div>
-	  <script>
-		// 순우 workflow에서 작성한 activity 리스트 버튼만들기
-		var activity_list = getWorkflowObjList(localStorage.getItem(processXml[2]));
-		var activity_name_array = [];
-		for (i=0;i<activity_list.length;i++){
-			activity_name_array.push(activity_list[i].value)
-		};
-		var container = document.getElementById("buttonContainer");
-		for (let name of activity_name_array){
-			var button = document.createElement("button");
-			button.textContent = name;
-			container.appendChild(button)
-			// 클릭 이벤트리스너
-			button.addEventListener("click", function() {
-          	handleClick(name);
-			});
-
-			function handleClick(label) {
-				alert("Button clicked: " + label);
-			}
-		}
-	  </script>
-    </div>
-    <div class="sub-content">
-      <h2>Sub Content 2</h2>
-      <p>This is sub content area 2.</p>
-    </div>
-    <div class="sub-content">
-      <h2>Status</h2>
-      <p>This is sub content area 3.</p>
-	
-	  <div class="logContainer2">
-		<script>
-			// 워크플로우 상태 확인
-			document.getElementById("statusButton").addEventListener("click", function(){
-				// HTML 요소 찾기
-			var logContainer2 = document.querySelector('.logContainer2');
-			
-			// console.log를 오버라이드해서 화면에 로그 출력
-			console.log = function(message) {
-			var logEntry = document.createElement('div');
-			logEntry.textContent = message;
-			logContainer2.appendChild(logEntry);
-			logContainer2.scrollTop = logContainer2.scrollHeight; // 스크롤 맨 아래로 이동
-			};
-				const url = 'http://127.0.0.1:5000/status?workflow_name='+encodeURIComponent(workflowName);
-				fetch(url)
-					.then(response => response.text())  // 응답의 텍스트 데이터를 받아옴
+				workflowName = localStorage.getItem(projectName+'_current_workflowName');
+				const shouldExecute = confirm(workflowName+'워크플로우를 삭제 하시겠습니까?');
+				if (shouldExecute) {
+					fetch('/delete', {
+						method: 'DELETE',
+						headers: {
+						'Content-Type': 'application/json'
+						},
+						body:  JSON.stringify({ 'workflowName': workflowName })
+					})
+					// .then(response => response.json())
 					.then(data => {
-						// console.log(data);  // 받아온 데이터를 콘솔에 출력
-						workflowStatus = data
-						const resultElement = document.getElementById("result");
-						const logs = data.split('\n');
-
+						console.log(data);
+						// 서버 응답 처리
+						window.alert(workflowName+' 워크플로우가 삭제 되었습니다.' );
 					})
 					.catch(error => {
-						console.error("Error:", error);
+						console.error('Error:', error);
 					});
-				//각 노드 상태 확인
-				var statusJsonData = JSON.parse(workflowStatus);
-				var nodeStatus = statusJsonData.status.nodes
-				var keys = Object.keys(nodeStatus)
-
-				console.log("Workflow 이름 : " + statusJsonData.metadata.name);
-				console.log("Namespace : "+statusJsonData.metadata.namespace);
-				console.log("Workflow 생성시간 : "+statusJsonData.metadata.creationTimestamp);console.log("Workflow 종료여부 : "+statusJsonData.metadata.labels["workflows.argoproj.io/completed"])
-				console.log("Workflow 성공확인 : "+statusJsonData.metadata.labels["workflows.argoproj.io/phase"]);
-				console.log("Workflow 진행도 : "+statusJsonData.status.progress);
-				console.log("=======Workflow 각 노드 상태======")
-				for (const key of keys){
-					if (nodeStatus[key].type == 'Pod'){
-						console.log(nodeStatus[key].displayName+' : '+nodeStatus[key].phase)
-						if(nodeStatus[key].phase != 'Succeeded'){
-							console.log(nodeStatus[key].message)
-						}
-					}
-				}
+					
+				} else {
+					console.log('사용자가 취소함');
+				}		
 			});
 		</script>
-      </div>
 	</div>
-  </div>
 
+  	<div class="main-content">
+    	<div class="sub-content1" onclick="getRunData(flowDict, runData)">
+			<h2>Sub Content 1</h2>
+			<p>This is sub content area 1.</p>
+			<div id="buttonContainer"></div>
+			<script>
+				// 순우 workflow에서 작성한 activity 리스트 버튼만들기
+				var activity_list = getWorkflowObjList(localStorage.getItem(processXml[2]));
+				var activity_name_array = [];
+				for (i=0;i<activity_list.length;i++){
+					activity_name_array.push(activity_list[i].value)};
+				var container = document.getElementById("buttonContainer");
+				for (let name of activity_name_array){
+					var button = document.createElement("button");
+					button.textContent = name;
+					container.appendChild(button)
+					// 클릭 이벤트리스너
+					button.addEventListener("click", function() {
+						handleClick(name);
+					});
+					function handleClick(label) {
+						alert("Button clicked: " + label);
+					}
+				}
+			</script>
+    	</div>
+    	<div class="sub-content">
+			<h2>Sub Content 2</h2>
+			<p>This is sub content area 2.</p>
+    	</div>
+   		<div class="sub-content">
+			<h2>Status</h2>
+			<p>This is sub content area 3.</p>
+	
+			<div class="logContainer2">
+				<script>
+					// 워크플로우 상태 확인
+					document.getElementById("statusButton").addEventListener("click", function(){
+					var logContainer2 = document.querySelector('.logContainer2');
+					// console.log를 오버라이드해서 화면에 로그 출력
+					console.log = function(message) {
+						var logEntry = document.createElement('div');
+						logEntry.textContent = message;
+						logContainer2.appendChild(logEntry);
+						logContainer2.scrollTop = logContainer2.scrollHeight; // 스크롤 맨 아래로 이동
+					};
+					workflowName = localStorage.getItem(projectName+'_current_workflowName')
+					const url = 'http://127.0.0.1:5000/status?workflow_name='+encodeURIComponent(workflowName);
+					fetch(url)
+						.then(response => response.text())  // 응답의 텍스트 데이터를 받아옴
+						.then(data => {
+							// console.log(data);  // 받아온 데이터를 콘솔에 출력
+							workflowStatus = data
+							const resultElement = document.getElementById("result");
+							const logs = data.split('\n');
+						})
+						.catch(error => {
+							console.error("Error:", error);
+						});
 
-  <div class="footer">
-    <h3>Result</h3>
-  </div>
-  <div class="logContainer">
-	<script>
-		// var workflowName=''
-		// var workflowStatus = ''
-		//워크플로우 전체 로그 출력 순우
-		document.getElementById("logButton").addEventListener("click", function() {
-		// HTML 요소 찾기
-		var logContainer = document.querySelector('.logContainer');
+						//각 노드 상태 확인
+						var statusJsonData = JSON.parse(workflowStatus);
+						var nodeStatus = statusJsonData.status.nodes
+						var keys = Object.keys(nodeStatus)
 
-		// console.log를 오버라이드해서 화면에 로그 출력
-		console.log = function(message) {
-			var logEntry = document.createElement('div');
-			logEntry.textContent = message;
-			logContainer.appendChild(logEntry);
-			logContainer.scrollTop = logContainer.scrollHeight; // 스크롤 맨 아래로 이동
-		};
-		const url = 'http://127.0.0.1:5000/log?workflow_name='+encodeURIComponent(workflowName);
+						console.log('=============================================================================================')
+						console.log("Workflow 이름 : " + statusJsonData.metadata.name);
+						console.log("Namespace : "+statusJsonData.metadata.namespace);
+						console.log("Workflow 생성시간 : "+statusJsonData.metadata.creationTimestamp);console.log("Workflow 종료여부 : "+statusJsonData.metadata.labels["workflows.argoproj.io/completed"])
+						console.log("Workflow 성공확인 : "+statusJsonData.metadata.labels["workflows.argoproj.io/phase"]);
+						console.log("Workflow 진행도 : "+statusJsonData.status.progress);
+						console.log("[Workflow 각 노드 상태]")
+						for (const key of keys){
+							if (nodeStatus[key].type == 'Pod'){
+								console.log(nodeStatus[key].displayName+' : '+nodeStatus[key].phase)
+								if(nodeStatus[key].phase != 'Succeeded'){
+									console.log(nodeStatus[key].message)
+								}
+							}
+						}
+						console.log('=============================================================================================')
+					});
+				</script>
+			</div>
+		</div>
+  	</div>
 
-		fetch(url)
-			.then(response => response.text())  // 응답의 텍스트 데이터를 받아옴
-			.then(data => {
-				console.log(data);  // 받아온 데이터를 콘솔에 출력
-				const resultElement = document.getElementById("result");
-				const logs = data.split('\n');
+  	<div class="footer">
+    	<h3>Result</h3>
+  	</div>
+  	<div class="logContainer">
+		<script>
+			//워크플로우 전체 로그 출력 순우
+			document.getElementById("logButton").addEventListener("click", function() {
+			// HTML 요소 찾기
+			var logContainer = document.querySelector('.logContainer');
+			console.log = function(message) {
+				var logEntry = document.createElement('div');
+				logEntry.textContent = message;
+				logContainer.appendChild(logEntry);
+				logContainer.scrollTop = logContainer.scrollHeight; // 스크롤 맨 아래로 이동
+			};
+			workflowName = localStorage.getItem(projectName+'_current_workflowName')
+			const url = 'http://127.0.0.1:5000/log?workflow_name='+encodeURIComponent(workflowName);
 
-			})
-			.catch(error => {
-				console.error("Error:", error);
+			fetch(url)
+				.then(response => response.text())  // 응답의 텍스트 데이터를 받아옴
+				.then(data => {
+					console.log(data);  // 받아온 데이터를 콘솔에 출력
+					const resultElement = document.getElementById("result");
+					const logs = data.split('\n');
+				})
+				.catch(error => {
+					console.error("Error:", error);
+				});
+				saveRunData()
 			});
-		});
 
-	</script>
-</div>
-
-
-
+		</script>
+	</div>
 </body>
-
-
-	
-
-	
-
-
 </html>

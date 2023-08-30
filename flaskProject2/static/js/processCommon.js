@@ -7,7 +7,7 @@ let processXml = ['overviewProcessXML','requirementsProcessXml','businessProcess
 function uploadXML(){
 	// console.log('다녀감')
 	let xml = ''
-	if (processDict[current_process] == 'workflowProcess'){
+	if (processDict[current_process] == 'workflowProcess'&& processDict[current_process] == 'runProcess'){
 		var xmlKey = localStorage.getItem(projectName+'_nowWorkflow') // 필요하면 워크플로우 프로세스의 항목을 가져온다.
 		xml = localStorage.getItem(xmlKey); // 필요하면 워크플로우 프로세스의 항목을 가져온다.
 	}else {
@@ -107,7 +107,7 @@ document.addEventListener("DOMContentLoaded", function() {
 	localStorage.setItem(projectName+'_current_processXml', processXml[current_process]); //현재 작업중인 프로세스 xml저장
 	localStorage.setItem(projectName+'_current_processDict', processDict[current_process]); //현재 작업중인 프로세스 dict저장
 
-	if (processDict[current_process] != 'workflowProcess' ){ // 워크플로우 로컬스토리지 초기화
+	if (processDict[current_process] != 'workflowProcess' && processDict[current_process] != 'runProcess'){ // 워크플로우 로컬스토리지 초기화
 		localStorage.setItem(projectName+'_nowWorkflow', '')
 	}
 
@@ -159,7 +159,14 @@ document.addEventListener("DOMContentLoaded", function() {
 				createWorkflowSelectBox(workflowSelectList)
 				createTypeSelectbox();
 				uploadXML();
-			}else {
+			}else if (nowPorcess == 'runProcess'){
+				workflowSelectList =  getWorkflowObjList(localStorage.getItem(projectName+'_'+processXml[2]))	// run process 일때 Activity 개수 만큼 select box 생성
+				runCreateWorkflowSelectBox(workflowSelectList)
+				// createTypeSelectbox();
+				// uploadXML();
+				 insertResult();
+			}
+			else {
 				// 기존 프로세스 값을 불러오냐 오지 않냐
 				let storedXml = localStorage.getItem(projectName+'_'+processXml[current_process]);
 				if (!storedXml || storedXml == '' || storedXml == '<mxGraphModel><root><mxCell id="0"/><mxCell id="1" parent="0"/></root></mxGraphModel>') {
@@ -184,6 +191,12 @@ document.addEventListener("DOMContentLoaded", function() {
  */
 function getLatestXml(flowDict,strXml){
 	localStorage.setItem(projectName+'_'+localStorage.getItem(projectName+'_current_processXml'),strXml) // xml 저장
+	localStorage.setItem(projectName+'_'+localStorage.getItem(projectName+'_current_processDict'),flowDict) // dict 저장
+
+}
+function getRunData(flowDict,strXml){
+	localStorage.setItem(projectName+'_current_workflowName',workflowName) // 현재 submit한 workflow 저장
+	localStorage.setItem(projectName+'_'+localStorage.getItem(projectName+'_current_processXml'),strXml) // result 저장
 	localStorage.setItem(projectName+'_'+localStorage.getItem(projectName+'_current_processDict'),flowDict) // dict 저장
 
 }
@@ -233,7 +246,8 @@ function convertToCamelCase(input) { // 단어를 클래스로 변경하기 위�
 	return 'Di'+ words.join('');
 	}
 
-
+ 
+	
 /**
  *  생성된 오브젝트의 edit의 값을 가져오는 기능
  *
@@ -355,6 +369,72 @@ function createWorkflowSelectBox(activityCatList){
     });
 };
 
+function runCreateWorkflowSelectBox(activityCatList){
+	let workflowXML = []
+    let data = activityCatList;
+    var selectBox = document.createElement("select");
+    selectBox.className = "workflow-select-box";
+
+    // 처음에 선택된 항목 없음을 나타내는 옵션 추가
+    var defaultOption = document.createElement("option");
+    defaultOption.disabled = true;
+    defaultOption.selected = true;
+    defaultOption.text = "Select an option";
+    selectBox.appendChild(defaultOption);
+
+	let nowWorkflow = localStorage.getItem(projectName+'_nowWorkflow');
+    for (var i = 0; i < data.length; i++) {
+        var option = document.createElement("option");
+        option.value = data[i].id;
+        option.text = data[i].value;
+
+        // 선택한 옵션의 key와 value를 data-* 속성으로 저장
+        option.dataset.key = data[i].id;
+        option.dataset.value = data[i].value;
+		workflowXML.push(data[i].id + '#' + data[i].value) // 로컬 스토리지
+        selectBox.appendChild(option);
+
+		if (nowWorkflow === projectName+'_'+data[i].id + '#' + data[i].value) {
+            option.selected = true; // 일치하는 경우 선택됨으로 표시
+
+        }
+    }
+
+    var geMenubar = document.getElementsByClassName("sub-content1")[0];
+    // geMenubar.style.display = "flex";
+    // geMenubar.style.justifyContent = "flex-end";
+    geMenubar.appendChild(selectBox);
+
+	// 전부 완료 되면 로컬 스토리지에 저장
+	var workflowXMLList = JSON.stringify(workflowXML);
+	localStorage.setItem(projectName+'_workflowXML',workflowXMLList);
+
+	var workflowName = localStorage.getItem(projectName+'_nowWorkflow');
+	const parts = workflowName.split('#');
+	workflowName = parts[1];
+	localStorage.setItem(projectName+'_current_workflowName', workflowName)
+
+    selectBox.addEventListener("change", function() {
+		var runData = saveRunData()
+		localStorage.setItem(localStorage.getItem(projectName+'_nowWorkflow') , runData); // 기존 선택된 워크 플로우 xml
+        var selectedOption = selectBox.options[selectBox.selectedIndex];
+        var selectedKey = selectedOption.dataset.key;
+        var selectedValue = selectedOption.dataset.value;
+		localStorage.setItem(projectName+'_nowWorkflow' ,projectName+'_'+selectedKey + '#' + selectedValue); // 현재 작업중이던 워크플로우
+
+		location.reload(true);
+
+        getNewWorkflow(selectedKey, selectedValue);
+    });
+
+};
+
+function insertResult(){
+	
+	var data = localStorage.getItem(localStorage.getItem(projectName+'_nowWorkflow'))
+	var logContainer = document.querySelector(".logContainer")
+	logContainer.innerHTML = data
+}
 
 // 현재xml에서 클릭한 오브젝트 id의 attribute 추출
 function extractObjects(id) {
@@ -403,30 +483,51 @@ function extractReq(){
 	}
 	console.log(resultArray);
 
-	var reqArray = []
-	for (i=0 ; i<resultArray.length; i++){
-		var string = resultArray[i]
-		const openingTag = '&lt;&lt;';
-		const closingTag = '&gt;&gt;';
+	// var reqArray = []
+	// for (i=0 ; i<resultArray.length; i++){
+	// 	var string = resultArray[i]
+	// 	const openingTag = '&lt;&lt;';
+	// 	const closingTag = '&gt;&gt;';
 
 
-		const startIndex = string.indexOf(openingTag) + openingTag.length;
-		const endIndex = string.indexOf(closingTag);
+	// 	const startIndex = string.indexOf(openingTag) + openingTag.length;
+	// 	const endIndex = string.indexOf(closingTag);
 
-		if (startIndex !== -1 && endIndex !== -1) {
-		const capturedText = string.substring(startIndex, endIndex);
+	// 	if (startIndex !== -1 && endIndex !== -1) {
+	// 	const capturedText = string.substring(startIndex, endIndex);
 
-		const remainingText = string.substring(endIndex + closingTag.length);
-		const attributeArray = remainingText.split(' ').filter(attribute => attribute !== '');;
+	// 	const remainingText = string.substring(endIndex + closingTag.length);
+	// 	const attributeArray = remainingText.split(' ').filter(attribute => attribute !== '');;
 
-		const resultArray = [capturedText, ...attributeArray];
-		const indexToRemove = resultArray.indexOf('"');
-		if (indexToRemove !== -1) {
-			resultArray.splice(indexToRemove, 1);
-		}
-		console.log(resultArray);
-		reqArray.push(resultArray);
-		}
-	}
+	// 	const resultArray = [capturedText, ...attributeArray];
+	// 	const indexToRemove = resultArray.indexOf('"');
+	// 	if (indexToRemove !== -1) {
+	// 		resultArray.splice(indexToRemove, 1);
+	// 	}
+	// 	console.log(resultArray);
+	// 	reqArray.push(resultArray);
+		
+	// 	}
+	// }
+
+	const outputArray = resultArray.map(item => {
+		const labelMatch = item.match(/label="&lt;&lt;(.*?)&gt;&gt;"/);
+		const nameMatch = item.match(/name="(.*?)"/);
+		const idMatch = item.match(/id="(.*?)"/);
+		const textMatch = item.match(/text="(.*?)"/);
+		
+		const label = labelMatch ? labelMatch[1] : "";
+		const name = nameMatch ? nameMatch[1] : "";
+		const id = idMatch ? idMatch[1] : "";
+		const text = textMatch ? textMatch[1] : "";
+		
+		return [label, `name="${name}"`, `id="${id}"`, `text="${text}"`];
+	  });
+	  const finalArray = [];
+
+	  outputArray.forEach(item => {
+		finalArray.push(item);
+	  });
+	  return finalArray
 }
 

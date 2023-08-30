@@ -1472,7 +1472,7 @@ var EditDataDialog = function(ui, cell)
 	var extracted = extractObjects(id)
 	try{
 		if (extracted=='object label="" '|| extracted =='mxCell '){
-			if (DigramClicked.includes('DiRoundedRectangle')){
+			if (DigramClicked.includes('RoundedRectangle')){
 				var RoundedRectangleFixProperty = document.createAttribute('Name')
 				RoundedRectangleFixProperty.value = ''
 				var RoundedRectangleFixProperty2 = document.createAttribute('Description')
@@ -1496,12 +1496,13 @@ var EditDataDialog = function(ui, cell)
 			else if (DigramClicked.includes('Class')){
 				var DiClassFixProperty = document.createAttribute('Name')
 				DiClassFixProperty.value = ''
-				var DiClassFixProperty2 = document.createAttribute('Id')
-				DiClassFixProperty2.value = ''
+				// 순우 id 값은 자동으로 할당되기 때문에 필요 없을거 같아서 일단 주석 처리
+				// var DiClassFixProperty2 = document.createAttribute('Id') 
+				// DiClassFixProperty2.value = ''
 				var DiClassFixProperty3 = document.createAttribute('Text')
 				DiClassFixProperty3.value = ''
 				attrs.setNamedItem(DiClassFixProperty)
-				attrs.setNamedItem(DiClassFixProperty2)
+				// attrs.setNamedItem(DiClassFixProperty2)
 				attrs.setNamedItem(DiClassFixProperty3)
 			}
 			else if (DigramClicked.includes('DiRectangle')){
@@ -1573,7 +1574,7 @@ var EditDataDialog = function(ui, cell)
 		}
 	}catch{
 		console.log('edit error')
-	}
+}
 	
 	clicked.push(id)
 
@@ -1881,8 +1882,62 @@ EditDataDialog.getDisplayIdForCell = function(ui, cell)
  */
 EditDataDialog.placeholderHelpLink = null;
 // 순우 req 다이어로그
-var ReqDialog = function(editorUi, initialValue, btnLabel, fn)
-{
+// var ReqDialog = function(editorUi, initialValue, btnLabel, fn)
+// {
+// 	var optionText = '';
+// 	var reqList = extractReq();
+// 	var div = document.createElement('div');
+// 	mxUtils.write(div, mxResources.get('selectReq'));
+	
+// 	var inner = document.createElement('div');
+// 	inner.className = 'geTitle';
+// 	inner.style.backgroundColor = 'transparent';
+// 	inner.style.borderColor = 'transparent';
+// 	inner.style.whiteSpace = 'nowrap';
+// 	inner.style.textOverflow = 'clip';
+// 	inner.style.cursor = 'default';
+	
+// 	if (!mxClient.IS_VML)
+// 	{
+// 		inner.style.paddingRight = '20px';
+// 	}
+	
+// 	const selectBox = document.createElement('select');
+
+// 	reqList.forEach(innerArray => {
+// 		innerArray.forEach(item => {
+// 		  const nameMatch = item.match(/name="(.*?)"/);
+// 		  if (nameMatch) {
+// 			const optionValue = nameMatch[1];
+// 			optionText = optionValue;
+	  
+// 			const option = new Option(optionText, optionValue);
+// 			selectBox.appendChild(option);
+// 		  }
+// 		});
+// 	});
+// 	inner.appendChild(selectBox);
+
+// 	  // Create OK button
+// 	  var okButton = mxUtils.button(mxResources.get('ok'), function() {
+// 		// Get the selected option from the select box
+// 		// var selectedOption = selectBox.options[selectBox.selectedIndex].value;
+// 		// mxUtils.write(div,optionText);
+
+// 		// Call the provided function with the selected option
+// 		// fn(selectedOption);
+// 		mxEvent.release(okButton);
+// 	  });
+	
+
+
+
+
+
+
+var ReqDialog = function(editorUi, initialValue, btnLabel, fn) {
+	var optionText = '';
+	var reqList = extractReq();
 	var div = document.createElement('div');
 	mxUtils.write(div, mxResources.get('selectReq'));
 	
@@ -1894,29 +1949,79 @@ var ReqDialog = function(editorUi, initialValue, btnLabel, fn)
 	inner.style.textOverflow = 'clip';
 	inner.style.cursor = 'default';
 	
-	if (!mxClient.IS_VML)
-	{
-		inner.style.paddingRight = '20px';
+	if (!mxClient.IS_VML) {
+	  inner.style.paddingRight = '20px';
 	}
-	  // Create a select box
-	  var selectBox = document.createElement('select');
-	  selectBox.options.add(new Option('Option 1', 'option1'));
-	  selectBox.options.add(new Option('Option 2', 'option2'));
-	  // Add more options as needed
 	
-	  // Append the select box to the inner div
-	  inner.appendChild(selectBox);
+	const selectBox = document.createElement('select');
 	
-	  // Create OK button
-	  var okButton = mxUtils.button(mxResources.get('ok'), function() {
-		// Get the selected option from the select box
-		var selectedOption = selectBox.options[selectBox.selectedIndex].value;
-		
-		// Call the provided function with the selected option
-		// fn(selectedOption);
-		mxEvent.release(okButton);
+	reqList.forEach(innerArray => {
+	  innerArray.forEach(item => {
+		const nameMatch = item.match(/name="(.*?)"/);
+		if (nameMatch) {
+		  const optionValue = nameMatch[1];
+		  optionText = optionValue;
+		  
+		  const option = new Option(optionText, optionValue);
+		  selectBox.appendChild(option);
+		}
 	  });
+	});
+	inner.appendChild(selectBox);
 	
+	// Create OK button
+	var okButton = mxUtils.button(mxResources.get('ok'), function() {
+	  var selectedOption = selectBox.options[selectBox.selectedIndex].value;
+	  
+	  // Create a new div for the selected option
+	  var selectedDiv = document.createElement('div');
+	  selectedDiv.className = 'selectedDiv';
+	  
+	  var selectedText = document.createElement('span');
+	  mxUtils.write(selectedText, selectedOption);
+	  
+	  var deleteButton = document.createElement('span');
+	  deleteButton.className = 'deleteButton';
+	  deleteButton.innerHTML = '&#10006;'; // 'X' character
+	  
+	  // Attach the delete event to the delete button
+	  deleteButton.addEventListener('click', function() {
+		div.removeChild(selectedDiv);
+	  });
+	  
+	  selectedDiv.appendChild(selectedText);
+	  selectedDiv.appendChild(deleteButton);
+	  
+	  div.appendChild(selectedDiv);
+	  
+	  // Release the OK button
+	  mxEvent.release(okButton);
+	});
+	
+	inner.appendChild(okButton);
+	div.appendChild(inner);
+  
+
+  
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	  // Create Cancel button
 	  var cancelButton = mxUtils.button(mxResources.get('cancel'), function() {
 		editorUi.hideDialog();
