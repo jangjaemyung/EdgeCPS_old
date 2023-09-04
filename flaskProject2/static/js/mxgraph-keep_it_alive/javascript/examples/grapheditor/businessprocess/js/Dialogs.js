@@ -1371,7 +1371,7 @@ var EditDataDialog = function(ui, cell)
 			meta = JSON.parse(temp);
 		}
 	}
-	catch (e)
+	catch (e) 
 	{
 		// ignore
 	}
@@ -1574,7 +1574,7 @@ var EditDataDialog = function(ui, cell)
 		}
 	}catch{
 		console.log('edit error')
-}
+	}
 	
 	clicked.push(id)
 
@@ -1881,61 +1881,19 @@ EditDataDialog.getDisplayIdForCell = function(ui, cell)
  * Optional help link.
  */
 EditDataDialog.placeholderHelpLink = null;
+
 // 순우 req 다이어로그
-// var ReqDialog = function(editorUi, initialValue, btnLabel, fn)
-// {
-// 	var optionText = '';
-// 	var reqList = extractReq();
-// 	var div = document.createElement('div');
-// 	mxUtils.write(div, mxResources.get('selectReq'));
+var ReqDialog = function(editorUi, ui, cell) {
+	if(typeof(cell.value)=='object'){
+		actName = cell.value.attributes[1].nodeValue
+		actId = cell.id
+	}
+	else{
+		actName = cell.id+'#'+cell.value; // html actName 변수에 현재 선택한 activiy가 뭔지 아이디랑 이름 저장
+		actId = cell.id
+	}
+
 	
-// 	var inner = document.createElement('div');
-// 	inner.className = 'geTitle';
-// 	inner.style.backgroundColor = 'transparent';
-// 	inner.style.borderColor = 'transparent';
-// 	inner.style.whiteSpace = 'nowrap';
-// 	inner.style.textOverflow = 'clip';
-// 	inner.style.cursor = 'default';
-	
-// 	if (!mxClient.IS_VML)
-// 	{
-// 		inner.style.paddingRight = '20px';
-// 	}
-	
-// 	const selectBox = document.createElement('select');
-
-// 	reqList.forEach(innerArray => {
-// 		innerArray.forEach(item => {
-// 		  const nameMatch = item.match(/name="(.*?)"/);
-// 		  if (nameMatch) {
-// 			const optionValue = nameMatch[1];
-// 			optionText = optionValue;
-	  
-// 			const option = new Option(optionText, optionValue);
-// 			selectBox.appendChild(option);
-// 		  }
-// 		});
-// 	});
-// 	inner.appendChild(selectBox);
-
-// 	  // Create OK button
-// 	  var okButton = mxUtils.button(mxResources.get('ok'), function() {
-// 		// Get the selected option from the select box
-// 		// var selectedOption = selectBox.options[selectBox.selectedIndex].value;
-// 		// mxUtils.write(div,optionText);
-
-// 		// Call the provided function with the selected option
-// 		// fn(selectedOption);
-// 		mxEvent.release(okButton);
-// 	  });
-	
-
-
-
-
-
-
-var ReqDialog = function(editorUi, initialValue, btnLabel, fn) {
 	var optionText = '';
 	var reqList = extractReq();
 	var div = document.createElement('div');
@@ -1969,82 +1927,116 @@ var ReqDialog = function(editorUi, initialValue, btnLabel, fn) {
 	});
 	inner.appendChild(selectBox);
 	
-	// Create OK button
+	// 이미 추가된 option들을 저장하는 배열 (중복 방지 때 사용할 배열)
+	var addedOptions = [];
+
 	var okButton = mxUtils.button(mxResources.get('ok'), function() {
-	  var selectedOption = selectBox.options[selectBox.selectedIndex].value;
-	  
-	  // Create a new div for the selected option
-	  var selectedDiv = document.createElement('div');
-	  selectedDiv.className = 'selectedDiv';
-	  
-	  var selectedText = document.createElement('span');
-	  mxUtils.write(selectedText, selectedOption);
-	  
-	  var deleteButton = document.createElement('span');
-	  deleteButton.className = 'deleteButton';
-	  deleteButton.innerHTML = '&#10006;'; // 'X' character
-	  
-	  // Attach the delete event to the delete button
-	  deleteButton.addEventListener('click', function() {
-		div.removeChild(selectedDiv);
-	  });
-	  
-	  selectedDiv.appendChild(selectedText);
-	  selectedDiv.appendChild(deleteButton);
-	  
-	  div.appendChild(selectedDiv);
-	  
-	  // Release the OK button
-	  mxEvent.release(okButton);
+		var selectedOption = selectBox.options[selectBox.selectedIndex].value;
+		
+		// 중복 체크
+		if (addedOptions.indexOf(selectedOption) === -1) {
+			addedOptions.push(selectedOption); // 배열에 추가
+			
+			// Create a new div for the selected option
+			var selectedDiv = document.createElement('div');
+			selectedDiv.className = 'selectedDiv';
+			
+			var selectedText = document.createElement('span');
+			mxUtils.write(selectedText, selectedOption);
+			
+			var deleteButton = document.createElement('span');
+			deleteButton.className = 'deleteButton';
+			deleteButton.innerHTML = '&#10006;'; // 'X' character
+			
+			// Attach the delete event to the delete button
+			deleteButton.addEventListener('click', function() {
+				// 삭제 시 배열에서도 제거
+				var index = addedOptions.indexOf(selectedOption);
+				if (index !== -1) {
+					addedOptions.splice(index, 1);
+				}
+				
+				div.removeChild(selectedDiv);
+			});
+			
+			selectedDiv.appendChild(selectedText);
+			selectedDiv.appendChild(deleteButton);
+			
+			div.appendChild(selectedDiv);
+		}
 	});
-	
-	inner.appendChild(okButton);
-	div.appendChild(inner);
-  
 
-  
-  
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	  // Create Cancel button
-	  var cancelButton = mxUtils.button(mxResources.get('cancel'), function() {
+	var applyBtn = mxUtils.button(mxResources.get('apply'), function(ui)
+	{
+		
+		localStorage.setItem(projectName+'_' + actName + '_requirment',addedOptions); 
+		console.log('apply btn clicked')
 		editorUi.hideDialog();
-		mxEvent.release(cancelButton);
-	  });
-	
-	  // Append buttons to the inner div
-	  inner.appendChild(okButton);
-	  inner.appendChild(cancelButton);
-	
-	  // Append inner div to the main div
-	  div.appendChild(inner);
-	
-	  // Show the dialog
-	  editorUi.showDialog(div, 300, 150, true, true);
-	  editorUi.dialog.container.style.overflow = 'hidden';
-	  mxEvent.addListener(window, 'resize', function() {
-		editorUi.dialog.container.style.overflow = 'hidden';
-	  });
-	
-	  selectBox.focus();
-};
+	});
+	applyBtn.className = 'geBtn gePrimaryBtn minsoo'; // 민수 property입력 버튼 
 
+
+	// Create Cancel button
+	var cancelButton = mxUtils.button(mxResources.get('cancel'), function() {
+	editorUi.hideDialog();
+	mxEvent.release(cancelButton);
+	});
+
+	// Append buttons to the inner div
+	inner.appendChild(okButton);
+	inner.appendChild(cancelButton);
+	inner.appendChild(applyBtn);
+
+	// Append inner div to the main div
+	div.appendChild(inner);
+
+	// Show the dialog
+	editorUi.showDialog(div, 300, 150, true, true);
+	editorUi.dialog.container.style.overflow = 'hidden';
+	mxEvent.addListener(window, 'resize', function() {
+	editorUi.dialog.container.style.overflow = 'hidden';
+	});
+
+	selectBox.focus();
+
+	// 로컬 스토리지에 값이 존재할 경우 불러오는 곳
+	if(localStorage.getItem(projectName+'_' + actName + '_requirment')!=null){
+		const arr = localStorage.getItem(projectName+'_' + actName + '_requirment');
+
+		// 콤마(,)로 문자열 분할
+		var stringArray = arr.split(',');
+		addedOptions = stringArray;
+		// 각 문자열을 선택된 옵션으로 추가
+		for (var i = 0; i < stringArray.length; i++) {
+			var selectedOption= stringArray[i].trim(); // 문자열 앞뒤의 공백 제거
+			// Create a new div for the selected option
+			var selectedDiv = document.createElement('div');
+			selectedDiv.className = 'selectedDiv';
+
+			var selectedText = document.createElement('span');
+			mxUtils.write(selectedText, selectedOption);
+
+			var deleteButton = document.createElement('span');
+			deleteButton.className = 'deleteButton';
+			deleteButton.innerHTML = '&#10006;'; // 'X' character 
+
+			deleteButton.addEventListener('click', function() {
+				// 삭제 시 배열에서도 제거
+				var index = addedOptions.indexOf(selectedOption);
+				if (index !== -1) {
+					addedOptions.splice(index, 1);
+				}
+				
+				div.removeChild(selectedDiv);
+			});
+
+			selectedDiv.appendChild(selectedText);
+			selectedDiv.appendChild(deleteButton);
+			
+			div.appendChild(selectedDiv);
+		}
+	}
+};
 
 /**
  * Constructs a new link dialog.

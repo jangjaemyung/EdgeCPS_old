@@ -6,6 +6,9 @@
 		/**
 		 * 로컬스토리지에 저장된 프로세스를 불러오는 기능
 		 */
+		var actName = ''
+		var actId = ''
+
 		let universalGraph; // 페이지가 열릴때 GraphView 에서 할당하기 위한 변수(로컬스토리지에 저장된 프로세스를 불러오는 기능중 하나)
 
 		let processGraphxml = ''; // 실시간으로 xml을 불러와서 저장한다.
@@ -95,6 +98,7 @@
 
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles/process.css')}}"> <!--순우 css 추가-->
 	<script type="text/javascript" src="{{ url_for('static', filename='js/processCommon.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/businessProcess.js') }}"></script>
 
 	<!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@800&display=swap">  -->
 	<!--폰트 로드 -->
@@ -267,7 +271,7 @@
 
 
 	<!-- 순우 캔버스 위에 있는 다이어그램 목록 가져오기 위한 버튼 생성 및 함수 호출-->
-	<div><button id="myButton">Get Requirement list</button></div> 
+	<!-- <div><button id="myButton">Get Requirement list</button></div>  -->
 	<script>
 		var button = document.getElementById('myButton');
 

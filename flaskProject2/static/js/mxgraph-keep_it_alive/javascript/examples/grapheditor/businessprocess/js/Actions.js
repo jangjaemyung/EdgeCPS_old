@@ -499,7 +499,7 @@ Actions.prototype.init = function()
 			var cell = graph.getSelectionCell();
 			var value = graph.getLinkForCell(cell) || '';
 			
-			ui.reqDialog(value, mxResources.get('apply'), function(link)
+			ui.reqDialog(value, cell, mxResources.get('apply'), function(link)
 			{
 				link = mxUtils.trim(link);
     			graph.setLinkForCell(cell, (link.length > 0) ? link : null);
