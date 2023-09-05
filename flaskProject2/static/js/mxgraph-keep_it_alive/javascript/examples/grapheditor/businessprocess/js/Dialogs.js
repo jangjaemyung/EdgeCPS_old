@@ -2000,42 +2000,83 @@ var ReqDialog = function(editorUi, ui, cell) {
 	selectBox.focus();
 
 	// 로컬 스토리지에 값이 존재할 경우 불러오는 곳
-	if(localStorage.getItem(projectName+'_' + actName + '_requirment')!=null){
-		const arr = localStorage.getItem(projectName+'_' + actName + '_requirment');
+	// if(localStorage.getItem(projectName+'_' + actName + '_requirment')!=null){
+	// 	const arr = localStorage.getItem(projectName+'_' + actName + '_requirment');
 
+	// 	// 콤마(,)로 문자열 분할
+	// 	var stringArray = arr.split(',');
+	// 	addedOptions = stringArray;
+	// 	// 각 문자열을 선택된 옵션으로 추가
+	// 	for (var i = 0; i < stringArray.length; i++) {
+	// 		var selectedOption= stringArray[i].trim(); // 문자열 앞뒤의 공백 제거
+	// 		// Create a new div for the selected option
+	// 		var selectedDiv = document.createElement('div');
+	// 		selectedDiv.className = 'selectedDiv';
+
+	// 		var selectedText = document.createElement('span');
+	// 		mxUtils.write(selectedText, selectedOption);
+
+	// 		var deleteButton = document.createElement('span');
+	// 		deleteButton.className = 'deleteButton';
+	// 		deleteButton.innerHTML = '&#10006;'; // 'X' character 
+
+			
+
+	// 		selectedDiv.appendChild(selectedText);
+	// 		selectedDiv.appendChild(deleteButton);
+			
+	// 		div.appendChild(selectedDiv);
+	// 	}
+	// 	deleteButton.addEventListener('click', function() {
+	// 		// 삭제 시 배열에서도 제거
+	// 		var index = addedOptions.indexOf(selectedOption);
+	// 		if (index !== -1) {
+	// 			addedOptions.splice(index, 1);
+	// 		}
+			
+	// 		div.removeChild(selectedDiv);
+	// 	});
+	// }
+	if (localStorage.getItem(projectName + '_' + actName + '_requirment') != null) {
+		const arr = localStorage.getItem(projectName + '_' + actName + '_requirment');
+	
 		// 콤마(,)로 문자열 분할
 		var stringArray = arr.split(',');
 		addedOptions = stringArray;
 		// 각 문자열을 선택된 옵션으로 추가
 		for (var i = 0; i < stringArray.length; i++) {
-			var selectedOption= stringArray[i].trim(); // 문자열 앞뒤의 공백 제거
+			var selectedOption = stringArray[i].trim(); // 문자열 앞뒤의 공백 제거
 			// Create a new div for the selected option
 			var selectedDiv = document.createElement('div');
 			selectedDiv.className = 'selectedDiv';
-
+	
 			var selectedText = document.createElement('span');
 			mxUtils.write(selectedText, selectedOption);
-
+	
 			var deleteButton = document.createElement('span');
 			deleteButton.className = 'deleteButton';
-			deleteButton.innerHTML = '&#10006;'; // 'X' character 
-
-			deleteButton.addEventListener('click', function() {
-				// 삭제 시 배열에서도 제거
-				var index = addedOptions.indexOf(selectedOption);
-				if (index !== -1) {
-					addedOptions.splice(index, 1);
-				}
-				
-				div.removeChild(selectedDiv);
-			});
-
+			deleteButton.innerHTML = '&#10006;'; // 'X' character
+	
 			selectedDiv.appendChild(selectedText);
 			selectedDiv.appendChild(deleteButton);
-			
+	
 			div.appendChild(selectedDiv);
+	
+			// 이벤트 핸들러를 클로저로 래핑하여 사용!!!!!!!!
+			(function (selectedOption, selectedDiv) {
+				deleteButton.addEventListener('click', function () {
+					// 삭제 시 배열에서도 제거
+					var index = addedOptions.indexOf(selectedOption);
+					if (index !== -1) {
+						addedOptions.splice(index, 1);
+					}
+	
+					div.removeChild(selectedDiv);
+				});
+			})(selectedOption, selectedDiv);
 		}
 	}
+	
 };
 
 /**

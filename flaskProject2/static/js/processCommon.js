@@ -7,7 +7,7 @@ let processXml = ['overviewProcessXML','requirementsProcessXml','businessProcess
 function uploadXML(){
 	// console.log('다녀감')
 	let xml = ''
-	if (processDict[current_process] == 'workflowProcess'&& processDict[current_process] == 'runProcess'){
+	if (processDict[current_process] == 'workflowProcess'|| processDict[current_process] == 'runProcess'){
 		var xmlKey = localStorage.getItem(projectName+'_nowWorkflow') // 필요하면 워크플로우 프로세스의 항목을 가져온다.
 		xml = localStorage.getItem(xmlKey); // 필요하면 워크플로우 프로세스의 항목을 가져온다.
 	}else {
