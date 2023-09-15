@@ -506,6 +506,23 @@ Actions.prototype.init = function()
 			});
 		}
 	}, null, null, 'Alt+Shift+L');
+
+	// 순우 node selector 다이어로그
+	this.addAction('nodeSelector...', function()
+	{
+		if (graph.isEnabled() && !graph.isSelectionEmpty())
+		{
+			var cell = graph.getSelectionCell();
+			var value = graph.getLinkForCell(cell) || '';
+			
+			ui.nodeSelectorDialog(value, cell, mxResources.get('apply'), function(link)
+			{
+				link = mxUtils.trim(link);
+    			graph.setLinkForCell(cell, (link.length > 0) ? link : null);
+			});
+		}
+	}, null, null, 'Alt+Shift+L');
+	
 	this.put('insertImage', new Action(mxResources.get('image') + '...', function()
 	{
 		if (graph.isEnabled() && !graph.isCellLocked(graph.getDefaultParent()))

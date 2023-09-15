@@ -4211,9 +4211,9 @@ Sidebar.prototype.addClickHandler = function(elt, ds, cells)
 				this.dragElement != null && this.dragElement.style.display == 'none')
 			{
 				console.log('sidebar_item_clicked_ 민수')
-				createDigramClicked = true;
+				createDiagramClicked = true;
 				sb.itemClicked(cells, ds, evt, elt);
-				createDigramClicked = false;
+				createDiagramClicked = false;
 			}
 	
 			oldMouseUp.apply(ds, arguments);

@@ -3,20 +3,20 @@ from collections import OrderedDict
 import ast
 
 dict = {
-    # "apiVersion": "argoproj.io/v1alpha1",
-        # "kind": "Workflow",
-        # "metadata_name": "wf-artifact3",
-        # "spec_entrypoint": "dag-template",
-        # "spec_arguments_parameters_name": "message1",
-        # "spec_arguments_parameters_value": "Task 1 is executed",
-        # "spec_templates_name": "dag-template", "spec_templates_inputs_parameters_name": "message1",
-        # "spec_templates_dag_tasks_name": "task1",
-        # "spec_templates_dag_tasks_arguments_parameters": "[{name: text, value: '{{inputs.parameters.message1}}'}]",
-        # "spec_templates_dag_tasks_template": "task-template",
-        # "spec_templates_name": "task-template",
-        # "spec_templates_inputs_parameters_name": "text",
-        # "spec_templates_container_image": "python:3.8-slim",
-        # "spec_templates_container_command": "[python]",
+    "apiVersion": "argoproj.io/v1alpha1",
+        "kind": "Workflow",
+        "metadata_name": "wf-artifact3",
+        "spec_entrypoint": "dag-template",
+        "spec_arguments_parameters_name": "message1",
+        "spec_arguments_parameters_value": "Task 1 is executed",
+        "spec_templates_name": "dag-template", "spec_templates_inputs_parameters_name": "message1",
+        "spec_templates_dag_tasks_name": "task1",
+        "spec_templates_dag_tasks_arguments_parameters": "[{name: text, value: '{{inputs.parameters.message1}}'}]",
+        "spec_templates_dag_tasks_template": "task-template",
+        "spec_templates_name": "task-template",
+        "spec_templates_inputs_parameters_name": "text",
+        "spec_templates_container_image": "python:3.8-slim",
+        "spec_templates_container_command": "[python]",
         "spec_templates_container_args": "['-c', 'param = \'{{inputs.parameters.text}}\'; print(param)']"
         }
 

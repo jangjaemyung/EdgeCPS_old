@@ -1899,26 +1899,7 @@ ArrangePanel.prototype.addGroupOps = function(div)
 		div.appendChild(btn);
 		count++;
 
-		if (count > 0)// 민수 줄 버튼 띄어 쓰기
-		{
-			mxUtils.br(div);
-		}
-		// 순우 onclick
-		btn.onclick = function(){
-			console.log(flowDict)
-			console.log(objValueDict)
-		};
-		btn = mxUtils.button(mxResources.get('runWorkFlow')); //민수 아르고런 버튼 
-		btn.className = 'argoRun'
-		// btn.addEventListener("click", argoRunEvent());
-		btn.setAttribute('title', mxResources.get('runWorkFlow'));
-		// btn.style.width = '100px';
-		// btn.style.marginLeft = '2px';
-		btn.style.width = '202px';
-		btn.style.marginBottom = '2px';
-		btn.style.marginBottom = '2px';
-		div.appendChild(btn);
-		count++;
+		
 		
 		if (count > 0)// 민수 줄 버튼 띄어 쓰기
 		{
@@ -1932,6 +1913,30 @@ ArrangePanel.prototype.addGroupOps = function(div)
 		}));
 		
 		btn.setAttribute('title', mxResources.get('selectReq'));
+		// btn.style.width = '100px';
+		// btn.style.marginLeft = '2px';
+		btn.style.width = '202px';
+		btn.style.marginBottom = '2px';
+		div.appendChild(btn);
+		count++;
+
+		if (count > 0)// 민수 줄 버튼 띄어 쓰기
+		{
+			mxUtils.br(div);
+		}
+		// 순우 onclick
+		btn.onclick = function(){
+			console.log(flowDict)
+			console.log(objValueDict)
+		};
+		
+		btn = mxUtils.button(mxResources.get('nodeSelector'), mxUtils.bind(this, function(evt)
+		{
+			this.editorUi.actions.get('nodeSelector').funct();
+		})); //민수 아르고런 버튼 
+		btn.className = 'nodeSelector'
+		// btn.addEventListener("click", argoRunEvent());
+		btn.setAttribute('title', mxResources.get('nodeSelector'));
 		// btn.style.width = '100px';
 		// btn.style.marginLeft = '2px';
 		btn.style.width = '202px';

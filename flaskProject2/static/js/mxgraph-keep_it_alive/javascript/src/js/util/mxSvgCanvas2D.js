@@ -720,12 +720,12 @@ function getLastIndexOfShape(shapeName){ //민수 마지막숫자를 가져와�
 				 // if (this.root.getAttribute("name") != "diagram"){
  
 				 // 최초 생성이라면 
-				 if (createDigramClicked == true){
+				 if (createDiagramClicked == true){
 					 this.diagramProp == 'diagram'
 					 newIndex = getLastIndexOfShape(createDiagramSape);
 					 var idxName = createDiagramSape+newIndex.toString();
 					 this.root.classList.add(createDiagramSape, idxName); //민수 다이어그램 클래스 입력
-					 DigramClicked = idxName
+					 DiagramClicked = idxName
 					 this.root.setAttribute("name", "diagram");
 					 console.log('created ==',createDiagramSape,idxName)
  

@@ -4489,6 +4489,13 @@ EditorUi.prototype.reqDialog = function(value, btnLabel, fn)
 	dlg.init();
 };
 
+// 순우 node selector 다이어로그
+EditorUi.prototype.nodeSelectorDialog = function(value, btnLabel, fn)
+{
+	var dlg = new nodeSelectorDialog(this, value, btnLabel, fn);
+	this.showDialog(dlg.container, 420, 590, true, true);
+	dlg.init();
+};
 /**
  * Hides the current menu.
  */

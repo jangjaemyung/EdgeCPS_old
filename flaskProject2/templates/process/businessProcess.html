@@ -15,9 +15,9 @@
 
 		let current_process = 2
 
-		let createDigramClicked = false ;// 민수 다이그램 성성 확인하는 플래그
+		let createDiagramClicked = false ;// 민수 다이그램 성성 확인하는 플래그
 
-		let DigramClicked = [] ;// 순우 클릭된 다이어그램 추적
+		let DiagramClicked = [] ;// 순우 클릭된 다이어그램 추적
 		var clicked=[];
 
 		var createDiagramSape = ""; // 민수 다이어그램 변수를 넣는 곳 민수
@@ -256,7 +256,7 @@
 					<span class="dot"></span>
 					<span class="dot"></span>
 				  </li>
-		  <a class="nav-button" href="{{ url_for('run_process', projectName=project_name) }}" onclick="getLatestXml(flowDict, processGraphxml)">
+		  <a class="nav-button" href="{{ url_for('run_process', projectName=project_name) }}" onclick="getWorkflowData(flowDict, processGraphxml)">
 			<span class="button-icon-run_process">
 				<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 32 32">
 					<path d="M13.3336 18.1337L21.2002 10.2671C21.4447 10.0226 21.7558 9.90039 22.1336 9.90039C22.5113 9.90039 22.8224 10.0226 23.0669 10.2671C23.3113 10.5115 23.4336 10.8226 23.4336 11.2004C23.4336 11.5782 23.3113 11.8893 23.0669 12.1337L14.2669 20.9337C14.0002 21.2004 13.6891 21.3337 13.3336 21.3337C12.978 21.3337 12.6669 21.2004 12.4002 20.9337L8.93356 17.4671C8.68912 17.2226 8.56689 16.9115 8.56689 16.5337C8.56689 16.1559 8.68912 15.8448 8.93356 15.6004C9.17801 15.3559 9.48912 15.2337 9.86689 15.2337C10.2447 15.2337 10.5558 15.3559 10.8002 15.6004L13.3336 18.1337Z"/>

@@ -1,9 +1,1 @@
-{
-  "spec" : {
-    "templates" : {
-      "container" : {
-        "args" : "['-c', 'param = '{{inputs.parameters.text}}'; print(param)']"
-      }
-    }
-  }
-}
+{"spec": {"templates": {"container": {"args": "['-c', 'param = '{{inputs.parameters.text}}'; print(param)']"}}}}

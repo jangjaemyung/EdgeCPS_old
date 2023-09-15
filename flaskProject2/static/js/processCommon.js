@@ -7,7 +7,7 @@ let processXml = ['overviewProcessXML','requirementsProcessXml','businessProcess
 function uploadXML(){
 	// console.log('다녀감')
 	let xml = ''
-	if (processDict[current_process] == 'workflowProcess'|| processDict[current_process] == 'runProcess'){
+	if (processDict[current_process] == 'workflowProcess'|| processDict[current_process] == 'runProcess' || processDict[current_process] == 'policyProcess'){
 		var xmlKey = localStorage.getItem(projectName+'_nowWorkflow') // 필요하면 워크플로우 프로세스의 항목을 가져온다.
 		xml = localStorage.getItem(xmlKey); // 필요하면 워크플로우 프로세스의 항목을 가져온다.
 	}else {
@@ -45,13 +45,25 @@ function uploadXML(){
  * 모든 프로세스를 모아서 프로젝트 저장
  */
 function saveAllProject() {
+////////////////yaml생성에 필요한 데이터들////////////////////////
+	let get_localstorage_xml_list = ['overviewProcessXML','requirementsProcessXml','requirementsProcess_flowDict','businessProcessXml','businessProcess_flowDict'];
+	var stringWorkflowList = localStorage.getItem(projectName+'_workflowXML');
+	var workflowList = JSON.parse(stringWorkflowList);
+	for (var i = 0 ; i< workflowList.length ; i++){
+		get_localstorage_xml_list.push(workflowList[i]);
+		get_localstorage_xml_list.push(workflowList[i]+'_requirement');
+		get_localstorage_xml_list.push(workflowList[i]+'_nodeSelector');
+		get_localstorage_xml_list.push(workflowList[i]+'_flowDict');
+	}
+	console.log(get_localstorage_xml_list)
+/////////////////////////////////////////
 	let data = {};
 	let processData = {};
 	let workflowData = {};
-
+	
 	// 프로세스 저장
-	for (var i = 0; i < processXml.length; i++) {
-		var key = processXml[i];
+	for (var i = 0; i < get_localstorage_xml_list.length; i++) {
+		var key = get_localstorage_xml_list[i];
 		var value = localStorage.getItem(projectName + '_' + key);
 		if(!value){
 			value = ''
@@ -107,7 +119,7 @@ document.addEventListener("DOMContentLoaded", function() {
 	localStorage.setItem(projectName+'_current_processXml', processXml[current_process]); //현재 작업중인 프로세스 xml저장
 	localStorage.setItem(projectName+'_current_processDict', processDict[current_process]); //현재 작업중인 프로세스 dict저장
 
-	if (processDict[current_process] != 'workflowProcess' && processDict[current_process] != 'runProcess'){ // 워크플로우 로컬스토리지 초기화
+	if (processDict[current_process] != 'workflowProcess' && processDict[current_process] != 'runProcess' && processDict[current_process] != 'policyProcess'){ // 워크플로우 로컬스토리지 초기화
 		localStorage.setItem(projectName+'_nowWorkflow', '')
 	}
 
@@ -147,7 +159,6 @@ document.addEventListener("DOMContentLoaded", function() {
 	} else {
 		// 일정 시간(예: 0.5초) 이후에 다시 시도
 		setTimeout(function() {
-
 			let targetElementRetry = document.querySelector(".geMenubar");// save, load 버튼 생성
 			if (targetElementRetry !== null) {
 				targetElementRetry.appendChild(buttonContainer);
@@ -162,9 +173,11 @@ document.addEventListener("DOMContentLoaded", function() {
 			}else if (nowPorcess == 'runProcess'){
 				workflowSelectList =  getWorkflowObjList(localStorage.getItem(projectName+'_'+processXml[2]))	// run process 일때 Activity 개수 만큼 select box 생성
 				runCreateWorkflowSelectBox(workflowSelectList)
-				// createTypeSelectbox();
-				// uploadXML();
-				 insertResult();
+				insertResult();
+			}else if (nowPorcess == 'policyProcess'){
+				workflowSelectList =  getWorkflowObjList(localStorage.getItem(projectName+'_'+processXml[2]))	// policy process 일때 Activity 개수 만큼 select box 생성
+				createWorkflowSelectBox(workflowSelectList)
+				uploadXML();
 			}
 			else {
 				// 기존 프로세스 값을 불러오냐 오지 않냐
@@ -174,32 +187,37 @@ document.addEventListener("DOMContentLoaded", function() {
 				}else {
 					uploadXML();
 				}
-
 			}
-
-
 		}, 250);
 	}
-
-
-
 });
-
 
 /**
  * 페이지 이동시 xml, flowdict 저장 하는 함수
  */
 function getLatestXml(flowDict,strXml){
 	localStorage.setItem(projectName+'_'+localStorage.getItem(projectName+'_current_processXml'),strXml) // xml 저장
-	localStorage.setItem(projectName+'_'+localStorage.getItem(projectName+'_current_processDict'),flowDict) // dict 저장
-
+	// 프로세스간 이동 중 다이어그램 간 링크 연결 없이 이동 할 경우 빈 딕셔너리flowDict가 들어가는 오류 있어서 조건문 추가 
+	if(JSON.stringify(flowDict) != '{}'){ 
+		localStorage.setItem(projectName+'_'+localStorage.getItem(projectName+'_current_processDict')+'_flowDict',JSON.stringify(flowDict)) // dict 저장
+	}
 }
+
 function getRunData(flowDict,strXml){
-	localStorage.setItem(projectName+'_current_workflowName',workflowName) // 현재 submit한 workflow 저장
+	localStorage.setItem(localStorage.getItem(projectName+'_nowWorkflow')+'_resultLog' , runData)
+	// localStorage.setItem(projectName+'_current_workflowName',workflowName) // 현재 submit한 workflow 저장
 	localStorage.setItem(projectName+'_'+localStorage.getItem(projectName+'_current_processXml'),strXml) // result 저장
-	localStorage.setItem(projectName+'_'+localStorage.getItem(projectName+'_current_processDict'),flowDict) // dict 저장
-
+	// localStorage.setItem(projectName+'_'+localStorage.getItem(projectName+'_current_processDict')+'_flowDict',JSON.stringify(flowDict)) // dict 저장
 }
+
+function getWorkflowData(flowDict,processGraphxml){
+	localStorage.setItem(localStorage.getItem(projectName+'_nowWorkflow') , processGraphxml); // 기존 선택된 워크 플로우 xml
+	// 프로세스간 이동 중 다이어그램 간 링크 연결 없이 이동 할 경우 빈 딕셔너리flowDict가 들어가는 오류 있어서 조건문 추가 
+	if(JSON.stringify(flowDict) != '{}'){
+		localStorage.setItem(localStorage.getItem(projectName+'_nowWorkflow')+'_flowDict',JSON.stringify(flowDict)) // dict 저장
+	}
+}
+
 
 /**
  * 클래스들의 마지막 숫자를 가져와서 +1을 해준다. flowdict의 중복된 키를 방지하기 위해
@@ -292,15 +310,26 @@ function getWorkflowObjList(xml){
 
 	var roundedObjects = [];
 
-	var mxCells = xmlDoc.getElementsByTagName("mxCell");
-	for (var i = 0; i < mxCells.length; i++) {
-	  var mxCell = mxCells[i];
-	  var style = mxCell.getAttribute("style");
-	  if (style && style.includes("rounded=1;")) {
-		var id = mxCell.getAttribute("id");
-		var value = mxCell.getAttribute("value");
-		roundedObjects.push({ id: id, value: value });
-	  }
+	// var mxCells = xmlDoc.getElementsByTagName("mxCell");
+	// for (var i = 0; i < mxCells.length; i++) {
+	//   var mxCell = mxCells[i];
+	//   var style = mxCell.getAttribute("style");
+	//   if (style && style.includes("rounded=1;")) {
+	// 	var id = mxCell.getAttribute("id");
+	// 	var value = mxCell.getAttribute("value");
+	// 	roundedObjects.push({ id: id, value: value });
+	//   }
+	// }
+
+	// Business Process에서 Edit data에 값이 추가 된 다음 workflow Process로 넘어와서 select box를 생성할 때 오류 발생해서 밑에 새로 짬
+	var mxCells = xmlDoc.documentElement.getElementsByTagName("object");
+	for (var i = 0; i < mxCells.length; i++){
+		var mxCell = mxCells[i];
+		if (mxCell.getElementsByTagName('mxCell')[0].attributes[0].nodeValue.includes("rounded=1;")){
+			var id = mxCell.getAttribute('id');
+			var value = mxCell.getAttribute('name');
+			roundedObjects.push({id : id, value : value});
+		}
 	}
 
 	return roundedObjects
@@ -321,11 +350,17 @@ function createWorkflowSelectBox(activityCatList){
     selectBox.className = "workflow-select-box";
 
     // 처음에 선택된 항목 없음을 나타내는 옵션 추가
-    var defaultOption = document.createElement("option");
-    defaultOption.disabled = true;
-    defaultOption.selected = true;
-    defaultOption.text = "Select an option";
-    selectBox.appendChild(defaultOption);
+    // var defaultOption = document.createElement("option"); // 사용자가 실수로 항목 없음 상태에서 다이어그램을 그릴 수도 있어서 주석처리 해야하나
+    // defaultOption.disabled = true;
+    // defaultOption.selected = true;
+    // defaultOption.text = "Select an option";
+    // selectBox.appendChild(defaultOption);
+
+	// workflow 페이지를 최초로 열어 로컬스토리지에 nowWorkflow 값이 없는 경우 넣어줌.
+	if(localStorage.getItem(projectName+'_nowWorkflow')==""){
+		localStorage.setItem(projectName+'_nowWorkflow' ,projectName+'_'+activityCatList[0].id + '#' + activityCatList[0].value); // 샐렉트 박스 첫번째 값
+	}
+	
 
 	let nowWorkflow = localStorage.getItem(projectName+'_nowWorkflow');
     for (var i = 0; i < data.length; i++) {
@@ -360,9 +395,13 @@ function createWorkflowSelectBox(activityCatList){
         var selectedOption = selectBox.options[selectBox.selectedIndex];
         var selectedKey = selectedOption.dataset.key;
         var selectedValue = selectedOption.dataset.value;
+
+		// 셀렉트 박스로 화면 이동 시 flowDict가 저장되지 않는 오류 있어서 추가
+		getWorkflowData(flowDict, processGraphxml)
+
 		localStorage.setItem(projectName+'_nowWorkflow' ,projectName+'_'+selectedKey + '#' + selectedValue); // 현재 작업중이던 워크플로우
 
-
+		
 		location.reload(true);
 
         getNewWorkflow(selectedKey, selectedValue);
@@ -416,7 +455,7 @@ function runCreateWorkflowSelectBox(activityCatList){
 
     selectBox.addEventListener("change", function() {
 		var runData = saveRunData()
-		localStorage.setItem(localStorage.getItem(projectName+'_nowWorkflow') , runData); // 기존 선택된 워크 플로우 xml
+		localStorage.setItem(localStorage.getItem(projectName+'_nowWorkflow')+'_resultLog' , runData); // log 출력 
         var selectedOption = selectBox.options[selectBox.selectedIndex];
         var selectedKey = selectedOption.dataset.key;
         var selectedValue = selectedOption.dataset.value;
@@ -430,8 +469,7 @@ function runCreateWorkflowSelectBox(activityCatList){
 };
 
 function insertResult(){
-	
-	var data = localStorage.getItem(localStorage.getItem(projectName+'_nowWorkflow'))
+	var data = localStorage.getItem(localStorage.getItem(projectName+'_nowWorkflow')+'_resultLog')
 	var logContainer = document.querySelector(".logContainer")
 	logContainer.innerHTML = data
 }

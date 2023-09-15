@@ -1472,7 +1472,7 @@ var EditDataDialog = function(ui, cell)
 	var extracted = extractObjects(id)
 	try{
 		if (extracted=='object label="" '|| extracted =='mxCell '){
-			if (DigramClicked.includes('RoundedRectangle')){
+			if (DiagramClicked.includes('RoundedRectangle')){
 				var RoundedRectangleFixProperty = document.createAttribute('Name')
 				RoundedRectangleFixProperty.value = ''
 				var RoundedRectangleFixProperty2 = document.createAttribute('Description')
@@ -1487,13 +1487,13 @@ var EditDataDialog = function(ui, cell)
 				attrs.setNamedItem(RoundedRectangleFixProperty4)
 			}
 			// DiDiamond 일 경우 고정 값 넣기 순우
-			else if (DigramClicked.includes('DiDiamond')){
+			else if (DiagramClicked.includes('DiDiamond')){
 				var DiDiamondFixProperty = document.createAttribute('DiDiamondFixPropertyKey')
 				DiDiamondFixProperty.value = 'DiDiamondFixPropertyValue'
 				attrs.setNamedItem(DiDiamondFixProperty)
 			}
 			// Class 일 경우 고정 값 넣기 순우
-			else if (DigramClicked.includes('Class')){
+			else if (DiagramClicked.includes('Class')){
 				var DiClassFixProperty = document.createAttribute('Name')
 				DiClassFixProperty.value = ''
 				// 순우 id 값은 자동으로 할당되기 때문에 필요 없을거 같아서 일단 주석 처리
@@ -1505,7 +1505,7 @@ var EditDataDialog = function(ui, cell)
 				// attrs.setNamedItem(DiClassFixProperty2)
 				attrs.setNamedItem(DiClassFixProperty3)
 			}
-			else if (DigramClicked.includes('DiRectangle')){
+			else if (DiagramClicked.includes('DiRectangle')){
 				var DiClassFixProperty = document.createAttribute('Input')
 				DiClassFixProperty.value = ''
 				var DiClassFixProperty2 = document.createAttribute('Output')
@@ -1514,7 +1514,7 @@ var EditDataDialog = function(ui, cell)
 				attrs.setNamedItem(DiClassFixProperty)
 				attrs.setNamedItem(DiClassFixProperty2)
 			}
-			else if (DigramClicked.includes('Container')){
+			else if (DiagramClicked.includes('Container')){
 				var DiClassFixProperty = document.createAttribute('image')
 				DiClassFixProperty.value = ''
 				var DiClassFixProperty2 = document.createAttribute('command')
@@ -1535,7 +1535,7 @@ var EditDataDialog = function(ui, cell)
 				attrs.setNamedItem(DiClassFixProperty5)
 				attrs.setNamedItem(DiClassFixProperty6)
 			}
-			else if (DigramClicked.includes('Script')){
+			else if (DiagramClicked.includes('Script')){
 				var DiClassFixProperty = document.createAttribute('interpreter')
 				DiClassFixProperty.value = ''
 				var DiClassFixProperty2 = document.createAttribute('source')
@@ -1550,7 +1550,7 @@ var EditDataDialog = function(ui, cell)
 				attrs.setNamedItem(DiClassFixProperty3)
 				attrs.setNamedItem(DiClassFixProperty4)
 			}
-			else if (DigramClicked.includes('Resource')){
+			else if (DiagramClicked.includes('Resource')){
 				var DiClassFixProperty = document.createAttribute('action')
 				DiClassFixProperty.value = ''
 				var DiClassFixProperty2 = document.createAttribute('manifest')
@@ -1559,13 +1559,13 @@ var EditDataDialog = function(ui, cell)
 				attrs.setNamedItem(DiClassFixProperty)
 				attrs.setNamedItem(DiClassFixProperty2)
 			}
-			else if (DigramClicked.includes('Sensor')){
+			else if (DiagramClicked.includes('Sensor')){
 				var DiClassFixProperty = document.createAttribute('eventSpecification')
 				DiClassFixProperty.value = ''
 				
 				attrs.setNamedItem(DiClassFixProperty)
 			}
-			else if (DigramClicked.includes('Suspend')){
+			else if (DiagramClicked.includes('Suspend')){
 				var DiClassFixProperty = document.createAttribute('duration')
 				DiClassFixProperty.value = ''
 				
@@ -1885,8 +1885,8 @@ EditDataDialog.placeholderHelpLink = null;
 // 순우 req 다이어로그
 var ReqDialog = function(editorUi, ui, cell) {
 	if(typeof(cell.value)=='object'){
-		actName = cell.value.attributes[1].nodeValue
 		actId = cell.id
+		actName = actId+'#'+cell.value.attributes[1].nodeValue
 	}
 	else{
 		actName = cell.id+'#'+cell.value; // html actName 변수에 현재 선택한 activiy가 뭔지 아이디랑 이름 저장
@@ -1969,7 +1969,7 @@ var ReqDialog = function(editorUi, ui, cell) {
 	var applyBtn = mxUtils.button(mxResources.get('apply'), function(ui)
 	{
 		
-		localStorage.setItem(projectName+'_' + actName + '_requirment',addedOptions); 
+		localStorage.setItem(projectName+'_' + actName + '_requirement',addedOptions); 
 		console.log('apply btn clicked')
 		editorUi.hideDialog();
 	});
@@ -1999,46 +1999,8 @@ var ReqDialog = function(editorUi, ui, cell) {
 
 	selectBox.focus();
 
-	// 로컬 스토리지에 값이 존재할 경우 불러오는 곳
-	// if(localStorage.getItem(projectName+'_' + actName + '_requirment')!=null){
-	// 	const arr = localStorage.getItem(projectName+'_' + actName + '_requirment');
-
-	// 	// 콤마(,)로 문자열 분할
-	// 	var stringArray = arr.split(',');
-	// 	addedOptions = stringArray;
-	// 	// 각 문자열을 선택된 옵션으로 추가
-	// 	for (var i = 0; i < stringArray.length; i++) {
-	// 		var selectedOption= stringArray[i].trim(); // 문자열 앞뒤의 공백 제거
-	// 		// Create a new div for the selected option
-	// 		var selectedDiv = document.createElement('div');
-	// 		selectedDiv.className = 'selectedDiv';
-
-	// 		var selectedText = document.createElement('span');
-	// 		mxUtils.write(selectedText, selectedOption);
-
-	// 		var deleteButton = document.createElement('span');
-	// 		deleteButton.className = 'deleteButton';
-	// 		deleteButton.innerHTML = '&#10006;'; // 'X' character 
-
-			
-
-	// 		selectedDiv.appendChild(selectedText);
-	// 		selectedDiv.appendChild(deleteButton);
-			
-	// 		div.appendChild(selectedDiv);
-	// 	}
-	// 	deleteButton.addEventListener('click', function() {
-	// 		// 삭제 시 배열에서도 제거
-	// 		var index = addedOptions.indexOf(selectedOption);
-	// 		if (index !== -1) {
-	// 			addedOptions.splice(index, 1);
-	// 		}
-			
-	// 		div.removeChild(selectedDiv);
-	// 	});
-	// }
-	if (localStorage.getItem(projectName + '_' + actName + '_requirment') != null) {
-		const arr = localStorage.getItem(projectName + '_' + actName + '_requirment');
+	if (localStorage.getItem(projectName + '_' + actName + '_requirement') != null) {
+		const arr = localStorage.getItem(projectName + '_' + actName + '_requirement');
 	
 		// 콤마(,)로 문자열 분할
 		var stringArray = arr.split(',');
@@ -2077,6 +2039,89 @@ var ReqDialog = function(editorUi, ui, cell) {
 		}
 	}
 	
+};
+
+// 순우 node selector 다이어로그
+var nodeSelectorDialog = function(editorUi, ui, cell) {
+	// Dialog UI
+	var div = document.createElement('div');
+	mxUtils.write(div, mxResources.get('nodeSelector'));
+	
+	var innerInput = document.createElement('div');
+	innerInput.className = 'geTitle';
+	innerInput.style.backgroundColor = 'transparent';
+	innerInput.style.borderColor = 'transparent';
+	innerInput.style.whiteSpace = 'nowrap';
+	innerInput.style.textOverflow = 'clip';
+	innerInput.style.cursor = 'default';
+	
+	if (!mxClient.IS_VML) {
+	  innerInput.style.paddingRight = '20px';
+	}
+
+	// 새로운 입력 창 1
+	var input1 = document.createElement('input');
+	input1.type = 'text';
+	input1.placeholder = '첫 번째 입력 창';
+	input1.value = 'kubernetes.io/hostname'; // 기본 값을 설정
+	input1.style.marginTop = '10px'; // 필요한 경우 상단 여백 추가
+	innerInput.appendChild(input1);
+
+	// 새로운 입력 창 2
+	var input2 = document.createElement('input');
+	input2.type = 'text';
+	input2.placeholder = 'Value';
+	input2.style.marginTop = '10px'; // 필요한 경우 상단 여백 추가
+	innerInput.appendChild(input2);
+
+	div.appendChild(innerInput);
+	
+	var innerButtons = document.createElement('div');
+
+	// 저장버튼
+	var applyBtn = mxUtils.button(mxResources.get('apply'), function(ui)
+	{
+		var diagram_id = cell.id;
+		var now_workflow = localStorage.getItem(projectName+'_nowWorkflow');
+		var data = JSON.parse(localStorage.getItem(now_workflow+'_nodeSelector')) || {};
+
+		data[diagram_id] = [input1.value, input2.value];
+		localStorage.setItem(now_workflow+'_nodeSelector', JSON.stringify(data));
+
+		editorUi.hideDialog();
+	});
+	applyBtn.className = 'geBtn gePrimaryBtn minsoo'; // 민수 property입력 버튼 
+
+	// Create Cancel button
+	var cancelButton = mxUtils.button(mxResources.get('cancel'), function() {
+	editorUi.hideDialog();
+	mxEvent.release(cancelButton);
+	});
+
+	// Append buttons to the inner div
+	innerButtons.appendChild(cancelButton);
+	innerButtons.appendChild(applyBtn);
+
+	div.appendChild(innerButtons);
+
+	// Show the dialog
+	editorUi.showDialog(div, 600, 150, true, true);
+	editorUi.dialog.container.style.overflow = 'hidden';
+	mxEvent.addListener(window, 'resize', function() {
+	editorUi.dialog.container.style.overflow = 'hidden';
+	});
+
+	// 입력했던 Node Selector 다시 불러오기
+	if (localStorage.getItem(localStorage.getItem(projectName + '_nowWorkflow') + '_nodeSelector') != null) {
+		
+		var data = JSON.parse(localStorage.getItem(localStorage.getItem(projectName + '_nowWorkflow') + '_nodeSelector'));
+		var selectedKey = cell.id;
+		var arrKey = data[selectedKey][0]
+		var arrValue = data[selectedKey][1];
+
+		input1.value = arrKey
+		input2.value = arrValue
+	}
 };
 
 /**
