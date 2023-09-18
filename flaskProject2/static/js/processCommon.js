@@ -197,6 +197,10 @@ document.addEventListener("DOMContentLoaded", function() {
  */
 function getLatestXml(flowDict,strXml){
 	localStorage.setItem(projectName+'_'+localStorage.getItem(projectName+'_current_processXml'),strXml) // xml 저장
+	if (localStorage.getItem(projectName+'_current_processDict') != 'policyProcess'){ //policy일 경우에는 이미지 저장 따로 안함
+		captureAndDownloadImage(projectName+'_'+localStorage.getItem(projectName+'_current_processXml'))
+	}
+	
 	// 프로세스간 이동 중 다이어그램 간 링크 연결 없이 이동 할 경우 빈 딕셔너리flowDict가 들어가는 오류 있어서 조건문 추가 
 	if(JSON.stringify(flowDict) != '{}'){ 
 		localStorage.setItem(projectName+'_'+localStorage.getItem(projectName+'_current_processDict')+'_flowDict',JSON.stringify(flowDict)) // dict 저장
@@ -212,6 +216,9 @@ function getRunData(flowDict,strXml){
 
 function getWorkflowData(flowDict,processGraphxml){
 	localStorage.setItem(localStorage.getItem(projectName+'_nowWorkflow') , processGraphxml); // 기존 선택된 워크 플로우 xml
+	if (localStorage.getItem(projectName+'_current_processDict') != 'policyProcess'){ //policy일 경우에는 이미지 저장 따로 안함
+		captureAndDownloadImage(localStorage.getItem(projectName+'_nowWorkflow'))
+	}
 	// 프로세스간 이동 중 다이어그램 간 링크 연결 없이 이동 할 경우 빈 딕셔너리flowDict가 들어가는 오류 있어서 조건문 추가 
 	if(JSON.stringify(flowDict) != '{}'){
 		localStorage.setItem(localStorage.getItem(projectName+'_nowWorkflow')+'_flowDict',JSON.stringify(flowDict)) // dict 저장
@@ -491,3 +498,17 @@ function extractObjects(id) {
 		}
 	}
   }
+
+// 페이지 이동할 때 마다 다이어그램 캔버스 png캡쳐 저장
+function captureAndDownloadImage(workflowName) {
+	// const divToCapture = document.querySelector(".geBackgroundPage"); // 캡쳐할 div 선택
+
+    // html2canvas(divToCapture).then(function(canvas) {
+    //     var link = document.createElement("a")
+    //     link.href = canvas.toDataURL("image/jpeg")
+	// 	link.target = "_blank"; // 파일이 브라우저 창 바깥에서 열리게
+    //     link.download = workflowName+'.jpg' // 다운로드 할 파일명 설정
+    //     link.click() // <a> 요소를 클릭하는 것과 동일한 효과. 브라우저는 해당 링크를 따라가고 href 속성에 지정된 주소로 이동하지 않으면서도 브라우저의 다운로드 동작을 트리거 (링크를 클릭하지 않고도)
+    // });
+	ExportDialog.exportFile(tempEditorUi, workflowName, 'png', null, 1, 0, 100);
+}

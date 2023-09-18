@@ -10,6 +10,10 @@ import db_query
 from flask_cors import CORS
 import subprocess
 import json
+import urllib
+import cairosvg
+import base64
+import urllib.parse
 urllib3.disable_warnings()
 
 app = Flask(__name__)
@@ -143,7 +147,10 @@ def save_project():
         pj_root_pth = 'project_file'
         if os.path.exists(pj_root_pth):
             pj_pth = os.path.join(pj_root_pth ,proj_name +'@'+session['userid'])
-            os.makedirs(pj_pth)
+            try:
+                os.makedirs(pj_pth)
+            except:
+                pass
         else:
             response = {"status": "Downlaod error", "message": 'Project path dose not exist'}
             return jsonify(response), 500
@@ -188,6 +195,7 @@ def open_process(project_id,project_user,project_name):
                 data = json.load(json_file)
                 str_json = json.dumps(data)
                 project_name = data['projectNamejsonData']['projectName']
+                pj_pth = os.path.join(root_pth,  project_name+ '@' +project_user )
                 xml_process= data['processDatajsonData']
                 workflow_xml = data['workflowDatajsonData']
                 print(data)
@@ -201,11 +209,48 @@ def open_process(project_id,project_user,project_name):
                 session['xml_process'] = xml_process
                 session['workflow_xml'] = workflow_xml
 
-                return redirect(url_for('overview_process', active_overview=active_overview, project_data = data, project_name=project_name ,xml_process=xml_process, workflow_xml=workflow_xml))
+                return redirect(url_for('overview_process',  pj_pth=pj_pth, active_overview=active_overview, project_data = data, project_name=project_name ,xml_process=xml_process, workflow_xml=workflow_xml))
                 # return redirect(url_for('overview_process', active_overview=active_overview, project_data = data, project_name=project_name ,xml_process=json.dumps(xml_process), workflow_xml=json.dumps(workflow_xml)))
 
     return redirect(url_for('project_list'))
 
+"""캡처  export"""
+@app.route('/export' , methods=['POST'])
+@app.route('/save' , methods=['POST'])
+def save_to_server():
+    format = request.form.get('format')  
+    filename = request.form.get('filename') 
+    pj_root_pth = 'project_file'
+    referrer = request.referrer
+    start_index = referrer.find('projectName=')+ len('projectName=')
+    end_index = referrer.find('&',   start_index)
+    if end_index == -1:
+        end_index=len(referrer)
+    proj_name = referrer[start_index:end_index]
+    pj_pth = os.path.join(pj_root_pth ,proj_name +'@'+session['userid'])
+    full_pth = os.path.join(pj_pth,filename)
+    data = request.form.get('xml') 
+    try:
+        os.makedirs(pj_pth)
+    except:
+        pass
+
+    if format =='svg':
+        decoding_svg_data = urllib.parse.unquote(data) # 받아온 xml데이터 디코딩 해서 저장
+        try:
+            with open(full_pth, 'w') as file:
+                file.write(decoding_svg_data)
+            return jsonify({'message': 'Data saved successfully'})
+        except Exception as e:
+            return jsonify({'message': f'Error: {str(e)}'}), 500
+    elif format =='png': # 기본 png로 저장
+        try:
+            decoding_svg_data = urllib.parse.unquote(data) # 받아온 xml데이터 디코딩 해서 저장
+            cairosvg.svg2png(bytestring=decoding_svg_data, write_to=full_pth +'.png')
+            return jsonify({'message': 'Data saved successfully'})
+        except Exception as e:
+            return jsonify({'message': f'Error: {str(e)}'}), 500
+    # return render_template('process/runProcess.html',pj_pth=pj_pth,)
 
 @app.route('/process/overviewProcess', methods=['GET', 'POST'])
 def overview_process():

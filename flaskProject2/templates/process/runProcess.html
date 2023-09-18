@@ -115,6 +115,7 @@
 
 		let DiagramClicked = [] ;// 순우 클릭된 다이어그램 추적
 		var clicked=[];
+		let projectPath = "{{ pj_pth }}";
 
 		var createDiagramSape = ""; // 민수 다이어그램 변수를 넣는 곳 민수
 
@@ -422,6 +423,14 @@
     	<div class="sub-content">
 			<h2>Sub Content 2</h2>
 			<p>This is sub content area 2.</p>
+			<script>
+				try{
+					
+					console.log(projectPath);
+				}
+				catch{
+				}
+			</script>
     	</div>
    		<div class="sub-content">
 			<h2>Status</h2>

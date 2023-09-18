@@ -30,6 +30,7 @@ function Actions(editorUi)
 Actions.prototype.init = function()
 {
 	var ui = this.editorUi;
+	tempEditorUi = ui
 	var editor = ui.editor;
 	var graph = editor.graph;
 	var isGraphEnabled = function()

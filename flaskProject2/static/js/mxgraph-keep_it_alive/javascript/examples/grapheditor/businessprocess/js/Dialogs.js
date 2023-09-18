@@ -1274,7 +1274,7 @@ ExportDialog.exportFile = function(editorUi, name, format, bg, s, b, dpi)
 	{
     	ExportDialog.saveLocalFile(editorUi, mxUtils.getXml(editorUi.editor.getGraphXml()), name, format);
 	}
-    else if (format == 'svg')
+    else if (format == 'svg'||format=='png') // png일 경우도 일단 svg로 받아서 app.py에서 svg2png로 변환해서 저장
 	{
 		ExportDialog.saveLocalFile(editorUi, mxUtils.getXml(graph.getSvg(bg, s, b)), name, format);
 	}
