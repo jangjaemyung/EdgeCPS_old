@@ -1332,7 +1332,7 @@ ExportDialog.saveLocalFile = function(editorUi, data, filename, format)
 		editorUi.hideDialog();
 		var req = new mxXmlRequest(SAVE_URL, 'xml=' + encodeURIComponent(data) + '&filename=' +
 			encodeURIComponent(filename) + '&format=' + format);
-		req.simulate(document, '_blank');
+		req.simulate(document, '_blank'); //페이지 이동 할 때마다 새창 열리는 부분. 근데 주석처리하면 이미지 저장이 안됨 
 	}
 	else
 	{

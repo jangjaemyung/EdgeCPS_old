@@ -209,7 +209,7 @@ def open_process(project_id,project_user,project_name):
                 session['xml_process'] = xml_process
                 session['workflow_xml'] = workflow_xml
 
-                return redirect(url_for('overview_process',  pj_pth=pj_pth, active_overview=active_overview, project_data = data, project_name=project_name ,xml_process=xml_process, workflow_xml=workflow_xml))
+                return redirect(url_for('overview_process', active_overview=active_overview, project_data = data, project_name=project_name ,xml_process=xml_process, workflow_xml=workflow_xml))
                 # return redirect(url_for('overview_process', active_overview=active_overview, project_data = data, project_name=project_name ,xml_process=json.dumps(xml_process), workflow_xml=json.dumps(workflow_xml)))
 
     return redirect(url_for('project_list'))

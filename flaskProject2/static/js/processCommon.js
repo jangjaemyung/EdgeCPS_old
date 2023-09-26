@@ -172,7 +172,7 @@ document.addEventListener("DOMContentLoaded", function() {
 				uploadXML();
 			}else if (nowPorcess == 'runProcess'){
 				workflowSelectList =  getWorkflowObjList(localStorage.getItem(projectName+'_'+processXml[2]))	// run process 일때 Activity 개수 만큼 select box 생성
-				runCreateWorkflowSelectBox(workflowSelectList)
+				// runCreateWorkflowSelectBox(workflowSelectList) // 샐랙트박스 없애고 다이어그램 띄울거라 없앰
 				insertResult();
 			}else if (nowPorcess == 'policyProcess'){
 				workflowSelectList =  getWorkflowObjList(localStorage.getItem(projectName+'_'+processXml[2]))	// policy process 일때 Activity 개수 만큼 select box 생성
