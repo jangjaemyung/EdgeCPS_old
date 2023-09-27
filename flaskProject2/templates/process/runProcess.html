@@ -30,7 +30,7 @@
 		let universalGraph; // 페이지가 열릴때 GraphView 에서 할당하기 위한 변수(로컬스토리지에 저장된 프로세스를 불러오는 기능중 하나)
 
 		let processGraphxml = ''; // 실시간으로 xml을 불러와서 저장한다.
-
+		var intervalLogContainer2; // logContainer 반복하기 위한 변수
 		
 
 		let current_process = 7
@@ -296,9 +296,9 @@
 			<h2>Status</h2>
 			<p>This is sub content area 3.</p>
 			<div class="logContainer2">
-				<script>
+				<!-- <script>
 					logContainer2()
-				</script>
+				</script> -->
 			</div>
 		</div>
   	</div>
@@ -306,13 +306,12 @@
 	<div>
 		<div class="footer">
 			<h4>Result log</h4>
-		  </div>
-		  <div class="logContainer">
-			<script>
-				logContainer()
-			</script>
 		</div>
+		<div class="logContainer"></div>
 	</div>
+	
+	
+	
   	
 </body>
 </html>

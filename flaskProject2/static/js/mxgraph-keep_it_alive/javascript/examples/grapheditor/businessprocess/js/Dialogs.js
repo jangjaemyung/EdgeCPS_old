@@ -1332,7 +1332,8 @@ ExportDialog.saveLocalFile = function(editorUi, data, filename, format)
 		editorUi.hideDialog();
 		var req = new mxXmlRequest(SAVE_URL, 'xml=' + encodeURIComponent(data) + '&filename=' +
 			encodeURIComponent(filename) + '&format=' + format);
-		req.simulate(document, '_blank'); //페이지 이동 할 때마다 새창 열리는 부분. 근데 주석처리하면 이미지 저장이 안됨 
+		// req.simulate(document, '_blank'); //페이지 이동 할 때마다 새창 열리는 부분. 근데 주석처리하면 이미지 저장이 안됨 
+		req.simulate(document);
 	}
 	else
 	{
@@ -1505,7 +1506,7 @@ var EditDataDialog = function(ui, cell)
 				// attrs.setNamedItem(DiClassFixProperty2)
 				attrs.setNamedItem(DiClassFixProperty3)
 			}
-			else if (DiagramClicked.includes('DiRectangle')){
+			else if (DiagramClicked.includes('Rectangle')){
 				var DiClassFixProperty = document.createAttribute('Input')
 				DiClassFixProperty.value = ''
 				var DiClassFixProperty2 = document.createAttribute('Output')
@@ -1527,6 +1528,10 @@ var EditDataDialog = function(ui, cell)
 				DiClassFixProperty5.value = ''
 				var DiClassFixProperty6 = document.createAttribute('environment')
 				DiClassFixProperty6.value = ''
+				var DiClassFixProperty7 = document.createAttribute('parameters')
+				DiClassFixProperty7.value = 'name:       value:'
+				var DiClassFixProperty8 = document.createAttribute('artifacts')
+				DiClassFixProperty8.value = 'name:       from:'
 				
 				attrs.setNamedItem(DiClassFixProperty)
 				attrs.setNamedItem(DiClassFixProperty2)
@@ -1534,6 +1539,8 @@ var EditDataDialog = function(ui, cell)
 				attrs.setNamedItem(DiClassFixProperty4)
 				attrs.setNamedItem(DiClassFixProperty5)
 				attrs.setNamedItem(DiClassFixProperty6)
+				attrs.setNamedItem(DiClassFixProperty7)
+				attrs.setNamedItem(DiClassFixProperty8)
 			}
 			else if (DiagramClicked.includes('Script')){
 				var DiClassFixProperty = document.createAttribute('interpreter')

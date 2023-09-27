@@ -415,65 +415,65 @@ function createWorkflowSelectBox(activityCatList){
     });
 };
 
-function runCreateWorkflowSelectBox(activityCatList){
-	let workflowXML = []
-    let data = activityCatList;
-    var selectBox = document.createElement("select");
-    selectBox.className = "workflow-select-box";
+// function runCreateWorkflowSelectBox(activityCatList){
+// 	let workflowXML = []
+//     let data = activityCatList;
+//     var selectBox = document.createElement("select");
+//     selectBox.className = "workflow-select-box";
 
-    // 처음에 선택된 항목 없음을 나타내는 옵션 추가
-    var defaultOption = document.createElement("option");
-    defaultOption.disabled = true;
-    defaultOption.selected = true;
-    defaultOption.text = "Select an option";
-    selectBox.appendChild(defaultOption);
+//     // 처음에 선택된 항목 없음을 나타내는 옵션 추가
+//     var defaultOption = document.createElement("option");
+//     defaultOption.disabled = true;
+//     defaultOption.selected = true;
+//     defaultOption.text = "Select an option";
+//     selectBox.appendChild(defaultOption);
 
-	let nowWorkflow = localStorage.getItem(projectName+'_nowWorkflow');
-    for (var i = 0; i < data.length; i++) {
-        var option = document.createElement("option");
-        option.value = data[i].id;
-        option.text = data[i].value;
+// 	let nowWorkflow = localStorage.getItem(projectName+'_nowWorkflow');
+//     for (var i = 0; i < data.length; i++) {
+//         var option = document.createElement("option");
+//         option.value = data[i].id;
+//         option.text = data[i].value;
 
-        // 선택한 옵션의 key와 value를 data-* 속성으로 저장
-        option.dataset.key = data[i].id;
-        option.dataset.value = data[i].value;
-		workflowXML.push(data[i].id + '#' + data[i].value) // 로컬 스토리지
-        selectBox.appendChild(option);
+//         // 선택한 옵션의 key와 value를 data-* 속성으로 저장
+//         option.dataset.key = data[i].id;
+//         option.dataset.value = data[i].value;
+// 		workflowXML.push(data[i].id + '#' + data[i].value) // 로컬 스토리지
+//         selectBox.appendChild(option);
 
-		if (nowWorkflow === projectName+'_'+data[i].id + '#' + data[i].value) {
-            option.selected = true; // 일치하는 경우 선택됨으로 표시
+// 		if (nowWorkflow === projectName+'_'+data[i].id + '#' + data[i].value) {
+//             option.selected = true; // 일치하는 경우 선택됨으로 표시
 
-        }
-    }
+//         }
+//     }
 
-    var geMenubar = document.getElementsByClassName("sub-content1")[0];
-    // geMenubar.style.display = "flex";
-    // geMenubar.style.justifyContent = "flex-end";
-    geMenubar.appendChild(selectBox);
+//     var geMenubar = document.getElementsByClassName("sub-content1")[0];
+//     // geMenubar.style.display = "flex";
+//     // geMenubar.style.justifyContent = "flex-end";
+//     geMenubar.appendChild(selectBox);
 
-	// 전부 완료 되면 로컬 스토리지에 저장
-	var workflowXMLList = JSON.stringify(workflowXML);
-	localStorage.setItem(projectName+'_workflowXML',workflowXMLList);
+// 	// 전부 완료 되면 로컬 스토리지에 저장
+// 	var workflowXMLList = JSON.stringify(workflowXML);
+// 	localStorage.setItem(projectName+'_workflowXML',workflowXMLList);
 
-	var workflowName = localStorage.getItem(projectName+'_nowWorkflow');
-	const parts = workflowName.split('#');
-	workflowName = parts[1];
-	localStorage.setItem(projectName+'_current_workflowName', workflowName)
+// 	var workflowName = localStorage.getItem(projectName+'_nowWorkflow');
+// 	const parts = workflowName.split('#');
+// 	workflowName = parts[1];
+// 	localStorage.setItem(projectName+'_current_workflowName', workflowName)
 
-    selectBox.addEventListener("change", function() {
-		var runData = saveRunData()
-		localStorage.setItem(localStorage.getItem(projectName+'_nowWorkflow')+'_resultLog' , runData); // log 출력 
-        var selectedOption = selectBox.options[selectBox.selectedIndex];
-        var selectedKey = selectedOption.dataset.key;
-        var selectedValue = selectedOption.dataset.value;
-		localStorage.setItem(projectName+'_nowWorkflow' ,projectName+'_'+selectedKey + '#' + selectedValue); // 현재 작업중이던 워크플로우
+//     selectBox.addEventListener("change", function() {
+		// var runData = saveRunData()
+		// localStorage.setItem(localStorage.getItem(projectName+'_nowWorkflow')+'_resultLog' , runData); // log 출력 
+//         var selectedOption = selectBox.options[selectBox.selectedIndex];
+//         var selectedKey = selectedOption.dataset.key;
+//         var selectedValue = selectedOption.dataset.value;
+// 		localStorage.setItem(projectName+'_nowWorkflow' ,projectName+'_'+selectedKey + '#' + selectedValue); // 현재 작업중이던 워크플로우
 
-		location.reload(true);
+// 		location.reload(true);
 
-        getNewWorkflow(selectedKey, selectedValue);
-    });
+//         getNewWorkflow(selectedKey, selectedValue);
+//     });
 
-};
+// };
 
 function insertResult(){
 	var data = localStorage.getItem(localStorage.getItem(projectName+'_nowWorkflow')+'_resultLog')
