@@ -2,7 +2,7 @@ import glob
 import os
 import shutil
 import html
-from flask import Flask, render_template, request, redirect, url_for, jsonify, session
+from flask import Flask, render_template, request, redirect, url_for, jsonify, session, make_response
 from db_conn import get_pool_conn
 import requests
 import urllib3
@@ -210,7 +210,6 @@ def open_process(project_id,project_user,project_name):
                 session['workflow_xml'] = workflow_xml
 
                 return redirect(url_for('overview_process', active_overview=active_overview, project_data = data, project_name=project_name ,xml_process=xml_process, workflow_xml=workflow_xml))
-                # return redirect(url_for('overview_process', active_overview=active_overview, project_data = data, project_name=project_name ,xml_process=json.dumps(xml_process), workflow_xml=json.dumps(workflow_xml)))
 
     return redirect(url_for('project_list'))
 
@@ -250,7 +249,6 @@ def save_to_server():
             return jsonify({'message': 'Data saved successfully'})
         except Exception as e:
             return jsonify({'message': f'Error: {str(e)}'}), 500
-    # return render_template('process/runProcess.html',pj_pth=pj_pth,)
 
 @app.route('/process/overviewProcess', methods=['GET', 'POST'])
 def overview_process():
@@ -275,8 +273,6 @@ def overview_process():
         new_pj = request.args.get('newPj')
         project_name = request.args.get('projectName')
         return render_template('process/overviewProcess.html', active_overview=active_overview, categories=catlist, new_pj=new_pj,project_name=project_name)
-
-    # return render_template('process/overviewProcess.html', active_overview=active_overview,categories = catlist)
 
 
 @app.route('/process/requirementsProcess', methods=['GET', 'POST'])
@@ -324,7 +320,12 @@ def run_process():
         project_name = request.args.get('projectName')
         return render_template('process/runProcess.html', active_run=active_run, project_name=project_name)
 
-
+# @app.after_request
+# def after_request(response):
+#     response.headers.add('Access-Control-Allow-Origin', '*')
+#     response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+#     response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
+#     return response
 
 
 #############""" 아르고 """#########
@@ -427,7 +428,6 @@ def delete_workflow():
         print("Workflow deleted failed")
         return "Workflow deleted failed", 500
     
-
 @app.route('/log', methods=['GET'])
 def logs_workflow():
     workflow_name = request.args.get('workflow_name')
