@@ -1495,14 +1495,14 @@ var EditDataDialog = function(ui, cell)
 			}
 			// Class 일 경우 고정 값 넣기 순우
 			else if (DiagramClicked.includes('Class')){
-				var DiClassFixProperty = document.createAttribute('Name')
-				DiClassFixProperty.value = ''
+				// var DiClassFixProperty = document.createAttribute('Name')
+				// DiClassFixProperty.value = ''
 				// 순우 id 값은 자동으로 할당되기 때문에 필요 없을거 같아서 일단 주석 처리
 				// var DiClassFixProperty2 = document.createAttribute('Id') 
 				// DiClassFixProperty2.value = ''
 				var DiClassFixProperty3 = document.createAttribute('Text')
 				DiClassFixProperty3.value = ''
-				attrs.setNamedItem(DiClassFixProperty)
+				// attrs.setNamedItem(DiClassFixProperty)
 				// attrs.setNamedItem(DiClassFixProperty2)
 				attrs.setNamedItem(DiClassFixProperty3)
 			}
@@ -1899,8 +1899,6 @@ var ReqDialog = function(editorUi, ui, cell) {
 		actName = cell.id+'#'+cell.value; // html actName 변수에 현재 선택한 activiy가 뭔지 아이디랑 이름 저장
 		actId = cell.id
 	}
-
-	
 	var optionText = '';
 	var reqList = extractReq();
 	var div = document.createElement('div');
@@ -1921,16 +1919,11 @@ var ReqDialog = function(editorUi, ui, cell) {
 	const selectBox = document.createElement('select');
 	
 	reqList.forEach(innerArray => {
-	  innerArray.forEach(item => {
-		const nameMatch = item.match(/name="(.*?)"/);
-		if (nameMatch) {
-		  const optionValue = nameMatch[1];
-		  optionText = optionValue;
-		  
-		  const option = new Option(optionText, optionValue);
-		  selectBox.appendChild(option);
-		}
-	  });
+		const optionValue = innerArray;
+		optionText = optionValue;
+		
+		const option = new Option(optionText, optionValue);
+		selectBox.appendChild(option);
 	});
 	inner.appendChild(selectBox);
 	

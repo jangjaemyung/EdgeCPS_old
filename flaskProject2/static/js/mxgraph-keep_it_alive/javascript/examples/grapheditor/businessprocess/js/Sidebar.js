@@ -1266,7 +1266,7 @@ Sidebar.prototype.addGeneralPaletteWorkflow = function(expand)
 		this.createVertexTemplateEntry(
 			'rounded=1;whiteSpace=wrap;html=1;',
 			120, 60,
-			'<div style="font-weight:bold;">&lt;&lt;Container&gt;&gt;</div>',
+			'<div style="font-weight:bold;">&lt;&lt;Container&gt;&gt;<br>[name]</div>',
 			'Action Container',
 			null,
 			null,
@@ -1275,7 +1275,7 @@ Sidebar.prototype.addGeneralPaletteWorkflow = function(expand)
 		  this.createVertexTemplateEntry(
 			'rounded=1;whiteSpace=wrap;html=1;',
 			120, 60,
-			'<div style="font-weight:bold;">&lt;&lt;Script&gt;&gt;</div>',
+			'<div style="font-weight:bold;">&lt;&lt;Script&gt;&gt;<br>[name]</div>',
 			'Action Script',
 			null,
 			null,
@@ -1284,7 +1284,7 @@ Sidebar.prototype.addGeneralPaletteWorkflow = function(expand)
 		  this.createVertexTemplateEntry(
 			'rounded=1;whiteSpace=wrap;html=1;',
 			120, 60,
-			'<div style="font-weight:bold;">&lt;&lt;Resource&gt;&gt;</div>',
+			'<div style="font-weight:bold;">&lt;&lt;Resource&gt;&gt;<br>[name]</div>',
 			'Action Resource',
 			null,
 			null,
@@ -1293,7 +1293,7 @@ Sidebar.prototype.addGeneralPaletteWorkflow = function(expand)
 		  this.createVertexTemplateEntry(
 			'rounded=1;whiteSpace=wrap;html=1;',
 			120, 60,
-			'<div style="font-weight:bold;">&lt;&lt;Sensor&gt;&gt;</div>',
+			'<div style="font-weight:bold;">&lt;&lt;Sensor&gt;&gt;<br>[name]</div>',
 			'Action Sensor',
 			null,
 			null,
@@ -1302,7 +1302,7 @@ Sidebar.prototype.addGeneralPaletteWorkflow = function(expand)
 		  this.createVertexTemplateEntry(
 			'rounded=1;whiteSpace=wrap;html=1;',
 			120, 60,
-			'<div style="font-weight:bold;">&lt;&lt;Suspend&gt;&gt;</div>',
+			'<div style="font-weight:bold;">&lt;&lt;Suspend&gt;&gt;<br>[name]</div>',
 			'Action Suspend',
 			null,
 			null,
@@ -2464,10 +2464,9 @@ Sidebar.prototype.addUmlPaletteReqirement = function(expand)
 		
 		this.addEntry(dt + 'section subsection', function()
 		{
-			var cell = new mxCell('<<functional requirement>>', new mxGeometry(0, 0, 200, 110),
-		    	'swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;');
+			var cell = new mxCell('<<functional requirement>>\n[name]', new mxGeometry(100, 0, 200, 50));
 			cell.vertex = true;
-			cell.insert(field.clone());
+			// cell.insert(field.clone());
 			// cell.insert(field.clone());
 			// cell.insert(field.clone());
 			
@@ -2476,10 +2475,9 @@ Sidebar.prototype.addUmlPaletteReqirement = function(expand)
 
 		this.addEntry(dt + 'section subsection', function()
 		{
-			var cell = new mxCell('<<non functional requirement>>', new mxGeometry(0, 0, 200, 110),
-		    	'swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;');
+			var cell = new mxCell('<<non functional requirement>>\n[name]', new mxGeometry(0, 0, 200, 50));
 			cell.vertex = true;
-			cell.insert(field.clone());
+			// cell.insert(field.clone());
 			// cell.insert(field.clone());
 			// cell.insert(field.clone());
 			

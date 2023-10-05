@@ -40,10 +40,9 @@ function subContent1ClickHandler(sender, evt) {
         var cellId = cell.id
         localStorage.setItem(projectName+'_current_workflowName', cell.value.attributes[1].value)
         subContent2(cellName,cellId,cell)
-        
-        
     }
 }
+
 // sub-content1
 function subContent1(projectName){
     var xmlData = localStorage.getItem(projectName+'_businessProcessXml')
@@ -63,7 +62,10 @@ function subContent2ClickHandler(sender, evt) {
         const inputString = cell.value;
         const regex = /><div style="font-weight: bold">([^<]+)<\/div>/;
         const match = inputString.match(regex);
-        var actionName = match[1]    
+        var actionName = match[1]   
+        if(actionName.includes('['||']')){
+            actionName = actionName.substring(1,actionName.length -1);
+        } 
         var actionId = cell.id
         logContainer2(actionStatusFlag=true,actionName,actionId)
     }
@@ -208,7 +210,6 @@ async function logContainer2(actionStatusFlag,actionName,actionId) {
         console.error("Error:", error);
     }
 }
-
 
 function submitButton(){
     document.getElementById("submitButton").addEventListener("click", function(){
