@@ -4492,7 +4492,7 @@ EditorUi.prototype.reqDialog = function(value, btnLabel, fn)
 // 순우 node selector 다이어로그
 EditorUi.prototype.nodeSelectorDialog = function(value, btnLabel, fn)
 {
-	var dlg = new nodeSelectorDialog(this, value, btnLabel, fn);
+	var dlg = new  nodeSelectorDialog(this, value, btnLabel, fn);
 	this.showDialog(dlg.container, 420, 590, true, true);
 	dlg.init();
 };
@@ -4507,7 +4507,29 @@ EditorUi.prototype.showDataDialog = function(cell)
 		
 		// console.log(createDiagramSape);
 		this.showDialog(dlg.container, 480, 420, true, false, null, false); // property 여기에 작성된 정보가 저장 된다. 민수
+
+		if (cell.value.includes('non functional')){
+		// if (DiagramClicked.includes('Class')){
+			var selectBox = document.createElement('select');
+				
+			var option1 = document.createElement('option');
+			option1.text = '옵션 1';
+			option1.value = 'value1';
+			selectBox.appendChild(option1);
+
+			var option2 = document.createElement('option');
+			option2.text = '옵션 2';
+			option2.value = 'value2';
+			selectBox.appendChild(option2);
+
+			var parentElement = document.getElementById('editData'); 
+			parentElement.appendChild(selectBox);
+		}
+
 		dlg.init();
+
+		
+		
 	}
 };
 

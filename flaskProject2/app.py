@@ -14,6 +14,10 @@ import urllib
 import cairosvg
 import base64
 import urllib.parse
+
+from kubernetes import client, config
+from kubernetes.stream import stream
+
 urllib3.disable_warnings()
 
 app = Flask(__name__)
@@ -327,6 +331,36 @@ def run_process():
 #     response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
 #     return response
 
+@app.route('/get_label',methods = ['GET','POST'])
+def get_label():
+    nodes_list = []
+    node_label_list = []
+
+    if request.method == 'GET':
+        config.load_kube_config()
+        v1 = client.CoreV1Api()
+        nodes = v1.list_node()
+
+        try:
+            # print("Node List:")
+            for node in nodes.items:
+                nodes_list.append(node.metadata.name)
+
+        except client.exceptions.ApiException as e:
+            print(f"Error: {e}")
+
+        try:    
+            for node_name in nodes_list:
+                node_info = v1.read_node(node_name)
+                node_label_list = {
+                  node_name: node_info.metadata.labels['kubernetes.io/hostname']
+                }
+
+        except client.exceptions.ApiException as e:
+            print(f"Error: {e}")
+    node_label_list = {'sadf':'aaa','asdfaf':'bbb','asdfdsfa':'ccc'}
+    return jsonify(node_label_list)
+    
 
 #############""" 아르고 """#########
 NAMESPACE = 'argo'

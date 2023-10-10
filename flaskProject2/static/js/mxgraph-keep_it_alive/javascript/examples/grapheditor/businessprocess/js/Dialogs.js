@@ -1348,6 +1348,7 @@ ExportDialog.saveLocalFile = function(editorUi, data, filename, format)
 var EditDataDialog = function(ui, cell)
 {
 	var div = document.createElement('div');
+
 	var graph = ui.editor.graph;
 	
 	var value = graph.getModel().getValue(cell);
@@ -1502,9 +1503,30 @@ var EditDataDialog = function(ui, cell)
 				// DiClassFixProperty2.value = ''
 				var DiClassFixProperty3 = document.createAttribute('Text')
 				DiClassFixProperty3.value = ''
+
 				// attrs.setNamedItem(DiClassFixProperty)
 				// attrs.setNamedItem(DiClassFixProperty2)
 				attrs.setNamedItem(DiClassFixProperty3)
+
+				
+
+				// // 샐렉트 박스 요소 생성
+				// var selectBox = document.createElement('select');
+    
+				// // 옵션 요소 생성 및 추가
+				// var option1 = document.createElement('option');
+				// option1.text = '옵션 1';
+				// option1.value = 'value1';
+				// selectBox.appendChild(option1);
+			
+				// var option2 = document.createElement('option');
+				// option2.text = '옵션 2';
+				// option2.value = 'value2';
+				// selectBox.appendChild(option2);
+
+				// var parentElement = document.getElementById('editData'); // 부모 요소의 ID를 지정하세요
+				// parentElement.appendChild(selectBox);
+
 			}
 			else if (DiagramClicked.includes('Rectangle')){
 				var DiClassFixProperty = document.createAttribute('Input')
@@ -1798,8 +1820,9 @@ var EditDataDialog = function(ui, cell)
 	mxEvent.addListener(nameInput, 'change', updateAddBtn);
 	
 	var buttons = document.createElement('div');
+	buttons.id = 'editData'//순우
 	buttons.style.cssText = 'position:absolute;left:30px;right:30px;text-align:right;bottom:30px;height:40px;'
-	
+
 	if (ui.editor.graph.getModel().isVertex(cell) || ui.editor.graph.getModel().isEdge(cell))
 	{
 		var replace = document.createElement('span');
@@ -2045,6 +2068,7 @@ var ReqDialog = function(editorUi, ui, cell) {
 var nodeSelectorDialog = function(editorUi, ui, cell) {
 	// Dialog UI
 	var div = document.createElement('div');
+	var host_names =[]
 	mxUtils.write(div, mxResources.get('nodeSelector'));
 	
 	var innerInput = document.createElement('div');
@@ -2067,12 +2091,47 @@ var nodeSelectorDialog = function(editorUi, ui, cell) {
 	input1.style.marginTop = '10px'; // 필요한 경우 상단 여백 추가
 	innerInput.appendChild(input1);
 
-	// 새로운 입력 창 2
-	var input2 = document.createElement('input');
-	input2.type = 'text';
-	input2.placeholder = 'Value';
-	input2.style.marginTop = '10px'; // 필요한 경우 상단 여백 추가
-	innerInput.appendChild(input2);
+	fetch("/get_label", {
+		method: 'GET'
+		})
+		.then(function (response) { return response.json(); })
+		.then(function (data) {
+			console.log(data);
+			host_names=Object.values(data);
+			console.log('sdfadfasdfsdf',host_names)
+
+			for (i=0;i<host_names.length;i++){
+				var option1 = document.createElement('option');
+				option1.text = host_names[i]
+				option1.value = host_names[i]
+				selectBox.appendChild(option1);
+			}
+
+			// 입력했던 Node Selector 다시 불러오기
+			if (localStorage.getItem(localStorage.getItem(projectName + '_nowWorkflow') + '_nodeSelector') != null) {
+				
+				var data = JSON.parse(localStorage.getItem(localStorage.getItem(projectName + '_nowWorkflow') + '_nodeSelector'));
+				var selectedKey = cell.id;
+				var arrKey = data[selectedKey][0]
+				var arrValue = data[selectedKey][1];
+
+				input1.value = arrKey
+				selectBox.value = arrValue
+			}
+		})
+
+	var selectBox = document.createElement('select');
+	selectBox.style.marginTop = '10px';
+	selectBox.style.width = '100px';
+	selectBox.className = 'searchType';
+	innerInput.appendChild(selectBox);
+
+	// // 새로운 입력 창 2
+	// var input2 = document.createElement('input');
+	// input2.type = 'text';
+	// input2.placeholder = 'Value';
+	// input2.style.marginTop = '10px'; // 필요한 경우 상단 여백 추가
+	// innerInput.appendChild(input2);
 
 	div.appendChild(innerInput);
 	
@@ -2085,7 +2144,7 @@ var nodeSelectorDialog = function(editorUi, ui, cell) {
 		var now_workflow = localStorage.getItem(projectName+'_nowWorkflow');
 		var data = JSON.parse(localStorage.getItem(now_workflow+'_nodeSelector')) || {};
 
-		data[diagram_id] = [input1.value, input2.value];
+		data[diagram_id] = [input1.value, selectBox.value];
 		localStorage.setItem(now_workflow+'_nodeSelector', JSON.stringify(data));
 
 		editorUi.hideDialog();
@@ -2111,17 +2170,7 @@ var nodeSelectorDialog = function(editorUi, ui, cell) {
 	editorUi.dialog.container.style.overflow = 'hidden';
 	});
 
-	// 입력했던 Node Selector 다시 불러오기
-	if (localStorage.getItem(localStorage.getItem(projectName + '_nowWorkflow') + '_nodeSelector') != null) {
-		
-		var data = JSON.parse(localStorage.getItem(localStorage.getItem(projectName + '_nowWorkflow') + '_nodeSelector'));
-		var selectedKey = cell.id;
-		var arrKey = data[selectedKey][0]
-		var arrValue = data[selectedKey][1];
-
-		input1.value = arrKey
-		input2.value = arrValue
-	}
+	
 };
 
 /**
