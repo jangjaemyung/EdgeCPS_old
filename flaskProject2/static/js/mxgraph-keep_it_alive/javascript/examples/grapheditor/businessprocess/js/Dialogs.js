@@ -1740,12 +1740,15 @@ var EditDataDialog = function(ui, cell)
 	{
 		try
 		{
-			// req editdata에서 selectbox로 선택 한 값 로컬스토리지에 저장
-			if (process_name == 'requirementsProcess'){
-				var selectedReqKind = reqSelectBox.value
-				var reqId = document.querySelector("body > div.geDialog.right_sidebar > div > div:nth-child(1) > table > tbody > tr:nth-child(1) > td:nth-child(2) > div").textContent
-				localStorage.setItem(projectName +'_'+reqId+ '#requirementKind', selectedReqKind)
-			}
+			try{
+				// req editdata에서 selectbox로 선택 한 값 로컬스토리지에 저장
+				if (cell.value.includes('non functional')) {
+					var selectedReqKind = reqSelectBox.value
+					var reqId = document.querySelector("body > div.geDialog.right_sidebar > div > div:nth-child(1) > table > tbody > tr:nth-child(1) > td:nth-child(2) > div").textContent
+					localStorage.setItem(projectName +'_'+reqId+ '#requirementKind', selectedReqKind)
+				}
+			}catch{}
+			
 
 			ui.hideDialog.apply(ui, arguments);
 			
