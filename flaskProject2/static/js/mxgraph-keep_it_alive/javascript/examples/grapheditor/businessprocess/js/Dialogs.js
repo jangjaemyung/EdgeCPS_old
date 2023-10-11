@@ -1508,25 +1508,6 @@ var EditDataDialog = function(ui, cell)
 				// attrs.setNamedItem(DiClassFixProperty2)
 				attrs.setNamedItem(DiClassFixProperty3)
 
-				
-
-				// // 샐렉트 박스 요소 생성
-				// var selectBox = document.createElement('select');
-    
-				// // 옵션 요소 생성 및 추가
-				// var option1 = document.createElement('option');
-				// option1.text = '옵션 1';
-				// option1.value = 'value1';
-				// selectBox.appendChild(option1);
-			
-				// var option2 = document.createElement('option');
-				// option2.text = '옵션 2';
-				// option2.value = 'value2';
-				// selectBox.appendChild(option2);
-
-				// var parentElement = document.getElementById('editData'); // 부모 요소의 ID를 지정하세요
-				// parentElement.appendChild(selectBox);
-
 			}
 			else if (DiagramClicked.includes('Rectangle')){
 				var DiClassFixProperty = document.createAttribute('Input')
@@ -1644,9 +1625,6 @@ var EditDataDialog = function(ui, cell)
 		
 		// form.addField('EdgeCps Name' + ':', 'EdgeCps Porperty');
 		form.addField(mxResources.get('id') + ':', text);
-		// 순우 전역변수 추가 테스트
-		// console.log(text.innerText)
-		// flowDict[text.innerText]=[1,2]
 		console.log('민수 아이디 입력')
 	}
 	
@@ -1762,7 +1740,12 @@ var EditDataDialog = function(ui, cell)
 	{
 		try
 		{
-
+			// req editdata에서 selectbox로 선택 한 값 로컬스토리지에 저장
+			if (process_name == 'requirementsProcess'){
+				var selectedReqKind = reqSelectBox.value
+				var reqId = document.querySelector("body > div.geDialog.right_sidebar > div > div:nth-child(1) > table > tbody > tr:nth-child(1) > td:nth-child(2) > div").textContent
+				localStorage.setItem(projectName +'_'+reqId+ '#requirementKind', selectedReqKind)
+			}
 
 			ui.hideDialog.apply(ui, arguments);
 			
@@ -2125,13 +2108,6 @@ var nodeSelectorDialog = function(editorUi, ui, cell) {
 	selectBox.style.width = '100px';
 	selectBox.className = 'searchType';
 	innerInput.appendChild(selectBox);
-
-	// // 새로운 입력 창 2
-	// var input2 = document.createElement('input');
-	// input2.type = 'text';
-	// input2.placeholder = 'Value';
-	// input2.style.marginTop = '10px'; // 필요한 경우 상단 여백 추가
-	// innerInput.appendChild(input2);
 
 	div.appendChild(innerInput);
 	

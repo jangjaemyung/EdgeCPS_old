@@ -4508,28 +4508,66 @@ EditorUi.prototype.showDataDialog = function(cell)
 		// console.log(createDiagramSape);
 		this.showDialog(dlg.container, 480, 420, true, false, null, false); // property 여기에 작성된 정보가 저장 된다. 민수
 
-		if (cell.value.includes('non functional')){
-		// if (DiagramClicked.includes('Class')){
-			var selectBox = document.createElement('select');
-				
-			var option1 = document.createElement('option');
-			option1.text = '옵션 1';
-			option1.value = 'value1';
-			selectBox.appendChild(option1);
+		// requirements process edit data에 select box 추가 하는 함수
+		function reqSelectBox(cellValue){
+			foundCellValue = cellValue
+			if (foundCellValue.includes('non functional')){
+					var selectBox = document.createElement('select');
+					selectBox.id = 'reqSelectBox';
 
-			var option2 = document.createElement('option');
-			option2.text = '옵션 2';
-			option2.value = 'value2';
-			selectBox.appendChild(option2);
+					var option1 = document.createElement('option');
+					option1.text = 'Performance';
+					option1.value = 'Performance';
+					selectBox.appendChild(option1);
+		
+					var option2 = document.createElement('option');
+					option2.text = 'Availablity';
+					option2.value = 'Availablity';
+					selectBox.appendChild(option2);
 
-			var parentElement = document.getElementById('editData'); 
-			parentElement.appendChild(selectBox);
+					var option3 = document.createElement('option');
+					option3.text = 'Reliability';
+					option3.value = 'Reliability';
+					selectBox.appendChild(option3);
+
+					var option4 = document.createElement('option');
+					option4.text = 'Hardware Requirement';
+					option4.value = 'Hardware Requirement';
+					selectBox.appendChild(option4);
+
+					var option5 = document.createElement('option');
+					option5.text = 'Security';
+					option5.value = 'Security';
+					selectBox.appendChild(option5);
+		
+					var parentElement = document.getElementById('editData'); 
+					parentElement.appendChild(selectBox);
+
+					var reqId = document.querySelector("body > div.geDialog.right_sidebar > div > div:nth-child(1) > table > tbody > tr:nth-child(1) > td:nth-child(2) > div").textContent
+					try{
+						var selectedReqKind = localStorage.getItem(projectName +'_'+reqId+ '#requirementKind')
+					}
+					catch{}
+					for (var i = 0; i < selectBox.options.length; i++) {
+						var option = selectBox.options[i];
+
+						if (option.value === selectedReqKind) {
+							option.selected = true;
+							break; 
+						}
+					}
+
+				}
 		}
 
-		dlg.init();
+		// 최초 입력값 입력 이후 edit data 창 열 때 예외처리
+		try{
+			reqSelectBox(cell.value)
+		}catch{
+			reqSelectBox(cell.value.outerHTML)
+		}		
 
-		
-		
+		dlg.init();
 	}
 };
 
