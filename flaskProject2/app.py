@@ -115,19 +115,27 @@ def delete_project(project_id): # todo 프로젝트 삭제 기능
 
 @app.route('/signup', methods=['GET','POST'])
 def signup():
-
+    """
+    회원가입
+    :return: 성공 여부 반환
+    """
     if request.method == 'GET':
         return render_template('signup.html')
 
-    if request.method == 'POST':
-        name = request.form.get('name')
-        username = request.form.get('username')
-        password = request.form.get('password')
-        email = request.form.get('email')
-        birthdate = request.form.get('birthdate')
 
+    if request.method == 'POST':
+        try:
+            name = request.form.get('name')
+            userId = request.form.get('userId')
+            password = request.form.get('password')
+            email = request.form.get('email')
+            birthdate = request.form.get('birthdate')
+            group = request.form.get('group')
+            db_query.sign_up(mariadb_pool, name = name,userId = userId,password = password,email = email,birthdate = birthdate,group =group)
+        except:
+            return render_template('index.html')
         #todo 여기서 데이터를 처리하거나 저장하는 로직을 추가하세요
-    return render_template('index.html', name=name, username=username, password=password, email=email, birthdate=birthdate)
+    return render_template('index.html')
 
     # return redirect(url_for('success'))
 
@@ -221,8 +229,8 @@ def open_process(project_id,project_user,project_name):
 @app.route('/export' , methods=['POST'])
 @app.route('/save' , methods=['POST'])
 def save_to_server():
-    format = request.form.get('format')  
-    filename = request.form.get('filename') 
+    format = request.form.get('format')
+    filename = request.form.get('filename')
     pj_root_pth = 'project_file'
     referrer = request.referrer
     start_index = referrer.find('projectName=')+ len('projectName=')
@@ -232,7 +240,7 @@ def save_to_server():
     proj_name = referrer[start_index:end_index]
     pj_pth = os.path.join(pj_root_pth ,proj_name +'@'+session['userid'])
     full_pth = os.path.join(pj_pth,filename)
-    data = request.form.get('xml') 
+    data = request.form.get('xml')
     try:
         os.makedirs(pj_pth)
     except:
@@ -349,7 +357,7 @@ def get_label():
         except client.exceptions.ApiException as e:
             print(f"Error: {e}")
 
-        try:    
+        try:
             for node_name in nodes_list:
                 node_info = v1.read_node(node_name)
                 node_label_list = {
@@ -360,7 +368,7 @@ def get_label():
             print(f"Error: {e}")
     node_label_list = {'sadf':'aaa','asdfaf':'bbb','asdfdsfa':'ccc'}
     return jsonify(node_label_list)
-    
+
 
 #############""" 아르고 """#########
 NAMESPACE = 'argo'
@@ -378,7 +386,7 @@ def search_images(keyword):
             image_list = [result['repo_name'] for result in data['results']]
             return image_list
     return None
-    
+
 def argo_logs_workflow(workflow_name):
     api_url = f"{ARGO_SERVER_URL}/api/v1/workflows/{NAMESPACE}/{workflow_name}/log?logOptions.container=main"
     response = requests.get(api_url, verify=False)
@@ -388,7 +396,7 @@ def argo_logs_workflow(workflow_name):
     else:
         print(f"Failwd to fetch logs. Status code: {response.status_code}")
         return None
-    
+
 def argo_status_workflow(workflow_name):
     api_url = f"{ARGO_SERVER_URL}/api/v1/workflows/{NAMESPACE}/{workflow_name}"
     response = requests.get(api_url, verify=False)
@@ -398,7 +406,7 @@ def argo_status_workflow(workflow_name):
     else:
         print(f"FFailed to load status. Status code: {response.status_code}")
         return None
-    
+
 def search_local_images():
     output = subprocess.check_output(['docker', 'images', '--format', '{{.Repository}}']).decode().strip()
 
@@ -411,7 +419,7 @@ def search_local_images():
 @app.route('/submit', methods=['POST'])
 def submit_workflow():
     try:
-        workflow_json = request.get_json()  
+        workflow_json = request.get_json()
         print(workflow_json)
         headers = {
             "Content-Type": "application/json"
@@ -436,8 +444,8 @@ def stop_workflow():
     else:
         print("Workflow stop failed")
         return "Workflow stop failed", 500
-        
-    
+
+
 @app.route('/terminate', methods=['PUT'])
 def terminate_workflow():
     data = request.get_json()
@@ -449,7 +457,7 @@ def terminate_workflow():
     else:
         print("Workflow terminated failed")
         return "Workflow terminated failed", 500
-    
+
 @app.route('/delete', methods=['DELETE'])
 def delete_workflow():
     data = request.get_json()
@@ -461,7 +469,7 @@ def delete_workflow():
     else:
         print("Workflow deleted failed")
         return "Workflow deleted failed", 500
-    
+
 @app.route('/log', methods=['GET'])
 def logs_workflow():
     workflow_name = request.args.get('workflow_name')
@@ -506,6 +514,46 @@ def projectOpen():
     return render_template('/open.html')
 
 
+
+@app.route('/findUserId', methods=['POST'])
+def check_username():
+    # 아이디 찾기
+    try:
+        data = request.get_json()
+        name = data['name']
+        email = data['email']
+        response = db_query.check_userId(mariadb_pool,name = name, email=email)
+    except:
+        response = {'error': True ,'exists': False }
+
+    return jsonify(response)
+
+
+@app.route('/findUserPwd', methods=['POST'])
+def find_user_pwd():
+    # 비밀번호 찾기
+    try:
+        data = request.get_json()
+        name = data['name']
+        email = data['email']
+        user_id = data['userId']
+        response = db_query.find_pwd(mariadb_pool,name = name, email=email,user_id=user_id)
+    except:
+        response = {'error': True ,'exists': False }
+
+    return jsonify(response)
+
+@app.route('/changePwd', methods=['POST'])
+def change_pwd():
+    # 새로운 비밀번호 수정
+    try:
+        data = request.get_json()
+        new_pwd = data['newPwd']
+        response = db_query.change_pwd(mariadb_pool,new_pwd=new_pwd)
+    except:
+        response = {'error': True ,'result': False }
+
+    return jsonify(response)
 
 if __name__ == '__main__':
     app.run(debug=True)
