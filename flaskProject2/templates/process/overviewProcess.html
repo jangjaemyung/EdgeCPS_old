@@ -42,10 +42,31 @@
 		let workflow_xml = "{{ workflow_xml }}"; // 불러온것인지 확인
 
         let sessiondata = "{{ session['data'] }}"
+		var jsonString =  sessiondata.replace(/\&\#34;/g, '"');
+		// var stringToArray = jsonString.replace(/\\"/g, '"');
+		// var data = JSON.parse(stringToArray);
+		
+    	// jsonString = jsonString.replace(/[\[\]']+/g, '');
+    	var array = [];
+    	var array2 = [];
+    	array = jsonString.split('],');
+    	
+    	for (var i = 0; i < array.length; i++) {
+    		array[i] = array[i].trim();
+    	}
+    	
+    	// 1차원 array -> 2차원 array
+        while (array.length > 0) {
+        	array2.push(array.splice(0, 3));
+        }
+ 
+
         let sessionstr_json = "{{ session['str_json'] }}"
         let sessionproject_name = "{{ session['project_name'] }}"
         let sessionxml_process = "{{ session['xml_process'] }}"
         let sessionworkflow_xml = "{{ session['workflow_xml'] }}"
+
+		// let data = "{{data}}"
 	</script>
 
 

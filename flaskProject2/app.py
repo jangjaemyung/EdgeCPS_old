@@ -3,7 +3,7 @@ import os
 import shutil
 import html
 from flask import Flask, render_template, request, redirect, url_for, jsonify, session, make_response
-from db_conn import get_pool_conn
+from db_conn import get_pool_conn, add_table, get_projet_info, load_project
 import requests
 import urllib3
 import db_query
@@ -28,19 +28,26 @@ app.secret_key = 'EdgeCPS_workflow'
 # 임의의 프로젝트 목록 데이터
 
 
-# mariadb_pool = get_pool_conn()
+mariadb_pool = get_pool_conn()
 
 def getProjectDict():
-    pj_dir = glob.glob('project_file/*')
-    projects = [ ]
-    idx = 1
-    for file_path in pj_dir:
-        pj_info = file_path.split('/')[-1]
-        pj_user = pj_info.split('@')[-1]
-        pj_name_list = pj_info.split('@')[:-1]
-        pj_name = '@'.join(pj_name_list)
-        projects.append({'id': idx, 'name': pj_name, 'user': pj_user})
-        idx += 1
+    # 로컬 디렉토리에 저장 되어있는 목록에서 프로젝트 정보 가져오는 부분.
+    # pj_dir = glob.glob('project_file/*')
+    # projects = [ ]
+    # idx = 1
+    # for file_path in pj_dir:
+    #     pj_info = file_path.split('/')[-1]
+    #     pj_user = pj_info.split('@')[-1]
+    #     pj_name_list = pj_info.split('@')[:-1]
+    #     pj_name = '@'.join(pj_name_list)
+    #     projects.append({'id': idx, 'name': pj_name, 'user': pj_user})
+    #     idx += 1
+
+    prjs = get_projet_info()
+    projects = []
+
+    for idx in range(len(prjs)):
+        projects.append({'id': prjs[idx][0], 'name': prjs[idx][1], 'user': prjs[idx][2]})
     return projects
 
 
@@ -57,13 +64,17 @@ def index():
             성공 : 프로젝트 목록 페이지 이동
             실패 : 다시 로그인
         """
-    if request.method == 'POST':
-        session['userid'] = 'tempUser' # todo 로그인 없이 되도록
-        return redirect(url_for('project_list',loginUserInfo ='tempUser')) # todo 로그인 없이 되도록
 
-        userid = request.form['userid']
-        password = request.form['password']
-        login = db_query.login(mariadb_pool,id = userid,pwd = password )
+
+    if request.method == 'POST':
+        # session['userid'] = 'tempUser' # todo 로그인 없이 되도록
+        # # return redirect(url_for('project_list',loginUserInfo ='tempUser')) # todo 로그인 없이 되도록
+
+        userid = request.form["username"]
+        password = request.form["password"]
+        # userid = 'aaa'
+        # password = 'aaa'
+        login = db_query.login(mariadb_pool,id = userid, pwd = password )
 
         if login['login']:
             session['userId'] = userid
@@ -91,11 +102,11 @@ def forgetpw():
 def project_list():
     loginUserInfo = request.args.get('loginUserInfo')
 
-    projects = getProjectDict()
+    projects_info = getProjectDict()
 
 
     # todo 프로젝트 리스트 정보 조회하는 기능 필요
-    return render_template('projectList.html', projects=projects, loginUserInfo=loginUserInfo)
+    return render_template('projectList.html', projects=projects_info, loginUserInfo=loginUserInfo)
 
 
 @app.route('/projects/delete/<int:project_id>', methods=['POST'])
@@ -156,23 +167,26 @@ def save_project():
         data = request.json
         proj_name =data['projectNamejsonData']['projectName']
 
-        pj_root_pth = 'project_file'
-        if os.path.exists(pj_root_pth):
-            pj_pth = os.path.join(pj_root_pth ,proj_name +'@'+session['userid'])
-            try:
-                os.makedirs(pj_pth)
-            except:
-                pass
-        else:
-            response = {"status": "Downlaod error", "message": 'Project path dose not exist'}
-            return jsonify(response), 500
+        # 로컬에 파일로 저장할 때 썼던 코드
+        # pj_root_pth = 'project_file'
+        # if os.path.exists(pj_root_pth):
+        #     pj_pth = os.path.join(pj_root_pth ,proj_name +'@'+session['userid'])
+        #     try:
+        #         os.makedirs(pj_pth)
+        #     except:
+        #         pass
+        # else:
+        #     response = {"status": "Downlaod error", "message": 'Project path dose not exist'}
+        #     return jsonify(response), 500
 
 
-        full_pth = os.path.join(pj_pth,proj_name+'.json')
+        # full_pth = os.path.join(pj_pth,proj_name+'.json')
 
-        with open(full_pth, 'w', encoding='utf-8') as file:
-            json.dump(data, file)
-            # json.dump(data, file, indent="\t", ensure_ascii=False)
+        # with open(full_pth, 'w', encoding='utf-8') as file:
+        #     json.dump(data, file)
+
+        # db에 저장하는 함수
+        add_table(proj_name,data,session['userId'])
 
         response = {"status": "success", "message": "Project data saved successfully."}
         return jsonify(response), 200
@@ -198,30 +212,41 @@ def open_process(project_id,project_user,project_name):
     # # todo 회원의 소속 확인, 회원의 프로젝트인지 확인 필요
     for project in projects:
         if project['id'] == project_id and project['name'] == project_name and project['user'] == project_user:
-            # 제이슨을 읽어와서 실행 한다.
-            root_pth = 'project_file'
-            pj_pth = os.path.join(root_pth,  project_name+ '@' +project_user )
-            file_name = project_name+'.json'
+            # 로컬 파일에서 불러오는 경우
+            # root_pth = 'project_file'
+            # pj_pth = os.path.join(root_pth,  project_name+ '@' +project_user )
+            # file_name = project_name+'.json'
 
-            with open(os.path.join(pj_pth,file_name), 'r') as json_file:
-                data = json.load(json_file)
-                str_json = json.dumps(data)
-                project_name = data['projectNamejsonData']['projectName']
-                pj_pth = os.path.join(root_pth,  project_name+ '@' +project_user )
-                xml_process= data['processDatajsonData']
-                workflow_xml = data['workflowDatajsonData']
-                print(data)
-                print(str_json)
-                print(project_name)
-                print(xml_process)
-                print(workflow_xml)
+            # with open(os.path.join(pj_pth,file_name), 'r') as json_file:
+            #     data = json.load(json_file)
+            #     str_json = json.dumps(data)
+            #     project_name = data['projectNamejsonData']['projectName']
+            #     pj_pth = os.path.join(root_pth,  project_name+ '@' +project_user )
+            #     xml_process= data['processDatajsonData']
+            #     workflow_xml = data['workflowDatajsonData']
+            #     print(data)
+            #     print(str_json)
+            #     print(project_name)
+            #     print(xml_process)
+            #     print(workflow_xml)
+            #     session['data'] = data
+            #     session['str_json'] = str_json
+            #     session['project_name'] = project_name
+            #     session['xml_process'] = xml_process
+            #     session['workflow_xml'] = workflow_xml
+
+            # db에서 불러오는 경우
+            
+                data = json.dumps(load_project(project_id))
+                # data = data.replace('[[', '').replace(']]', '')
                 session['data'] = data
-                session['str_json'] = str_json
-                session['project_name'] = project_name
-                session['xml_process'] = xml_process
-                session['workflow_xml'] = workflow_xml
+                # session['str_json'] = str_json
+                # session['project_name'] = project_name
+                # session['xml_process'] = xml_process
+                # session['workflow_xml'] = workflow_xml
 
-                return redirect(url_for('overview_process', active_overview=active_overview, project_data = data, project_name=project_name ,xml_process=xml_process, workflow_xml=workflow_xml))
+                # return redirect(url_for('overview_process', active_overview=active_overview, project_data = data, project_name=project_name ,xml_process=xml_process, workflow_xml=workflow_xml))
+                return redirect(url_for('overview_process', active_overview=active_overview, data = data, project_name=project_name))
 
     return redirect(url_for('project_list'))
 
