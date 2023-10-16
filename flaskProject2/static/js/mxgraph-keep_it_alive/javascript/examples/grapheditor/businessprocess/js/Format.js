@@ -2492,6 +2492,14 @@ ArrangePanel.prototype.policyProcessformat = function(div)
 	return div;
 };
 
+// let encoder = new mxCodec();
+// let result = encoder.encode(this.graph.getModel()); //where graph is the object you are using
+// processGraphxml = mxUtils.getXml(result); // 민수 https://stackoverflow.com/questions/56899522/how-to-get-the-xml-from-mxgrpah-diagram
+// graphClick.apply(this.graph, arguments);
+
+
+
+
 /**
  * 
  */

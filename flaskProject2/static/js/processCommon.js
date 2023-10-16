@@ -45,15 +45,21 @@ function uploadXML(){
  * 모든 프로세스를 모아서 프로젝트 저장
  */
 function saveAllProject() {
+	updateLocalStorage(flowDict, processGraphxml)
 ////////////////yaml생성에 필요한 데이터들////////////////////////
 	let get_localstorage_xml_list = ['overviewProcessXML','requirementsProcessXml','requirementsProcess_flowDict','businessProcessXml','businessProcess_flowDict'];
 	var stringWorkflowList = localStorage.getItem(projectName+'_workflowXML');
 	var workflowList = JSON.parse(stringWorkflowList);
-	for (var i = 0 ; i< workflowList.length ; i++){
-		get_localstorage_xml_list.push(workflowList[i]);
-		get_localstorage_xml_list.push(workflowList[i]+'_requirement');
-		get_localstorage_xml_list.push(workflowList[i]+'_nodeSelector');
-		get_localstorage_xml_list.push(workflowList[i]+'_flowDict');
+	try{
+		for (var i = 0 ; i< workflowList.length ; i++){
+			get_localstorage_xml_list.push(workflowList[i]);
+			get_localstorage_xml_list.push(workflowList[i]+'_requirement');
+			get_localstorage_xml_list.push(workflowList[i]+'_nodeSelector');
+			get_localstorage_xml_list.push(workflowList[i]+'_flowDict');
+		}
+	}
+	catch{
+		
 	}
 	console.log(get_localstorage_xml_list)
 /////////////////////////////////////////
@@ -225,6 +231,15 @@ function getWorkflowData(flowDict,processGraphxml){
 	}
 }
 
+// saveAll 버튼 눌렀을 때 로컬 스토리지 업데이트 후 db에 저장하기 위한 함수
+function updateLocalStorage(flowDict,strXml){
+	localStorage.setItem(projectName+'_'+localStorage.getItem(projectName+'_current_processXml'),strXml) // xml 저장
+	
+	// 프로세스간 이동 중 다이어그램 간 링크 연결 없이 이동 할 경우 빈 딕셔너리flowDict가 들어가는 오류 있어서 조건문 추가 
+	if(JSON.stringify(flowDict) != '{}'){ 
+		localStorage.setItem(projectName+'_'+localStorage.getItem(projectName+'_current_processDict')+'_flowDict',JSON.stringify(flowDict)) // dict 저장
+	}
+}
 
 /**
  * 클래스들의 마지막 숫자를 가져와서 +1을 해준다. flowdict의 중복된 키를 방지하기 위해
@@ -293,9 +308,6 @@ function getObjectPropertyValue(input,id, mxObjId) {
 	}
 	}
 	objValueDict[id +'_'+ mxObjId] = desiredAttributes
-	// console.log(desiredAttributes); // 민수 edit property값 출력
-	// console.log(objValueDict)
-	// return desiredAttributes
 }
 
 /**
@@ -304,6 +316,12 @@ function getObjectPropertyValue(input,id, mxObjId) {
   */
 function getWorkflowElement(input, start, end) {
 	flowDict[input] = [start, end];
+	// console.log(input, start, end)
+}
+
+function getDeleteWorkflowElement(input, start, end) {
+	var key = input
+	delete flowDict.key;
 	// console.log(input, start, end)
 }
 
@@ -342,7 +360,6 @@ function getWorkflowObjList(xml){
 	return roundedObjects
 
 }
-
 
 function getNewWorkflow(selectedKey, selectedValue) {
 	console.log("Selected Key:", selectedKey);

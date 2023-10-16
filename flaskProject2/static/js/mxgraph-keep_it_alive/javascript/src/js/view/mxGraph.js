@@ -4634,10 +4634,7 @@ mxGraph.prototype.insertEdge = function(parent, id, value, source, target, style
 
 	console.log("Source 노드 클래스 id:", source.id);
 	console.log("Target 노드 클래스 id:", target.id);
-	// id1 = (EditDataDialog.getDisplayIdForCell != null) ? EditDataDialog.getDisplayIdForCell(ui, cell) : null;
 	
-  
-	// 나머지 로직 실행
 	var insertedEdge = this.addEdge(edge, parent, source, target);
 	// 순우 flowDict 추가
 	getWorkflowElement(edge.id,source.id, target.id)

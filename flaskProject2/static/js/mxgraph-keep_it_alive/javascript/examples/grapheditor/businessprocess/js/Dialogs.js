@@ -1747,7 +1747,13 @@ var EditDataDialog = function(ui, cell)
 					var reqId = document.querySelector("body > div.geDialog.right_sidebar > div > div:nth-child(1) > table > tbody > tr:nth-child(1) > td:nth-child(2) > div").textContent
 					localStorage.setItem(projectName +'_'+reqId+ '#requirementKind', selectedReqKind)
 				}
-			}catch{}
+			}catch{
+				if (cell.value.outerHTML.includes('non functional')) {
+					var selectedReqKind = reqSelectBox.value
+					var reqId = document.querySelector("body > div.geDialog.right_sidebar > div > div:nth-child(1) > table > tbody > tr:nth-child(1) > td:nth-child(2) > div").textContent
+					localStorage.setItem(projectName +'_'+reqId+ '#requirementKind', selectedReqKind)
+				}
+			}
 			
 
 			ui.hideDialog.apply(ui, arguments);

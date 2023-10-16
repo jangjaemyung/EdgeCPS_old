@@ -12,8 +12,10 @@ def login(mariadb_pool,id ,pwd ):
         connection = mariadb_pool.get_connection()
 
         # 커넥션을 사용하여 쿼리 실행
-        cursor = connection.cursor()
-        cursor.execute("SELECT USER_NAME From TB_USER WHERE USER_ID = '"+id+"' AND USER_PWD  = '"+pwd+"';")
+        cursor = connection.cursor(buffered=True)
+        sql = 'SELECT * FROM TB_USER WHERE USER_ID = %s AND USER_PWD = %s'
+        # cursor.execute("SELECT USER_NAME From TB_USER WHERE USER_ID = '"+id+"' AND USER_PWD  = '"+pwd+"';")
+        cursor.execute(sql,(id,pwd))
         results = cursor.fetchall()
 
         if results:
