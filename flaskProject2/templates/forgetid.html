@@ -3,13 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Form Page</title>
+  <title>Find ID</title>
   <!-- 부트스트랩 CSS 링크 추가 -->
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
+  <div id="title" class="title">
+      <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles/process.css')}}"> <!--순우 css 추가-->
+      <h2> <a class="home" href="/">EdgeCPS</a></h2>
+  </div>
+
   <div class="container mt-5">
-    <h1 class="mb-4">Enter Your Information</h1>
+    <h1 class="mb-4">아이디 찾기</h1>
     <form id="infoForm">
       <div class="form-group">
         <label for="name">Name:</label>
@@ -55,23 +60,28 @@
 
         
         else {
-          // 여기에 서버로 정보를 전송하고, 서버에서 응답을 받는 로직을 추가
-          $.ajax({
-            url: '/check_user', // 서버로 보낼 URL
-            method: 'POST',     // 요청 메소드
-            data: { name, email }, // 전송할 데이터
-            success: function(response) {
-              if (response === 'not_found') {
-                showError("User not found in the database.");
-              } else {
-                // 여기에 성공 시 동작을 추가하면 됩니다.
-                // 예시: submitForm(name, email);
+
+          fetch('/findUserId', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json'
+              },
+              body: JSON.stringify( { name, email })
+          })
+          .then(response => response.json())
+          .then(data => {
+              if (data.error) {
+                alert('아이디 찾기 오류가 발생 했습니다')
+                location.replace('/')
+              } else if (data.exists){
+                alert('아이디 : ' , data.userId)
+                location.replace('/')
+              }else if (!data.exists){
+                alert('정보가 존재하지 않습니다.')
               }
-            },
-            error: function() {
-              showError("An error occurred while processing the request.");
-            }
+
           });
+
         }
       });
 
