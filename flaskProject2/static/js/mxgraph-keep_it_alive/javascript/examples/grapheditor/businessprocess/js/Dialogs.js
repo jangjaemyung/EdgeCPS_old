@@ -1532,9 +1532,9 @@ var EditDataDialog = function(ui, cell)
 				var DiClassFixProperty6 = document.createAttribute('environment')
 				DiClassFixProperty6.value = ''
 				var DiClassFixProperty7 = document.createAttribute('parameters')
-				DiClassFixProperty7.value = 'name:       value:'
+				DiClassFixProperty7.value = 'name: ""       value: ""'
 				var DiClassFixProperty8 = document.createAttribute('artifacts')
-				DiClassFixProperty8.value = 'name:       from:'
+				DiClassFixProperty8.value = 'name: ""      from: ""'
 				
 				attrs.setNamedItem(DiClassFixProperty)
 				attrs.setNamedItem(DiClassFixProperty2)

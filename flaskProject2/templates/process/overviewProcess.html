@@ -43,13 +43,14 @@
 
         let sessiondata = "{{ session['data'] }}"
 		var jsonString =  sessiondata.replace(/\&\#34;/g, '"');
+		var b = jsonString.slice(1,-1); 
 		// var stringToArray = jsonString.replace(/\\"/g, '"');
 		// var data = JSON.parse(stringToArray);
 		
     	// jsonString = jsonString.replace(/[\[\]']+/g, '');
     	var array = [];
     	var array2 = [];
-    	array = jsonString.split('],');
+    	array = b.split('],');
     	
     	for (var i = 0; i < array.length; i++) {
     		array[i] = array[i].trim();

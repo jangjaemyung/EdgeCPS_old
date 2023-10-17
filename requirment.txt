@@ -1,0 +1,9 @@
+mysql
+mysql-connector
+flask
+pymysql
+dotenv
+requests
+flask_cors
+cairosvg
+kubernetes

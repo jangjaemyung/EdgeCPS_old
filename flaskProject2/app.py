@@ -66,6 +66,7 @@ def index():
         """
 
 
+
     if request.method == 'POST':
         # session['userid'] = 'tempUser' # todo 로그인 없이 되도록
         # # return redirect(url_for('project_list',loginUserInfo ='tempUser')) # todo 로그인 없이 되도록

@@ -60,8 +60,12 @@ function subContent2ClickHandler(sender, evt) {
     var cell = evt.getProperty('cell'); // 클릭한 셀
     if (cell != null && cell.style.includes('rounded=1')) { //cell이 null아니고 엣지도 아닌경우 
         const inputString = cell.value;
-        const regex = /><div style="font-weight: bold">([^<]+)<\/div>/;
-        const match = inputString.match(regex);
+        var regex = /><div style="font-weight: bold">([^<]+)<\/div>/;
+        var match = inputString.match(regex);
+        if (match ==null){
+            regex = /<br>(.*?)<\/div>/;
+            match = inputString.match(regex);
+        }
         var actionName = match[1]   
         if(actionName.includes('['||']')){
             actionName = actionName.substring(1,actionName.length -1);

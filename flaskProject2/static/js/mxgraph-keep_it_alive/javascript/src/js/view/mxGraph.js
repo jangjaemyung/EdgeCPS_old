@@ -4637,6 +4637,14 @@ mxGraph.prototype.insertEdge = function(parent, id, value, source, target, style
 	
 	var insertedEdge = this.addEdge(edge, parent, source, target);
 	// 순우 flowDict 추가
+	if(source.style.includes('startState')){
+		// 0000 is start state point
+		getWorkflowElement('0000',source.id, target.id)
+	}
+	else if(target.style.includes('endState')){
+		// 9999 is end state point
+		getWorkflowElement('9999',source.id, target.id)
+	}
 	getWorkflowElement(edge.id,source.id, target.id)
 	// flowDict[edge.id] = [source.id, target.id];
 	return insertedEdge;
