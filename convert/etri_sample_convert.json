@@ -13,14 +13,14 @@
         {
           "name": "output-parameter",
           "steps": [
-            
+            // 첫번쨰 스텝
             [
               {
                 "name": "generate-parameter",
                 "template": "whalesay"
               }
             ],
-
+            // 두번째 스텝
             [
               {
                 "name": "consume-parameter",
@@ -35,14 +35,14 @@
                 }
               },
               {
-                "name": "generate-parameter",
+                "name": "generate-parameter2",
                 "template": "whalesay"
               }
             ]
 
           ]
         },
-
+        // 템플릿
         {
           "name": "whalesay",
           "container": {

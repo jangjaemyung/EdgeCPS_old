@@ -95,7 +95,7 @@ Sidebar.prototype.init = function()// 순우 각 프로세스 별 불러올 좌�
 		this.addUmlPaletteReqirement(true);
 	}
 	if (process_name =="policyProcess"){
-		this.addUmlPalettePolicy(true);
+		// this.addUmlPalettePolicy(true);
 	}
 
 	// this.addGeneralPalette(true);

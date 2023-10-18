@@ -52,7 +52,7 @@ Format.prototype.init = function()
 	this.update = mxUtils.bind(this, function(sender, evt) //민수 우측 사이드바 클릭시 evt안에 id와 mxobjectId가 고유한것같은데 확인 필요
 	{
 		this.clearSelectionState();
-		this.refresh();
+		this.refresh(arguments);
 	});
 	
 	graph.getSelectionModel().addListener(mxEvent.CHANGE, this.update);
@@ -61,20 +61,20 @@ Format.prototype.init = function()
 	graph.getModel().addListener(mxEvent.CHANGE, this.update);
 	graph.addListener(mxEvent.ROOT, mxUtils.bind(this, function()
 	{
-		this.refresh();
+		this.refresh(arguments);
 	}));
 	
 	ui.addListener('styleChanged', mxUtils.bind(this, function(sender, evt)
 	{
-		this.refresh();
+		this.refresh(arguments);
 	}));
 	
 	editor.addListener('autosaveChanged', mxUtils.bind(this, function()
 	{
-		this.refresh();
+		this.refresh(arguments);
 	}));
 	
-	this.refresh();
+	this.refresh(arguments);
 };
 
 /**
@@ -360,8 +360,9 @@ Format.prototype.clear = function()
  * Adds the label menu items to the given menu and parent.
  */
 // 순우 우측 판넬 
-Format.prototype.refresh = function()
+Format.prototype.refresh = function(arguments)
 {
+	var selectedCell = arguments
 	// Performance tweak: No refresh needed if not visible
 	if (this.container.style.width == '0px')
 	{
@@ -556,10 +557,33 @@ Format.prototype.refresh = function()
 		label2.style.backgroundColor = this.inactiveTabBackgroundColor;
 		label3.style.backgroundColor = this.inactiveTabBackgroundColor;
 		
+		// Text
+		mxUtils.write(label2, mxResources.get('text'));
+		div.appendChild(label2);
+
+		var textPanel = div.cloneNode(false);
+		textPanel.style.display = 'none';
+		this.panels.push(new TextFormatPanel(this, ui, textPanel));
+		this.container.appendChild(textPanel);
+
+		// Arrange
+		mxUtils.write(label3, mxResources.get('arrange'));
+		div.appendChild(label3);
+
+		var arrangePanel = div.cloneNode(false);
+		arrangePanel.style.display = 'none';
+		this.panels.push(new ArrangePanel(this, ui, arrangePanel));
+		this.container.appendChild(arrangePanel);
+		
+		addClickHandler(label3, arrangePanel, idx++);
+		addClickHandler(label2, textPanel, idx++);
+		
+
 		// Style
 		if (containsLabel)
 		{
-			label2.style.borderLeftWidth = '0px';
+			label.style.borderLeftWidth = '0px';
+			
 		}
 		else
 		{
@@ -574,28 +598,50 @@ Format.prototype.refresh = function()
 
 			addClickHandler(label, stylePanel, idx++);
 		}
-		
-		// Text
-		mxUtils.write(label2, mxResources.get('text'));
-		div.appendChild(label2);
-
-		var textPanel = div.cloneNode(false);
-		textPanel.style.display = 'none';
-		this.panels.push(new TextFormatPanel(this, ui, textPanel));
-		this.container.appendChild(textPanel);
-		
-		// Arrange
-		mxUtils.write(label3, mxResources.get('arrange'));
-		div.appendChild(label3);
-
-		var arrangePanel = div.cloneNode(false);
-		arrangePanel.style.display = 'none';
-		this.panels.push(new ArrangePanel(this, ui, arrangePanel));
-		this.container.appendChild(arrangePanel);
-		
-		addClickHandler(label2, textPanel, idx++);
-		addClickHandler(label3, arrangePanel, idx++);
 	}
+	var div = document.createElement('div');
+	div.style.whiteSpace = 'nowrap';
+	div.style.color = 'rgb(112, 112, 113)';
+	div.style.textAlign = 'left';
+	div.style.cursor = 'default';
+
+	var showAttribute = document.createElement('div');
+	showAttribute.className = 'showAttribute';
+	showAttribute.style.textAlign = 'center';
+	showAttribute.style.fontWeight = 'bold';
+	showAttribute.style.paddingTop = '8px';
+	showAttribute.style.fontSize = '23px';
+	// showAttribute.style.borderWidth = '1px 0px 1px 1px';
+	// showAttribute.style.borderStyle = 'solid';
+	showAttribute.style.display = (mxClient.IS_QUIRKS) ? 'inline' : 'inline-block';
+	showAttribute.style.height = 'max-content';
+	showAttribute.style.overflow = 'hidden';
+	showAttribute.style.width = '100%';
+	showAttribute.style.fontsize = '15px';
+	// 순우 각 cell 클릭 했을 때 우측 사이드바에 속성 값 띄우는 기능
+	if (process_name=='requirementsProcess'){
+		try{
+			var reqAttribute = selectedCell[0].cells[0].value.attributes[1]['name']+' : '+selectedCell[0].cells[0].value.getAttribute('text');
+			div.textContent = reqAttribute;
+		}
+		catch{}
+	}
+	else if (process_name == 'businessProcess' || process_name =='workflowProcess'){
+		var totalAttribute = '';
+		try {
+			var reqAttribute = selectedCell[0].cells[0].value.attributes;
+			for(i=1 ; i<reqAttribute.length; i++){
+				if(reqAttribute[i]['value']==''){
+					continue;
+				}
+				totalAttribute += reqAttribute[i]['name'] + ' : ' + reqAttribute[i]['value']+'<br>';
+			}
+			div.innerHTML = totalAttribute;
+		}
+		catch {}
+	}
+	div.appendChild(showAttribute)
+	this.container.appendChild(div);
 };
 
 /**
