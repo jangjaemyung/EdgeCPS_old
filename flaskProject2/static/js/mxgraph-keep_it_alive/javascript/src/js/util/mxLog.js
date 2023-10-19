@@ -412,3 +412,214 @@ var mxLog =
 	}
 	
 };
+
+
+
+
+var previewBusinessProcess =
+{
+	/**
+	 * Class: mxLog
+	 * 
+	 * A singleton class that implements a simple console.
+	 * 
+	 * Variable: consoleName
+	 * 
+	 * Specifies the name of the console window. Default is 'Console'.
+	 */
+	consoleName: 'Requirement(Previous)',
+	
+	/**
+	 * Variable: TRACE
+	 * 
+	 * Specified if the output for <enter> and <leave> should be visible in the
+	 * console. Default is false.
+	 */
+	TRACE: false,
+
+	/**
+	 * Variable: DEBUG
+	 * 
+	 * Specifies if the output for <debug> should be visible in the console.
+	 * Default is true.
+	 */
+	DEBUG: true,
+
+	/**
+	 * Variable: WARN
+	 * 
+	 * Specifies if the output for <warn> should be visible in the console.
+	 * Default is true.
+	 */
+	WARN: true,
+
+	/**
+	 * Variable: buffer
+	 * 
+	 * Buffer for pre-initialized content.
+	 */
+	buffer: '',
+	
+	/**
+	 * Function: init
+	 *
+	 * Initializes the DOM node for the console. This requires document.body to
+	 * point to a non-null value. This is called from within <setVisible> if the
+	 * log has not yet been initialized.
+	 */
+	init: function()
+	{
+		if (previewBusinessProcess.window == null && document.body != null)
+		{
+			var title = previewBusinessProcess.consoleName ;
+
+			// Creates a table that maintains the layout
+			var table = document.createElement('table');
+			table.setAttribute('width', '100%');
+			table.setAttribute('height', '100%');
+
+			var tbody = document.createElement('tbody');
+			var tr = document.createElement('tr');
+			var td = document.createElement('td');
+			td.style.verticalAlign = 'top';
+				
+			// Adds the actual console as a textarea
+			previewBusinessProcess.textarea = document.createElement('textarea');
+			previewBusinessProcess.textarea.setAttribute('wrap', 'off');
+			previewBusinessProcess.textarea.setAttribute('readOnly', 'true');
+			previewBusinessProcess.textarea.style.height = '100%';
+			previewBusinessProcess.textarea.style.resize = 'none';
+			previewBusinessProcess.textarea.value = previewBusinessProcess.buffer;
+
+			// Workaround for wrong width in standards mode
+			if (mxClient.IS_NS && document.compatMode != 'BackCompat')
+			{
+				previewBusinessProcess.textarea.style.width = '99%';
+			}
+			else
+			{
+				previewBusinessProcess.textarea.style.width = '100%';
+			}
+			
+			td.appendChild(previewBusinessProcess.textarea);
+			tr.appendChild(td);
+			tbody.appendChild(tr);
+
+			// Creates the container div
+			tr = document.createElement('tr');
+			previewBusinessProcess.td = document.createElement('td');
+			previewBusinessProcess.td.style.verticalAlign = 'top';
+			previewBusinessProcess.td.setAttribute('height', '30px');
+			
+			tr.appendChild(previewBusinessProcess.td);
+			tbody.appendChild(tr);
+			table.appendChild(tbody);
+
+			
+
+			
+
+			// Cross-browser code to get window size
+			var h = 0;
+			var w = 0;
+			
+			if (typeof(window.innerWidth) === 'number')
+			{
+				h = window.innerHeight;
+				w = window.innerWidth;
+			}
+			else
+			{
+				h = (document.documentElement.clientHeight || document.body.clientHeight);
+				w = document.body.clientWidth;
+			}
+
+			previewBusinessProcess.window = new mxWindow(title, table, Math.max(0, w - 320), Math.max(0, h - 210), 300, 160);
+			previewBusinessProcess.window.setMaximizable(true);
+			previewBusinessProcess.window.setScrollable(false);
+			previewBusinessProcess.window.setResizable(true);
+			previewBusinessProcess.window.setClosable(true);
+			previewBusinessProcess.window.destroyOnClose = false;
+			
+			// Workaround for ignored textarea height in various setups
+			if (((mxClient.IS_NS || mxClient.IS_IE) && !mxClient.IS_GC &&
+				!mxClient.IS_SF && document.compatMode != 'BackCompat') ||
+				document.documentMode == 11)
+			{
+				var elt = previewBusinessProcess.window.getElement();
+				
+				var resizeHandler = function(sender, evt)
+				{
+					previewBusinessProcess.textarea.style.height = Math.max(0, elt.offsetHeight - 70) + 'px';
+				}; 
+				
+				previewBusinessProcess.window.addListener(mxEvent.RESIZE_END, resizeHandler);
+				previewBusinessProcess.window.addListener(mxEvent.MAXIMIZE, resizeHandler);
+				previewBusinessProcess.window.addListener(mxEvent.NORMALIZE, resizeHandler);
+
+				previewBusinessProcess.textarea.style.height = '92px';
+			}
+		}
+	},
+	
+	/**
+	 * Function: info
+	 * 
+	 * Writes the current navigator information to the console.
+	 */
+	info: function()
+	{
+		previewBusinessProcess.writeln(mxUtils.toString(navigator));
+	},
+			
+				
+	/**
+	 * Function: isVisible
+	 * 
+	 * Returns true if the console is visible.
+	 */
+	isVisible: function()
+	{
+		if (previewBusinessProcess.window != null)
+		{
+			return previewBusinessProcess.window.isVisible();
+		}
+		
+		return false;
+	},
+	
+
+	/**
+	 * Function: show
+	 * 
+	 * Shows the console.
+	 */
+	show: function()
+	{
+		previewBusinessProcess.setVisible(true);
+	},
+
+	/**
+	 * Function: setVisible
+	 * 
+	 * Shows or hides the console.
+	 */
+	setVisible: function(visible)
+	{
+		if (previewBusinessProcess.window == null)
+		{
+			previewBusinessProcess.init();
+		}
+
+		if (previewBusinessProcess.window != null)
+		{
+			previewBusinessProcess.window.setVisible(visible);
+		}
+	},
+
+
+	
+	
+	
+};
+// 
