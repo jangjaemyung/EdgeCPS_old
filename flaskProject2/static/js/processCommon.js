@@ -149,16 +149,11 @@ document.addEventListener("DOMContentLoaded", function() {
 	function processSaveClick() {
 		saveAllProject()
 	}
-	function preViewClick(previousXML){
-		// 순우 프리뷰 팝업 창
-		// var script = document.createElement('script');
-		// script.src = 'mxgraph/javascript/mxClient.js';
-		
-		
-		// 팝업 창의 속성 설정
+
+	// 순우 프리뷰 팝업 창
+	function preViewClick(previousXML){	
 		var popupFeatures = 'width=1000,height=400,toolbar=no,location=no,scrollbars=no';
 
-		// 팝업 창 열기
 		var popupWindow = window.open('', '작은팝업', popupFeatures);
 
 		// 팝업 창에 내용 추가 (선택 사항)
@@ -220,24 +215,16 @@ document.addEventListener("DOMContentLoaded", function() {
 			let targetElementRetry = document.querySelector(".geMenubar");// save, load 버튼 생성
 			// 순우 이전 프로세스 보기
 			var previousContainer = document.getElementsByClassName('processPrevious');
-			// previousContainer[0].appendChild(createButton("Requirement Process", preViewClick.bind(null, localStorage.getItem(projectName+'_requirementsProcessXml')))); 
 			try{
-
 				previousContainer[0].appendChild(createButton("Requirement Process", function() {
 					var previousXML = localStorage.getItem(projectName + '_requirementsProcessXml');
-					preViewClick(previousXML);
+					// preViewClick(previousXML);
+					window.open("/requirementPrevious?ProjectName="+projectName, "Popup", "width=600, height=600");
+					
+
 				}));
 				
-	
-				if(process_name == 'workflowProcess'){
-					previousContainer[0].appendChild(createButton("Business Process",
-					function() {	
-					var previousXML = localStorage.getItem(projectName + '_businessProcessXml');
-						preViewClick(previousXML);
-					}));
-				}
 			}catch{}
-			
 
 			if (targetElementRetry !== null) {
 				targetElementRetry.appendChild(buttonContainer);

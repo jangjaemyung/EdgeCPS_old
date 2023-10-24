@@ -290,6 +290,13 @@ def save_to_server():
         except Exception as e:
             return jsonify({'message': f'Error: {str(e)}'}), 500
 
+"""previous"""
+@app.route("/requirementPrevious", methods=['GET', 'POST'])
+def requirementPrevious():
+    project_name = request.args.get("ProjectName")
+    return render_template("requirementPrevious.html", project_name = project_name)
+
+
 @app.route('/process/overviewProcess', methods=['GET', 'POST'])
 def overview_process():
     catlist = ['java', 'python']

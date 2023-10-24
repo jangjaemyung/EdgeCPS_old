@@ -1971,10 +1971,12 @@ var ReqDialog = function(editorUi, ui, cell) {
 	listContainer.appendChild(leftContainer);
 	listContainer.appendChild(rightContainer);
 
-	leftList.style.width = "250px"; 
-	rightList.style.width = "250px"; 
-	leftContainer.style.width = "250px";
-	rightContainer.style.width = "250px";
+	leftList.style.width = "300px"; 
+	rightList.style.width = "300px"; 
+	leftList.style.height = "300px";
+	rightList.style.height = '300px';
+	leftContainer.style.width = "300px";
+	rightContainer.style.width = "300px";
 
 	var moveButton = document.createElement("button");
 	moveButton.id = "moveButton";
@@ -2119,7 +2121,7 @@ var ReqDialog = function(editorUi, ui, cell) {
 	div.appendChild(inner);
 
 	// Show 
-	editorUi.showDialog(div, 700, 900, true, true);
+	editorUi.showDialog(div, 700, 700, true, true);
 	editorUi.dialog.container.style.overflow = 'hidden';
 	mxEvent.addListener(window, 'resize', function() {
 	editorUi.dialog.container.style.overflow = 'hidden';
