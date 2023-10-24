@@ -83,9 +83,11 @@ Sidebar.prototype.init = function()// 순우 각 프로세스 별 불러올 좌�
 	var path = window.location.pathname;
 	var process_name = path.split("/").pop();
 	if (process_name == 'businessProcess'){
+		this.processPrevious(true);
 		this.addGeneralPaletteBusinessProcess(true);
 	}
 	if (process_name =='workflowProcess'){
+		this.processPrevious(true);
 		this.addGeneralPaletteWorkflow(true);
 	}
 	if (process_name =="searchReuablesProcess"){
@@ -1182,78 +1184,25 @@ Sidebar.prototype.addGeneralPaletteBusinessProcess = function(expand)
 			
 			return this.createEdgeTemplateFromCells([edge], 100, 0, 'Connector with Label satisfy');
 		})),
-		// this.addEntry(lineTags + 'edge title multiplicity', mxUtils.bind(this, function()
-		// {
-		// 	var edge = new mxCell('', new mxGeometry(0, 0, 0, 0), 'endArrow=classic;html=1;');
-		// 	edge.geometry.setTerminalPoint(new mxPoint(0, 0), true);
-		// 	edge.geometry.setTerminalPoint(new mxPoint(160, 0), false);
-		// 	edge.geometry.relative = true;
-		// 	edge.edge = true;
-
-	    // 	var cell0 = new mxCell('Label', new mxGeometry(0, 0, 0, 0), 'edgeLabel;resizable=0;html=1;align=center;verticalAlign=middle;');
-	    // 	cell0.geometry.relative = true;
-	    // 	cell0.setConnectable(false);
-	    // 	cell0.vertex = true;
-	    // 	edge.insert(cell0);
-	    	
-	    // 	var cell1 = new mxCell('Source', new mxGeometry(-1, 0, 0, 0), 'edgeLabel;resizable=0;html=1;align=left;verticalAlign=bottom;');
-	    // 	cell1.geometry.relative = true;
-	    // 	cell1.setConnectable(false);
-	    // 	cell1.vertex = true;
-	    // 	edge.insert(cell1);
-			
-		// 	return this.createEdgeTemplateFromCells([edge], 160, 0, 'Connector with 2 Labels');
-		// })),
-		// this.addEntry(lineTags + 'edge title multiplicity', mxUtils.bind(this, function()
-		// {
-		// 	var edge = new mxCell('Label', new mxGeometry(0, 0, 0, 0), 'endArrow=classic;html=1;');
-		// 	edge.geometry.setTerminalPoint(new mxPoint(0, 0), true);
-		// 	edge.geometry.setTerminalPoint(new mxPoint(160, 0), false);
-		// 	edge.geometry.relative = true;
-		// 	edge.edge = true;
-			
-	    // 	var cell0 = new mxCell('Label', new mxGeometry(0, 0, 0, 0), 'edgeLabel;resizable=0;html=1;align=center;verticalAlign=middle;');
-	    // 	cell0.geometry.relative = true;
-	    // 	cell0.setConnectable(false);
-	    // 	cell0.vertex = true;
-	    // 	edge.insert(cell0);
-	    	
-	    // 	var cell1 = new mxCell('Source', new mxGeometry(-1, 0, 0, 0), 'edgeLabel;resizable=0;html=1;align=left;verticalAlign=bottom;');
-	    // 	cell1.geometry.relative = true;
-	    // 	cell1.setConnectable(false);
-	    // 	cell1.vertex = true;
-	    // 	edge.insert(cell1);
-			
-	    // 	var cell2 = new mxCell('Target', new mxGeometry(1, 0, 0, 0), 'edgeLabel;resizable=0;html=1;align=right;verticalAlign=bottom;');
-	    // 	cell2.geometry.relative = true;
-	    // 	cell2.setConnectable(false);
-	    // 	cell2.vertex = true;
-	    // 	edge.insert(cell2);
-	    	
-		// 	return this.createEdgeTemplateFromCells([edge], 160, 0, 'Connector with 3 Labels');
-		// })),
-	
-	 	// this.addEntry(lineTags + 'edge shape symbol message mail email', mxUtils.bind(this, function()
-		// {
-		// 	var edge = new mxCell('', new mxGeometry(0, 0, 0, 0), 'endArrow=classic;html=1;');
-		// 	edge.geometry.setTerminalPoint(new mxPoint(0, 0), true);
-		// 	edge.geometry.setTerminalPoint(new mxPoint(100, 0), false);
-		// 	edge.geometry.relative = true;
-		// 	edge.edge = true;
-			
-	    // 	var cell = new mxCell('', new mxGeometry(0, 0, 20, 14), 'shape=message;html=1;outlineConnect=0;');
-	    // 	cell.geometry.relative = true;
-	    // 	cell.vertex = true;
-	    // 	cell.geometry.offset = new mxPoint(-10, -7);
-	    // 	edge.insert(cell);
-
-		// 	return this.createEdgeTemplateFromCells([edge], 100, 0, 'Connector with Symbol');
-		// }))
 	];
 	
 	this.addPaletteFunctions('general', mxResources.get('general'), (expand != null) ? expand : true, fns);
 	this.setCurrentSearchEntryLibrary();
 };
+
+Sidebar.prototype.processPrevious = function(expand)
+{
+	var lineTags = 'line lines connector connectors connection connections arrow arrows ';
+	// this.setCurrentSearchEntryLibrary('general', 'general');
+	var dt = 'uml static class ';
+	var fns = [
+
+	];
+	
+	this.addPaletteFunctions('general', 'Previous Process ', (expand != null) ? expand : true, fns);
+	// this.setCurrentSearchEntryLibrary();
+};
+
 // 순우 workflow 좌측 사이드바 만들기
 Sidebar.prototype.addGeneralPaletteWorkflow = function(expand)
 {
@@ -4337,7 +4286,15 @@ Sidebar.prototype.addPalette = function(id, title, expanded, onInit)
 	this.container.appendChild(elt);
 	
 	var div = document.createElement('div');
+	
 	div.className = 'geSidebar';
+	if(process_name =='businessProcess'||process_name=='workflowProcess'){
+		div.className = 'processPrevious';
+	// }else if(process_name =='businessProcess'){
+
+	// }else if(process_name =='workflowProcess'){
+	// 	div.className = 'workflowProcessPrevious';
+	}
 	
 	// Disables built-in pan and zoom in IE10 and later
 	if (mxClient.IS_POINTER)

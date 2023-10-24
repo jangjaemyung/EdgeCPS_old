@@ -36,8 +36,11 @@ function searchDockerImage(){
         var dockerSearchResult = document.querySelector('.dockerSearchResult');
 
         var selectBox = document.createElement('select');
+		selectBox.multiple = true;
         selectBox.className = 'docker-select-box';
 		selectBox.style.width = '400px';
+		selectBox.style.height = '200px'
+		
         data.images.forEach(function(image) {
             var option = document.createElement('option');
             option.value = image;
@@ -1906,154 +1909,221 @@ EditDataDialog.placeholderHelpLink = null;
 
 // 순우 req 다이어로그
 var ReqDialog = function(editorUi, ui, cell) {
-	if(typeof(cell.value)=='object'){
-		actId = cell.id
-		actName = actId+'#'+cell.value.attributes[1].nodeValue
+	if (process_name =='businessProcess'){
+		if(typeof(cell.value)=='object'){
+			var actId = cell.id
+			var actName = actId+'#'+cell.value.attributes[1].nodeValue
+		}
+		else{
+			var actName = cell.id+'#'+cell.value; // html actName 변수에 현재 선택한 activiy가 뭔지 아이디랑 이름 저장
+			var actId = cell.id
+		}
+	}else if (process_name == 'workflowProcess'){
+		var actName = localStorage.getItem(projectName+'_nowWorkflow');
+		var stepNameHtml = cell.value;
+		var start = stepNameHtml.indexOf("&gt;&gt;<br>") + "&gt;&gt;<br>".length;
+		var end = stepNameHtml.indexOf("</div>");
+		var stepName = stepNameHtml.substring(start, end);
+		if(stepName.includes('['||']')){
+			stepName = stepName.substring(1,stepName.length-1);
+		}
 	}
-	else{
-		actName = cell.id+'#'+cell.value; // html actName 변수에 현재 선택한 activiy가 뭔지 아이디랑 이름 저장
-		actId = cell.id
-	}
-	var optionText = '';
+
 	var reqList = extractReq();
 	var div = document.createElement('div');
+	div.style = 'flex';
 	mxUtils.write(div, mxResources.get('selectReq'));
 	
 	var inner = document.createElement('div');
 	inner.className = 'geTitle';
-	inner.style.backgroundColor = 'transparent';
-	inner.style.borderColor = 'transparent';
-	inner.style.whiteSpace = 'nowrap';
-	inner.style.textOverflow = 'clip';
-	inner.style.cursor = 'default';
-	
+	inner.style = 'flex';
+
 	if (!mxClient.IS_VML) {
 	  inner.style.paddingRight = '20px';
 	}
-	
-	const selectBox = document.createElement('select');
-	
-	reqList.forEach(innerArray => {
-		const optionValue = innerArray;
-		optionText = optionValue;
-		
-		const option = new Option(optionText, optionValue);
-		selectBox.appendChild(option);
-	});
-	inner.appendChild(selectBox);
-	
-	// 이미 추가된 option들을 저장하는 배열 (중복 방지 때 사용할 배열)
-	var addedOptions = [];
 
-	var okButton = mxUtils.button(mxResources.get('ok'), function() {
-		var selectedOption = selectBox.options[selectBox.selectedIndex].value;
-		
-		// 중복 체크
-		if (addedOptions.indexOf(selectedOption) === -1) {
-			addedOptions.push(selectedOption); // 배열에 추가
-			
-			// Create a new div for the selected option
-			var selectedDiv = document.createElement('div');
-			selectedDiv.className = 'selectedDiv';
-			
-			var selectedText = document.createElement('span');
-			mxUtils.write(selectedText, selectedOption);
-			
-			var deleteButton = document.createElement('span');
-			deleteButton.className = 'deleteButton';
-			deleteButton.innerHTML = '&#10006;'; // 'X' character
-			
-			// Attach the delete event to the delete button
-			deleteButton.addEventListener('click', function() {
-				// 삭제 시 배열에서도 제거
-				var index = addedOptions.indexOf(selectedOption);
-				if (index !== -1) {
-					addedOptions.splice(index, 1);
-				}
-				
-				div.removeChild(selectedDiv);
+	var leftContainer = document.createElement("div");
+	leftContainer.style.display = "flex";
+	leftContainer.style.flexDirection = "column";
+
+	var leftListLabel = document.createElement("div");
+	leftListLabel.textContent = "Requirement pool";
+	leftListLabel.style.fontWeight = "bold";
+
+	var leftList = document.createElement("select");
+	leftList.id = "leftList";
+	leftList.multiple = true;
+
+	var rightContainer = document.createElement("div");
+	rightContainer.style.display = "flex";
+	rightContainer.style.flexDirection = "column";
+
+	var rightListLabel = document.createElement("div");
+	rightListLabel.textContent = "Target requirement";
+	rightListLabel.style.fontWeight = "bold";
+
+	var rightList = document.createElement("select");
+	rightList.id = "rightList";
+	rightList.multiple = true;
+
+	var listContainer = document.createElement('div');
+	listContainer.style.display = 'flex';
+	listContainer.appendChild(leftContainer);
+	listContainer.appendChild(rightContainer);
+
+	leftList.style.width = "250px"; 
+	rightList.style.width = "250px"; 
+	leftContainer.style.width = "250px";
+	rightContainer.style.width = "250px";
+
+	var moveButton = document.createElement("button");
+	moveButton.id = "moveButton";
+	moveButton.textContent = "Move Selected";
+
+	var moveBackButton = document.createElement("button");
+	moveBackButton.id = "moveBackButton";
+	moveBackButton.textContent = "Move Back Selected";
+
+	var leftListOptions = reqList;
+
+	moveBackButton.addEventListener("click", function() {
+		var selectedOptions = Array.from(rightList.selectedOptions);
+		selectedOptions.forEach(function(selectedOption) {
+			var exists = Array.from(leftList.options).some(function(option) {
+				return option.value === selectedOption.value;
 			});
-			
-			selectedDiv.appendChild(selectedText);
-			selectedDiv.appendChild(deleteButton);
-			
-			div.appendChild(selectedDiv);
-		}
+			if (!exists) {
+				var newOption = document.createElement("option");
+				newOption.value = selectedOption.value;
+				newOption.text = selectedOption.text;
+				leftList.appendChild(newOption);
+			}
+		});
+		selectedOptions.forEach(function(selectedOption) {
+			rightList.removeChild(selectedOption);
+		});
 	});
+
+	moveButton.addEventListener("click", function() {
+		var selectedOptions = Array.from(leftList.selectedOptions);
+		selectedOptions.forEach(function(selectedOption) {
+			var exists = Array.from(rightList.options).some(function(option) {
+				return option.value === selectedOption.value;
+			});
+			if (!exists) {
+				var newOption = document.createElement("option");
+				newOption.value = selectedOption.value; 
+				newOption.text = selectedOption.text;
+				rightList.appendChild(newOption);
+			}
+		});
+		selectedOptions.forEach(function(selectedOption) {
+			leftList.removeChild(selectedOption);
+		});
+	});
+
+	// 저장 되어 있는 값이 있는지 확인해서 왼쪽 오른쪽 배치
+	if(process_name == 'businessProcess'){
+		var check = localStorage.getItem(projectName+'_'+actName+'_requirement');
+		if (check != null){
+			leftListOptions.forEach(function(optionText, index) {
+				if(check.includes(optionText)){
+					var option = document.createElement("option");
+					option.value = index; 
+					option.text = optionText;
+					rightList.appendChild(option)
+				}
+				else{
+					var option = document.createElement("option");
+					option.value = index; 
+					option.text = optionText;
+					leftList.appendChild(option);
+				}
+			});
+		}else if(check ==null){
+			leftListOptions.forEach(function(optionText, index) {
+				var option = document.createElement("option");
+				option.value = index; 
+				option.text = optionText;
+				leftList.appendChild(option);
+			});
+		}
+	}
+	else if(process_name == 'workflowProcess'){
+		var check = localStorage.getItem(actName +'_'+ stepName + '_requirement');
+		if (check != null){
+			leftListOptions.forEach(function(optionText, index) {
+				if(check.includes(optionText)){
+					var option = document.createElement("option");
+					option.value = index; 
+					option.text = optionText;
+					rightList.appendChild(option)
+				}
+				else{
+					var option = document.createElement("option");
+					option.value = index; 
+					option.text = optionText;
+					leftList.appendChild(option);
+				}
+			});
+		}else if(check ==null){
+			leftListOptions.forEach(function(optionText, index) {
+				var option = document.createElement("option");
+				option.value = index; 
+				option.text = optionText;
+				leftList.appendChild(option);
+			});
+		}
+	}
 
 	var applyBtn = mxUtils.button(mxResources.get('apply'), function(ui)
 	{
-		
-		localStorage.setItem(projectName+'_' + actName + '_requirement',addedOptions); 
+		var targetList = [];
+		rightListValue = document.querySelector('#rightList').options;
+		for (i=0; i<rightListValue.length; i++){
+			targetList.push(rightListValue[i].textContent);
+		}
+		if(process_name=='businessProcess'){
+			localStorage.setItem(projectName+'_' + actName + '_requirement',targetList); 
+		}
+		else if(process_name =='workflowProcess'){
+			localStorage.setItem(actName + '_' + stepName + '_requirement',targetList); 
+		}
 		console.log('apply btn clicked')
 		editorUi.hideDialog();
 	});
 	applyBtn.className = 'geBtn gePrimaryBtn minsoo'; // 민수 property입력 버튼 
 
-
-	// Create Cancel button
 	var cancelButton = mxUtils.button(mxResources.get('cancel'), function() {
 	editorUi.hideDialog();
 	mxEvent.release(cancelButton);
 	});
 
-	// Append buttons to the inner div
-	inner.appendChild(okButton);
+	var buttonsContainer = document.createElement("div");
+	buttonsContainer.style.display = "flex";
+	leftContainer.appendChild(leftListLabel); 
+	leftContainer.appendChild(leftList); 
+	rightContainer.appendChild(rightListLabel); 
+	rightContainer.appendChild(rightList);
+
+	inner.appendChild(listContainer);
+
+	buttonsContainer.appendChild(moveButton);
+	buttonsContainer.appendChild(moveBackButton);
+
+	inner.appendChild(buttonsContainer);
+
 	inner.appendChild(cancelButton);
 	inner.appendChild(applyBtn);
 
-	// Append inner div to the main div
 	div.appendChild(inner);
 
-	// Show the dialog
-	editorUi.showDialog(div, 300, 150, true, true);
+	// Show 
+	editorUi.showDialog(div, 700, 900, true, true);
 	editorUi.dialog.container.style.overflow = 'hidden';
 	mxEvent.addListener(window, 'resize', function() {
 	editorUi.dialog.container.style.overflow = 'hidden';
 	});
-
-	selectBox.focus();
-
-	if (localStorage.getItem(projectName + '_' + actName + '_requirement') != null) {
-		const arr = localStorage.getItem(projectName + '_' + actName + '_requirement');
-	
-		// 콤마(,)로 문자열 분할
-		var stringArray = arr.split(',');
-		addedOptions = stringArray;
-		// 각 문자열을 선택된 옵션으로 추가
-		for (var i = 0; i < stringArray.length; i++) {
-			var selectedOption = stringArray[i].trim(); // 문자열 앞뒤의 공백 제거
-			// Create a new div for the selected option
-			var selectedDiv = document.createElement('div');
-			selectedDiv.className = 'selectedDiv';
-	
-			var selectedText = document.createElement('span');
-			mxUtils.write(selectedText, selectedOption);
-	
-			var deleteButton = document.createElement('span');
-			deleteButton.className = 'deleteButton';
-			deleteButton.innerHTML = '&#10006;'; // 'X' character
-	
-			selectedDiv.appendChild(selectedText);
-			selectedDiv.appendChild(deleteButton);
-	
-			div.appendChild(selectedDiv);
-	
-			// 이벤트 핸들러를 클로저로 래핑하여 사용!!!!!!!!
-			(function (selectedOption, selectedDiv) {
-				deleteButton.addEventListener('click', function () {
-					// 삭제 시 배열에서도 제거
-					var index = addedOptions.indexOf(selectedOption);
-					if (index !== -1) {
-						addedOptions.splice(index, 1);
-					}
-	
-					div.removeChild(selectedDiv);
-				});
-			})(selectedOption, selectedDiv);
-		}
-	}
-	
 };
 
 // 순우 node selector 다이어로그
@@ -2161,6 +2231,7 @@ var nodeSelectorDialog = function(editorUi, ui, cell) {
 /**
  * Constructs a new link dialog.
  */
+// 도커 다이어로그
 var LinkDialog = function(editorUi, initialValue, btnLabel, fn)
 {
 	var div = document.createElement('div');

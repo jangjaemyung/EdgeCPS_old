@@ -29,18 +29,56 @@ function extractReq(){
 	var xpathResult = xmlDoc.evaluate("//object/@label", xmlDoc, null, XPathResult.ANY_TYPE, null);
 	var extractedValues = [];
 	var node = xpathResult.iterateNext();
-
 	while (node) {
-	var match = node.value.match(/<<functional requirement>>\n(.*)/);
-
-	if (match && match[1]) {
-		if(match[1].includes('['||']')){
-			match[1] = match[1].substring(1,match[1].length -1);
+		var match = node.value.match(/<<functional requirement>>\n(.*)/);
+	
+		if (match && match[1]) {
+			if(match[1].includes('['||']')){
+				match[1] = match[1].substring(1,match[1].length -1);
+			}
+			extractedValues.push(match[1]);
 		}
-		extractedValues.push(match[1]);
+		
+		node = xpathResult.iterateNext();
+	}
+	if (node== null){
+		var mxCells = xmlDoc.querySelectorAll('mxCell');
+		var values = [];
+
+		// 각 mxCell 요소에서 value 속성을 추출
+		mxCells.forEach(function(mxCell) {
+			try{
+				var value = mxCell.getAttribute('value');	
+			}catch{}
+			
+			if(value !=null){
+				values.push(value);
+
+				var match = value.match(/<<functional requirement>>\n(.*)/);
+			
+				if (match && match[1]) {
+					if(match[1].includes('['||']')){
+						match[1] = match[1].substring(1,match[1].length -1);
+					}
+					extractedValues.push(match[1]);
+				}
+			
+			}
+
+		});
+		return extractedValues
 	}
 	
-	node = xpathResult.iterateNext();
-	}
+	
 	return extractedValues
+}
+
+function previous(){
+	var xmlData = localStorage.getItem(projectName+'_requirementsProcessXml')
+    var container = document.getElementById('previous');
+    var graph = new Graph(container);
+    var doc = mxUtils.parseXml(xmlData);
+    var codec = new mxCodec(doc);
+    codec.decode(doc.documentElement, graph.getModel());
+	graph.refresh();
 }

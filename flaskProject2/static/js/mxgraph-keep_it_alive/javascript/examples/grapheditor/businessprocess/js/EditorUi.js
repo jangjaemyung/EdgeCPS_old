@@ -64,6 +64,32 @@ EditorUi = function(editor, container, lightbox)
 		this.refresh(); // 위에서 좌측 사이드바, 상단메뉴바가 생성 되고 리프레시 되면서 화면의 그리드가 잡힌다. 민수
 
 
+		// 순우 프리뷰 팝업 창
+		function openSmallPopup() {
+            // 팝업 창의 속성 설정
+            var popupFeatures = 'width=300,height=200,toolbar=no,location=no,scrollbars=no';
+
+            // 팝업 창 열기
+            var popupWindow = window.open('popup.html', '작은팝업', popupFeatures);
+
+            // 팝업 창에 내용 추가 (선택 사항)
+            if (popupWindow) {
+                popupWindow.document.write('<h2>작은 팝업</h2>');
+                popupWindow.document.write('<p>팝업 내용을 추가하세요.</p>');
+            }
+        }
+
+		// 순우 좌측 사이드바 프리뷰 버튼 추가
+		var previousButtonFunc= mxUtils.bind(this, function(evt){
+			previouesButtonContainer = document.createElement('div');
+			previouesButtonContainer.id = 'previousButtonContainer';
+			var previousButton = document.createElement("button");
+			button.innerHTML = 'Previous';
+			button.onclick = openSmallPopup()
+			var buttonContainer = document.getElementById("previousButtonContainer");
+            buttonContainer.appendChild(previousButton);
+		});
+		
 
 		// Disables HTML and text selection
 		var textEditing =  mxUtils.bind(this, function(evt) //민수 여기에서 evt.path 안에 내가 클릭한 도형이 들어간다.
@@ -95,7 +121,13 @@ EditorUi = function(editor, container, lightbox)
 			this.formatContainer.onmousedown = textEditing;
 			this.footerContainer.onselectstart = textEditing;
 			this.footerContainer.onmousedown = textEditing;
-			
+
+			// this.previewButtonContainer.onselectstart = previousButtonFunc;
+			// this.previewButton.onmousedown = previousButtonFunc;
+			// this.previewButtonContainer.onmousedown = previousButtonFunc;
+
+			// this.previouesButton
+
 			if (this.tabContainer != null)
 			{
 				// Mouse down is needed for drag and drop
@@ -997,6 +1029,7 @@ EditorUi.prototype.splitSize = (mxClient.IS_TOUCH || mxClient.IS_POINTER) ? 12 :
  * Specifies the height of the menubar. Default is 30.
  */
 EditorUi.prototype.menubarHeight = 30;
+// EditorUi.prototype.previewButtonHeight = 20;
 
 /**
  * Specifies the width of the format panel should be enabled. Default is true.
@@ -3684,6 +3717,8 @@ EditorUi.prototype.refresh = function(sizeDidChange)
 	if (quirks)
 	{
 		this.menubarContainer.style.width = w + 'px';
+		// this.previewButtonContainer.style.height = (sidebarHeight - sidebarFooterHeight) + 'px';
+		this.formatContainer.style.height = sidebarHeight + 'px';
 		this.toolbarContainer.style.width = this.menubarContainer.style.width;
 		var sidebarHeight = Math.max(0, h - this.footerHeight - this.menubarHeight - this.toolbarHeight);
 		this.sidebarContainer.style.height = (sidebarHeight - sidebarFooterHeight) + 'px';
@@ -3745,6 +3780,7 @@ EditorUi.prototype.createDivs = function()
 {
 	// 순우 상단 메뉴바 삭제
 	this.menubarContainer = this.createDiv('geMenubarContainer');
+	// this.previewButtonContainer = this.createDiv('gepreviewButtonContainer');
 
 	this.toolbarContainer = this.createDiv('geToolbarContainer');
 	this.sidebarContainer = this.createDiv('geSidebarContainer');
@@ -3760,6 +3796,11 @@ EditorUi.prototype.createDivs = function()
 	this.menubarContainer.style.top = '0px';
 	this.menubarContainer.style.left = '0px';
 	this.menubarContainer.style.right = '0px';
+
+	// this.previewButtonContainer.style.top = '0px';
+	// this.previewButtonContainer.style.left = '0px';
+	// this.previewButtonContainer.style.right = '0px';
+
 	this.toolbarContainer.style.left = '0px';
 	this.toolbarContainer.style.right = '0px';
 	this.sidebarContainer.style.left = '0px';
@@ -3806,7 +3847,32 @@ EditorUi.prototype.createUi = function() //민수 요청된 ui생성하는 곳
 	// Creates menubar
 	this.menubar = (this.editor.chromeless) ? null : this.menus.createMenubar(this.createDiv('geMenubar'));
 
+	// this.previewButton = (this.editor.chromeless) ? null : this.menus.createMenubar(this.createDiv('gepreviewButton'));
 	
+	
+	// if (this.previewButton != null)
+	// {
+	// 	this.previewButtonContainer.appendChild(this.previewButton.container);
+	// }
+	
+	// // Adds status bar in menubar
+	// if (this.previewButton != null)
+	// {
+	// 	this.statusContainer = this.createStatusContainer();
+	
+	// 	// Connects the status bar to the editor status
+	// 	this.editor.addListener('statusChanged', mxUtils.bind(this, function()
+	// 	{
+	// 		this.setStatusText(this.editor.getStatus());
+	// 	}));
+	
+	// 	this.setStatusText(this.editor.getStatus());
+	// 	this.previewButton.container.appendChild(this.statusContainer);
+		
+	// 	// Inserts into DOM
+	// 	this.container.appendChild(this.previewButtonContainer);
+	// }
+
 	if (this.menubar != null)
 	{
 		this.menubarContainer.appendChild(this.menubar.container);
@@ -5115,6 +5181,12 @@ EditorUi.prototype.destroy = function()
 		this.menubar.destroy();
 		this.menubar = null;
 	}
+	if (this.previewButton != null)
+	{
+		this.previewButton.destroy();
+		this.previewButton = null;
+	}
+	
 	
 	if (this.toolbar != null)
 	{

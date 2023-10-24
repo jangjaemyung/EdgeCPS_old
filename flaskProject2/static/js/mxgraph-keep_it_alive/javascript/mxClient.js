@@ -661,7 +661,7 @@ var mxLog =
 	 * 
 	 * Specifies the name of the console window. Default is 'Console'.
 	 */
-	consoleName: 'Console',
+	consoleName: 'Console22',
 	
 	/**
 	 * Variable: TRACE
