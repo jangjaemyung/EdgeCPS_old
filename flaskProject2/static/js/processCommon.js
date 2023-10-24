@@ -36,6 +36,7 @@ function uploadXML(){
 			}
 			elt = elt.nextSibling;
 		}
+		processGraphxml = xml
 		universalGraph.addCells(cells);
 	}
 

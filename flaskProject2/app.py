@@ -28,8 +28,8 @@ app.secret_key = 'EdgeCPS_workflow'
 # 임의의 프로젝트 목록 데이터
 
 
-mariadb_pool = get_pool_conn()
-
+# mariadb_pool = get_pool_conn()
+mariadb_pool = 'none'
 def getProjectDict():
     # 로컬 디렉토리에 저장 되어있는 목록에서 프로젝트 정보 가져오는 부분.
     # pj_dir = glob.glob('project_file/*')
@@ -75,7 +75,9 @@ def index():
         password = request.form["password"]
         # userid = 'aaa'
         # password = 'aaa'
-        login = db_query.login(mariadb_pool,id = userid, pwd = password )
+        # login = db_query.login(mariadb_pool,id = userid, pwd = password )
+        login = {}
+        login['login'] = True
 
         if login['login']:
             session['userId'] = userid
@@ -582,4 +584,4 @@ def change_pwd():
     return jsonify(response)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True,host = '')

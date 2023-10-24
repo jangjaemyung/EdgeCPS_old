@@ -450,6 +450,7 @@ mxXmlRequest.prototype.simulate = function(doc, target)
 
 	if (old != null)
 	{		
-		window.onbeforeunload = old;
+		// window.onbeforeunload = old; minsoo
+		window.onbeforeunload = null;
 	}
 };
