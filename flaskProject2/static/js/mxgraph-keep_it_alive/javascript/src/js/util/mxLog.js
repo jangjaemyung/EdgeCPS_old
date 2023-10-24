@@ -474,22 +474,35 @@ var previewBusinessProcess =
 			var title = previewBusinessProcess.consoleName ;
 
 			// Creates a table that maintains the layout
-			var table = document.createElement('table');
-			table.setAttribute('width', '100%');
-			table.setAttribute('height', '100%');
+			var table = document.createElement('div');
+			table.id = 'previous';
+			table.style.height = '100%';
+			table.style.width = '100%';
+			// table.setAttribute('width', '100%');
+			// table.setAttribute('height', '100%');
+			
 
-			var tbody = document.createElement('tbody');
-			var tr = document.createElement('tr');
-			var td = document.createElement('td');
-			td.style.verticalAlign = 'top';
+			// var tbody = document.createElement('tbody');
+			// var tr = document.createElement('tr');
+			// var td = document.createElement('td');
+			// td.style.verticalAlign = 'top';
 				
 			// Adds the actual console as a textarea
-			previewBusinessProcess.textarea = document.createElement('textarea');
+			previewBusinessProcess.textarea = document.createElement('div');
+			previewBusinessProcess.textarea.id = 'previous';
 			previewBusinessProcess.textarea.setAttribute('wrap', 'off');
 			previewBusinessProcess.textarea.setAttribute('readOnly', 'true');
 			previewBusinessProcess.textarea.style.height = '100%';
 			previewBusinessProcess.textarea.style.resize = 'none';
 			previewBusinessProcess.textarea.value = previewBusinessProcess.buffer;
+
+			// // 팝업 창에 다이어로그 띄우기
+			// var xmlData = localStorage.getItem(projectName+'_requirementsProcessXml')
+			// var container = document.getElementById('previous');
+			// var graph = new Graph(container);
+			// var doc = mxUtils.parseXml(xmlData);
+			// var codec = new mxCodec(doc);
+			// codec.decode(doc.documentElement, graph.getModel());
 
 			// Workaround for wrong width in standards mode
 			if (mxClient.IS_NS && document.compatMode != 'BackCompat')
@@ -501,19 +514,19 @@ var previewBusinessProcess =
 				previewBusinessProcess.textarea.style.width = '100%';
 			}
 			
-			td.appendChild(previewBusinessProcess.textarea);
-			tr.appendChild(td);
-			tbody.appendChild(tr);
+			// td.appendChild(previewBusinessProcess.textarea);
+			// tr.appendChild(td);
+			// tbody.appendChild(tr);
 
-			// Creates the container div
-			tr = document.createElement('tr');
-			previewBusinessProcess.td = document.createElement('td');
-			previewBusinessProcess.td.style.verticalAlign = 'top';
-			previewBusinessProcess.td.setAttribute('height', '30px');
+			// // Creates the container div
+			// tr = document.createElement('tr');
+			// previewBusinessProcess.td = document.createElement('td');
+			// previewBusinessProcess.td.style.verticalAlign = 'top';
+			// previewBusinessProcess.td.setAttribute('height', '30px');
 			
-			tr.appendChild(previewBusinessProcess.td);
-			tbody.appendChild(tr);
-			table.appendChild(tbody);
+			// tr.appendChild(previewBusinessProcess.td);
+			// tbody.appendChild(tr);
+			// table.appendChild(tbody);
 
 			
 

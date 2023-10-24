@@ -124,7 +124,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 	localStorage.setItem(projectName+'_current_processXml', processXml[current_process]); //현재 작업중인 프로세스 xml저장
 	localStorage.setItem(projectName+'_current_processDict', processDict[current_process]); //현재 작업중인 프로세스 dict저장
-
+	// previewBusinessProcess.show()
 	if (processDict[current_process] != 'workflowProcess' && processDict[current_process] != 'runProcess' && processDict[current_process] != 'policyProcess'){ // 워크플로우 로컬스토리지 초기화
 		localStorage.setItem(projectName+'_nowWorkflow', '')
 	}
@@ -148,14 +148,65 @@ document.addEventListener("DOMContentLoaded", function() {
 	function processSaveClick() {
 		saveAllProject()
 	}
+	function preViewClick(previousXML){
+		// 순우 프리뷰 팝업 창
+		// var script = document.createElement('script');
+		// script.src = 'mxgraph/javascript/mxClient.js';
+		
+		
+		// 팝업 창의 속성 설정
+		var popupFeatures = 'width=1000,height=400,toolbar=no,location=no,scrollbars=no';
+
+		// 팝업 창 열기
+		var popupWindow = window.open('', '작은팝업', popupFeatures);
+
+		// 팝업 창에 내용 추가 (선택 사항)
+		if (popupWindow) {
+			var script = document.createElement('script');
+			script.src = 'https://www.draw.io/js/viewer.min.js';
+			popupWindow.document.head.appendChild(script);
+
+			var script = document.createElement('script');
+			script.src = 'mxgraph/javascript/mxClient.js';
+			popupWindow.document.head.appendChild(script);
+
+			var popupContent = document.createElement('div');
+
+			var leftPanel = document.createElement('div');
+			leftPanel.id = 'previous';
+			leftPanel.className = 'leftPanel'
+			leftPanel.style.flex = '1';
+			leftPanel.style.backgroundColor = '#f0f0f0';
+
+			// var rightPanel = document.createElement('div');
+			// rightPanel.id = 'attribute';
+			// rightPanel.style.flex = '1';
+			// rightPanel.style.backgroundColor = '#e0e0e0';
+
+			popupContent.style.display = 'flex';
+			popupContent.style.height = '100%';
+
+			popupContent.appendChild(leftPanel);
+			// popupContent.appendChild(rightPanel);
+			popupWindow.document.body.appendChild(popupContent);
+		}
+		var xmlData = previousXML;
+		var container = popupWindow.document.getElementById('previous');
+		var graph = new Graph(container);
+		var doc = mxUtils.parseXml(xmlData);
+		var codec = new mxCodec(doc);
+		codec.decode(doc.documentElement, graph.getModel());
+		graph.refresh();
+	}
 
 	// 버튼을 감싸는 div
 	var buttonContainer = document.createElement("div");
+	
 	buttonContainer.style.float = "right"; // 오른쪽으로 정렬
 	buttonContainer.style.marginRight = "10px"; // 오른쪽 여백
 	buttonContainer.appendChild(createButton("Save All", processSaveClick)); // process-save 버튼
 	// buttonContainer.appendChild(createButton("process-load", processLoadClick)); // process-load 버튼
-
+	 
 	// 버튼을 추가할 위치의 요소를 선택 (여기서는 "right_sidebar" 클래스를 가진 div)
 	var targetElement = document.querySelector(".geMenubar");
 
@@ -166,6 +217,27 @@ document.addEventListener("DOMContentLoaded", function() {
 		// 일정 시간(예: 0.5초) 이후에 다시 시도
 		setTimeout(function() {
 			let targetElementRetry = document.querySelector(".geMenubar");// save, load 버튼 생성
+			// 순우 이전 프로세스 보기
+			var previousContainer = document.getElementsByClassName('processPrevious');
+			// previousContainer[0].appendChild(createButton("Requirement Process", preViewClick.bind(null, localStorage.getItem(projectName+'_requirementsProcessXml')))); 
+			try{
+
+				previousContainer[0].appendChild(createButton("Requirement Process", function() {
+					var previousXML = localStorage.getItem(projectName + '_requirementsProcessXml');
+					preViewClick(previousXML);
+				}));
+				
+	
+				if(process_name == 'workflowProcess'){
+					previousContainer[0].appendChild(createButton("Business Process",
+					function() {	
+					var previousXML = localStorage.getItem(projectName + '_businessProcessXml');
+						preViewClick(previousXML);
+					}));
+				}
+			}catch{}
+			
+
 			if (targetElementRetry !== null) {
 				targetElementRetry.appendChild(buttonContainer);
 			}
@@ -194,6 +266,13 @@ document.addEventListener("DOMContentLoaded", function() {
 					uploadXML();
 				}
 			}
+			
+			// var xmlData = localStorage.getItem(projectName+'_requirementsProcessXml')
+			// var container = document.getElementById('previous');
+			// var graph = new Graph(container);
+			// var doc = mxUtils.parseXml(xmlData);
+			// var codec = new mxCodec(doc);
+			// codec.decode(doc.documentElement, graph.getModel());
 		}, 250);
 	}
 });
@@ -529,3 +608,28 @@ function captureAndDownloadImage(workflowName) {
     // });
 	ExportDialog.exportFile(tempEditorUi, workflowName, 'png', null, 1, 0, 100);
 }
+
+// function extractReq(){
+// 	var xmlString =window.localStorage.getItem(projectName+'_requirementsProcessXml');
+
+// 	var parser = new DOMParser();
+// 	var xmlDoc = parser.parseFromString(xmlString, 'text/xml');
+
+// 	var xpathResult = xmlDoc.evaluate("//object/@label", xmlDoc, null, XPathResult.ANY_TYPE, null);
+// 	var extractedValues = [];
+// 	var node = xpathResult.iterateNext();
+
+// 	while (node) {
+// 	var match = node.value.match(/<<functional requirement>>\n(.*)/);
+
+// 	if (match && match[1]) {
+// 		if(match[1].includes('['||']')){
+// 			match[1] = match[1].substring(1,match[1].length -1);
+// 		}
+// 		extractedValues.push(match[1]);
+// 	}
+	
+// 	node = xpathResult.iterateNext();
+// 	}
+// 	return extractedValues
+// }
